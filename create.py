@@ -10,3 +10,11 @@ db.init_app(app)
 
 def main():
     db.create_all()
+    t=Registration.query.first()
+    print(t.Password)
+
+
+if __name__ == "__main__":
+    with app.app_context():
+        main()
+

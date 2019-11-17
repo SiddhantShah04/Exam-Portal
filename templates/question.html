@@ -1,0 +1,173 @@
+{% extends "Professors.html" %}
+{% block p %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                   let div = document.getElementById("div");
+                    div.style.display = "none";
+    });
+        </script>
+      <style>
+                form>div{
+                    position:absolute;
+                    margin-left:auto;
+                    margin-right:auto;
+                    width:960px;
+
+                    margin-top:4%;
+                    margin-left:33%;
+                }
+                form>div>input{
+                    position: relative;
+                    margin-top:0.5cm;
+                    width:10cm;
+                    height:1cm;
+                    border-radius:4px;
+                    border:solid 1px grey;
+                    font-size:15px;
+                    margin-left:25%;
+                }
+                form>div>button{
+                    border-radius:8px;
+                    border:0px;
+                    width:150px;
+                    height:40px;
+                    font-size:18px;
+                    text-align:center;
+                    margin-left:44%;
+                    color:white;
+                    background-color:green;
+                    margin-top:5%;
+                }
+                form>div>span{
+                    position: relative;
+                    font-family: Verdana, Geneva, Tahoma, sans-serif;
+                    font-size:20px;
+                }
+                form>div>select{
+                    position: relative;
+                    margin-left: 36%;
+                    margin-top:0.5cm;
+                    width:150px;
+                    height:40px;
+                    border-radius:4px;
+                    border:solid 1px grey;
+                }
+                #error{
+                    margin-left:50%;
+                    color:red;
+                    font-family: Verdana, Geneva, Tahoma, sans-serif;
+                }
+            </style>
+            </head>
+            <body>
+                <strong id="error">{% if error != None %} {{ error }} {% endif %}</strong>
+             <form id="QPaper"  action ="/{{Email}}/uploader"  method="POST"  enctype = "multipart/form-data">
+    <div>
+        <span>Branch</span><select name="Branch">
+            <option value="Cs">CS</option>
+            <option value="It">IT</option>
+        </select> <br>
+        <span>Semester</span><select style="margin-left:33.5%" name="Sem">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+        <br>
+
+        <span>Subject Name</span><input type="text" autocomplete="off" style="margin-left:29%" list="Subject" name="Subject"><br>
+        <datalist id="Subject">
+
+          <option value="imperative Programming"></option>
+          <option value="digital Electronics"></option>
+          <option value="operating Systems"></option>
+          <option value="discrete Mathematics"></option>
+          <option value="communication Skills"></option>
+          <option value="object oriented Programming"></option>
+          <option value="microprocessor Architecture"></option>
+          <option value="web Programming"></option>
+          <option value="numerical and Statistical Methods"></option>
+          <option value="green Computing"></option>
+          <option value="python Programming"></option>
+          <option value="data Structures"></option>
+          <option value="computer Networks"></option>
+          <option value="database Management Systems"></option>
+          <option value="applied Mathematics"></option>
+          <option value="core Java"></option>
+          <option value="introduction to Embedded Systems"></option>
+          <option value="computer Oriented Statistical Techniques"></option>
+          <option value="software Engineering"></option>
+          <option value="computer Graphics and Animation"></option>
+          <option value="software Project Management"></option>
+          <option value="Internet of Things"></option>
+          <option value="Advanced Web Programming"></option>
+          <option value="Artificial Intelligence"></option>
+          <option value="Linux System Administration"></option>
+          <option value="Enterprise Java Next Generation Technologies"></option>
+          <option value="Software Quality Assurance"></option>
+          <option value="Security in Computing"></option>
+          <option value="Business Intelligence"></option>
+          <option value="Principles of Geographic Information Systems"></option>
+          <option value="Enterprise Networking"></option>
+          <option value="IT Service Management Cyber Laws"></option>
+
+
+
+          <option value="Computer Organization and Design"></option>
+          <option value="Programming with Python 1 "></option>
+          <option value="Free and Open Source Software"></option>
+          <option value="Database Systems"></option>
+          <option value="Discrete Mathematics"></option>
+          <option value="Descriptive Statistics and Introduction to Probability"></option>
+          <option value="Soft Skills Development"></option>
+          <option value="Programming with C"></option>
+          <option value="Programming with Python 2"></option>
+          <option value="Linux"></option>
+          <option value="Data Structures"></option>
+          <option value="Calculus"></option>
+          <option value="Statistical Methods and Testing of Hypothesis"></option>
+          <option value="Green Technologies"></option>
+          <option value="Combinatorics and Graph Theory"></option>
+
+          <option value="Database Management Systems"></option>
+          <option value="Physical Computing and IoT Programming"></option>
+          <option value="Theory of Computation"></option>
+          <option value="Web Programming"></option>
+          <option value="Operating Systems"></option>
+          <option value="Operating System and Linux"></option>
+          <option value="Web Technologies"></option>
+          <option value="Android Developer Fundamentals"></option>
+          <option value="Advanced JAVA"></option>
+          <option value="Fundamentals of Algorithms"></option>
+          <option value="Linear Algebra using Python"></option>
+          <option value="Software Engineering"></option>
+          <option value="Dot Net Technologies"></option>
+          <option value="Data Communication and Networking"></option>
+          <option value="Mobile Application Development"></option>
+
+        <option value="Architecting of IoT"></option>
+        <option value="Game Programming"></option>
+        <option value="Cyber Forensics"></option>
+        <option value="Linux Server Administration"></option>
+        <option value="Software Testing and Quality Assurance"></option>
+        <option value="Information and Network Security"></option>
+        <option value="Web Services"></option>
+        <option value="Advanced Networking and Security"></option>
+        <option value="Software Engineering and Testing"></option>
+        <option value="Ethical Hacking"></option>
+        <option value="Wireless Sensor Networks and Mobile Communication"></option>
+        <option value="Cloud Computing"></option>
+        <option value="Data Science"></option>
+        <option value="Digital Image Processing"></option>
+
+        </datalist>
+
+
+        <div> <input type = "file" name = "file" style="margin-top:5%;margin-left:11cm"/></div>
+        <button type="Submit">Create Exam</button>
+    </div>
+</form>
+</body>
+{% endblock %}

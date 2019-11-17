@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Login Page</title>
+
+        <style>
+         .top{
+                position:relative;
+                margin:-1%;
+                font-size:35px;
+                background-color:navy;
+                color:white;
+                font-family:sans-serif;
+                width:101.6%;
+                height:75px;
+            }
+            div{
+                position:fixed;
+                margin-top:3%;
+                font-size:0.7cm;
+                background-color: #f1f1f1;
+                text-align:center;
+                box-sizing: border-box;
+                width:40px;
+                height:10px;
+            }
+            form>div>input{
+                position:relative;
+                border-radius:12px;
+                border:solid 1px grey;
+                font-size:20px;
+                padding:10px;
+                margin:0.7em;
+                width:12cm;
+                height:1cm;
+            }
+            form>div>span{
+                position:relative;
+                left:10px;
+            }
+            form>div>button{
+                position:relative;
+                border-radius:12px;
+                margin-left:140px;
+                text-align:center;
+                color:white;
+                font-size:25px;
+                border:0px;
+                margin-top:55%;
+                background-color:green;
+                width:200px;
+                height:45px;
+            }
+            form>div>select{
+                border-radius:12px;
+                border:solid 1px grey;
+                font-size:20px;
+                padding:10px;
+                margin:0.7em;
+                width:6cm;
+                height:1.6cm;
+        }
+        form>div>a{
+            position:fixed;
+            margin-top:2%;
+            box-sizing: border-box;
+            margin-left:13.4%;
+            font-size:15px;
+            font-family:"arial";
+            text-decoration:none;
+        }
+        form>div>a:hover{
+            text-decoration:underline;
+        }
+        .small{
+            position:fixed;
+            margin-left:-0.6%;
+            font-size:10px;
+            width:100%;
+            height:90px;
+            background-color:navy;
+            color:white;
+            margin-top:42%;
+            padding-top:0.3%;
+            text-align:center;
+            font-family: sans-serif;
+        }
+        #error{
+            font-size:15px;
+            color:red;
+            font-family: sans-serif;
+            position:absolute;
+            margin-top:20%;
+            margin-left:11%;
+        }
+        #error1{
+            position:absolute;
+            font-size:15px;
+            color:red;
+            font-family: sans-serif;
+            position:absolute;
+            margin-top:2%;
+            margin-left:60%;
+        }
+
+
+		@media (max-width: 990px) {
+          .small {
+              display:none;
+          }
+          .e{
+              display:block;
+          }
+        }
+        </style>
+    </head>
+    <body style="background-color: #f1f1f1;">
+
+
+        <header class="top">
+         <span style="position:relative;top:10px;left:10px"><b>ExamSoft</b><prep>&nbsp;&nbsp; Rizvi College</span>
+        </header>
+        <p id="error1">{% if errorStudent != None %} {{ errorStudent }} {% endif %}</p>
+        <form id="Students" action="/StudentZone" method="POST" name="Student">
+            <div style="margin-left:50%">
+                <span style="position:;">Students zone</span>
+               <select name="Branch">
+                    <option display:none value="" disabled selected hidden><p>Branch</p></option>
+                    <option value="Cs">CS</option>
+                    <option value="It">IT</option>
+                </select> <br>
+                <select style="position:absolute;margin-left:7cm;margin-top:-1.95cm;" name="Sem">
+                    <option display:none value:"" disabled selected hidden>Semester</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+                <input type="text" autocomplete="off" style="margin-left:27.3%;overflow: scroll;" list="Subject" name="Subject" placeholder="Subject"><br>
+                <datalist id="Subject"style="overflow: scroll;">
+                    <option display:none value="" disabled selected hidden><p>Subject</p></option>
+                          {% for i in activeSubject %}
+                              <option value="{{i.subject}}"></option>
+                          {% endfor %}
+                </datalist>
+                <input type="text" placeholder="Full Name" name="Name">
+                <input type="text" placeholder="Roll Number" name="Roll">
+                <button type="submit">Login</button>
+            </div>
+        </form>
+        <p id="error">{% if error != None %} {{ Error }} {% endif %}</p>
+        <form action="/ProfessorZone" method="POST" name="Professor">
+            <div>
+                <span>Professors zone</span>
+                <input type="text" placeholder="Email address" name="Email">
+                <input type="password" placeholder="Password" name="Password">
+                <button type="submit">Login</button>
+                <a href="/CreateAccount"><small>Sign up here</small></a>
+
+            </div>
+        </form>
+        <small class="small"> <span>a Siddhant shah productions<br>ExamSoft</span>
+        <a href=""><small class="e" style="position:absolute;color:white;font-family: sans-serif;margin-left:42%;">See how its works</small></a>
+
+    </body>
+</html>
