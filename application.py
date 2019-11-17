@@ -144,6 +144,7 @@ def Deploy(Email,r):
 
 @app.route("/StudentZone",methods=["POST","GET"])
 def StudentZone():
+    if(request.method ==)
     errorStudent=None
     Roll = request.form.get("Roll")
     Subject = request.form.get("Subject")
@@ -151,12 +152,14 @@ def StudentZone():
     if(Roll== "" or Subject==""):
         errorStudent="Check your Roll and subject"
         return render_template("index.html",errorStudent=errorStudent)
+
     #questionPaper = Quest.query.filter_by(subject=Subject).all()
-    questionPaper=Quest.query.order_by(func.random()).all() # for PostgreSQL, SQLite
+    questionPaper=Quest.query.order_by(func.random()).all()
     #questionPaper = Quest.query.filter_by(subject=Subject).all()
+
     for Question in questionPaper:
         print(Question.Question)
-    return("ok")
+    return render_template("Paper.html",questionPaper=questionPaper,Roll=Roll)
 
 """
     if(f'{Roll}' in session):
