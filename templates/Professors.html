@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
     <head>
+
         <title>Professors Page</title>
         <script>
         </script>
@@ -111,7 +112,7 @@
          <header class="logout" ><a href="/logout" style="padding-top:0.7%;color:red">Logout</a></header>
         <div class="Professors">
             <span style="position:relative;top:20px;left:14px;"><b>Professors zone</b></span>
-                <h6><a  href="/{{Email}}/Create_Question" style="cursor:pointer;">Upload a file</a></h6>
+                <h6><a  href="/{{Email}}/Create_Question" style="cursor:pointer;" class="u" >Upload a file</a></h6>
                 <h6><a  href="/static/CsvFormat.png" style="cursor:pointer;">See CSV format</a></h6>
         </div>
             <div class="div" id="div">
@@ -128,6 +129,7 @@
                     <td>{{r.subject}}</td>
                     <td><a  href="/{{Email}}/{{r.subject}}/Deploy"><button type="submit" class="button" style="background-color:red;" value="" id="Active">Activate</button></a></td>
                     <td><a href="/{{r.subject}}/delete"><button type="submit" class="button" style="background-color:red">Delete</button></a>
+                    <a href="/editQuestion/{{r.subject}}"><button type="submit" class="button" style="background-color:red">Edit</button></a>
                     <a href="/{{Email}}/{{r.subject}}/SeeResult"><button type="submit" class="button" style="background-color:#0000CC;"><span>Result </span></button></a></td>
                 </tr>
                 {% endfor %}

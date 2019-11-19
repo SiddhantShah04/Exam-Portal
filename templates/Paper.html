@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>Exam starts</title>
+
         <script>
                document.addEventListener('DOMContentLoaded', function () {
 
@@ -126,7 +127,7 @@
                     });
                 {% endfor %}
                 document.querySelector(".q").innerHTML = questions[questions_number].question;
-                document.querySelector("#Qno").innerHTML = questions_number+1;
+                document.querySelector("#Qno").innerHTML = questions_number+1 +"/"+questions.length;
                 document.querySelector("#Time").innerHTML=questions[questions_number].Time;
                 const options = document.querySelector(".options");
                 options.innerHTML = "";

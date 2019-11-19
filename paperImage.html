@@ -1,0 +1,146 @@
+<html>
+    <head>
+        <title>Exam starts</title>
+        <script>
+
+               document.addEventListener('DOMContentLoaded', function () {
+
+                function DSeconds(){
+                    var i = document.getElementById("Time").innerHTML;
+
+                    document.getElementById("Time").innerHTML=--i;
+                    if(i == 0){
+                        document.getElementById("Time").innerHTML = "Time Ends";
+                        questions_number += 1;
+                        loadQuestion();
+                    }
+                }
+                setInterval(DSeconds, 1000);
+                });
+
+        </script>
+        <style>
+        .question{
+            position: relative;
+            text-align: center;
+            background-color: white;
+            word-wrap:break-word;
+
+
+        }
+        .timer{
+            position: relative;
+            font-size: 45px;
+            font-family:sans-serif;
+            text-align: center;
+            margin-left: 5%;
+            background-color: white;
+            border-radius:40px;
+            border:solid 1px blue;
+            height: 40%;
+            padding: 1%;
+            width:30%;
+            color: red;
+            top:2cm;
+        }
+       .middle>.roll{
+            position: absolute;
+            font-size: 25px;
+            font-family:sans-serif;
+            text-align: center;
+            margin-left: 5%;
+            width: 5%;
+            height: 8%;
+
+            background-color: white;
+            border-radius:40px;
+            border:solid 1px blue;
+            padding-top:1.2%;
+       }
+        .middle{
+
+        }
+        .middle>img{
+            position: absolute;
+            left:10cm;
+        }
+        .options>button{
+            position: relative;
+            border-radius:12px;
+            margin-left:120px;
+            text-align:left;
+            background-color:white;
+            font-size:25px;
+            border:0px;
+            margin-top:2%;
+            width:500px;
+            height:60px;
+            border-radius:15px;
+            border:solid 1px grey;
+        }
+        .options>button:hover{
+            background-color:red;
+            color:white;
+        }
+        </style>
+        <script>
+            let questions_number = 0;
+                let correct = 0
+                document.addEventListener("DOMContentLoaded",() =>{
+                    loadQuestion();
+                });
+            function loadQuestion(){
+
+                let questions = [];
+                {% for r in questionPaper %}
+                    questions.push({
+                        question:'{{ r.Question }}',
+                        options:["{{ r.option1 }}","{{ r.option2 }}","{{ r.option3 }}","{{ r.option4 }}"],
+                        answer: "{{ r.answer }}",
+                        Time:"{{ r.Time }}"
+                    });
+                {% endfor %}
+                document.querySelector(".q").innerHTML = questions[questions_number].question;
+                document.querySelector("#Qno").innerHTML = questions_number+1 +"/"+questions.length;
+                document.querySelector("#Time").innerHTML=questions[questions_number].Time;
+                const options = document.querySelector(".options");
+                options.innerHTML = "";
+
+                for (const option of questions[questions_number].options){
+                    options.innerHTML += `<button class="option">${option}</button>`;
+                }
+                document.querySelectorAll(".option").forEach((option) =>{
+                    option.onclick = () => {
+
+
+                        if(option.textContent == questions[questions_number].answer){
+
+                            correct = correct+1;
+                            console.log(correct);
+                        }
+                        questions_number +=1;
+                        loadQuestion(questions_number);
+                    }
+                });
+            }
+        </script>
+
+    </head>
+    <body style="background-color:#F5F5F5">
+        <div>
+
+            <header class="question" >
+            <h2><strong class="q"></strong></h2></header>
+        </div>
+        <div class="middle">
+            <span class="timer" id="Time">30</span>
+            <img src="example.jpg" alt="Smiley face" height="400" width="600">
+            <span class="roll" id="Qno" style="position: relative; float: right;margin-right:6%;margin-top: 3%;">1</span>
+
+        </div>
+        <div class="options" style="position: absolute;top:70%;">
+
+            </div>
+
+    </body>
+</html>

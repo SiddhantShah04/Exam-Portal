@@ -112,6 +112,7 @@ def uploader(Email):
             csvreader = csv.reader(csvfile)
             for Question,option1,option2,option3,option4,answer,Time in csvreader:
                 t.add_Question(Question=Question,option1=option1,option2=option2,option3=option3,option4=option4,answer=answer,Time=Time,subject=subject)
+
         return redirect(url_for('Email',Email=Email))
     else:
         return render_template("index.html")
@@ -144,7 +145,6 @@ def Deploy(Email,r):
 
 @app.route("/StudentZone",methods=["POST","GET"])
 def StudentZone():
-    if(request.method ==)
     errorStudent=None
     Roll = request.form.get("Roll")
     Subject = request.form.get("Subject")
@@ -152,28 +152,29 @@ def StudentZone():
     if(Roll== "" or Subject==""):
         errorStudent="Check your Roll and subject"
         return render_template("index.html",errorStudent=errorStudent)
-
-    #questionPaper = Quest.query.filter_by(subject=Subject).all()
-    questionPaper=Quest.query.order_by(func.random()).all()
-    #questionPaper = Quest.query.filter_by(subject=Subject).all()
-
+    questionPaper=Quest.query.filter_by(subject=Subject).order_by(func.random()).all()
     for Question in questionPaper:
         print(Question.Question)
     return render_template("Paper.html",questionPaper=questionPaper,Roll=Roll)
 
-"""
-    if(f'{Roll}' in session):
-        session.pop(f'{Roll}',None)
-        return("<h1>already taken</h1>")
-    session[f"{Roll}"] = 0
-    s=1
-    db.execute('create table if not exists ":SubjectName"("Roll" smallint not null,"Right" smallint not null)',{"SubjectName":SubjectResult})
-    i=0
-    try:
-        db.execute('insert into ":SubjectName" ("Roll","Right") values(:Roll,:i)',{"SubjectName":SubjectResult,"Roll":Roll,"i":i})
-        db.commit()
-    except:
-        db.rollback()
-    rows = E[session[f"{Roll}"]]
-    return render_template("Paper.html",Subject=Subject,rows=rows,Roll=Roll,l=l,s=s)
-"""
+@app.route("/editQuestion/<string:subject>",methods=["POST","GET"])
+def editQuestion(subject):
+    Subject=subject
+    questionPaper=Quest.query.filter_by(subject=Subject,imageTOrF = None ).all()
+    for Question in questionPaper:
+        print(Question.image)
+    return render_template("editPaper.html",questionPaper=questionPaper)
+
+@app.route("/addImage/<string:question>",methods=["POST"])
+def addImage(question):
+    Email = session['Email']
+    files = request.files.get('file')
+    event = files.read()
+    question=question+"?"
+    i=Quest.query.filter_by(Question=question).first()
+    i.image=event
+    i.imageTOrF="T"
+    db.session.commit()
+    return redirect(url_for('Email',Email=Email))
+
+

@@ -1,0 +1,60 @@
+{% extends "Professors.html" %}
+{% block p %}
+<script>
+            document.addEventListener('DOMContentLoaded', function () {
+               let div = document.getElementById("div");
+                div.style.display = "none";
+                let div2 = document.querySelector(".u")
+                div2.style.display="none";
+    });
+</script>
+<style>
+    table {
+
+margin-left:10%;
+  font-family:sans-serif;
+  border-collapse: collapse;
+  width: 78%;
+  float:center;
+  margin-left:22%;
+}
+td, th {
+  border: 2px solid white;
+
+  padding: 8px;
+}
+.i{
+    position:relative;
+    left:50%;
+    margin-top:1%;
+    border-radius:12px;
+    text-align:center;
+    color:white;
+    font-size:25px;
+    border:0px;
+    background-color:blue;
+    width:150px;
+    height:45px;
+}
+</style>
+<table>
+<tr>
+    <th>Question</th>
+    <th>Add Image</th>
+</tr>
+
+{% for question in questionPaper %}
+
+    <form action = "/addImage/{{question.Question}}" method = "POST" enctype = "multipart/form-data">
+        <tr>
+            <td>{{question.Question}}</td>
+            <td><input type = "file" name = "file" />
+            <input type = "submit" /></td>
+        </tr>
+    </form>
+
+{% endfor %}
+</table>
+
+
+{% endblock %}
