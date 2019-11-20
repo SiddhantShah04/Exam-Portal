@@ -6,6 +6,9 @@
                document.addEventListener('DOMContentLoaded', function () {
 
                 function DSeconds(){
+                     if(questions_number == questions.length){
+
+                     }
                     var i = document.getElementById("Time").innerHTML;
 
                     document.getElementById("Time").innerHTML=--i;
@@ -24,25 +27,25 @@
                 margin-top: -0.15cm;
                 background-color:#461EEA;
                 width: 99.5%;
-                height:2cm;
+                height:1.5cm;
                 border-radius:4px;
                 border:solid 1px grey;
             }
             header>.roll{
                 position: absolute;
-                font-size: 27px;
+                font-size: 25px;
                 font-family:sans-serif;
                 text-align: center;
                 margin-left: 5%;
-                margin-top: 5px;
+                margin-top: 3px;
                 background-color: white;
-                border-radius:50px;
-                border:solid 1px grey;
-                padding:1%;
+                border-radius:40px;
+                border:solid 0px grey;
+                padding:0.8%;
             }
             header>.timer{
                 position: absolute;
-                font-size: 27px;
+                font-size: 25px;
                 font-family:sans-serif;
                 text-align: center;
                 margin-left: 35%;
@@ -50,7 +53,7 @@
                 border-radius:20px;
                 border:solid 1px grey;
                 height: 50%;
-                padding-top: 1%;
+                padding-top: 0.8%;
                 width:25%;
                 color: red;
                 margin-top:8px;
@@ -64,15 +67,15 @@
             }
             button{
                 position: relative;
-                border-radius:12px;
-                margin-left:120px;
+
+                margin-left:40px;
                 text-align:left;
                 background-color:white;
-                font-size:25px;
+                font-size:18px;
                 border:0px;
                 margin-top:2%;
-                width:500px;
-                height:60px;
+                width:600px;
+                height:80px;
                 border-radius:15px;
                 border:solid 1px grey;
             }
@@ -116,6 +119,7 @@
                 let questions_number = 0;
                 let correct = 0;
                 let questions = [];
+                let answers = []
                 {% for r in questionPaper %}
                     questions.push({
                         question:'{{ r.Question }}',
@@ -128,16 +132,36 @@
                  document.addEventListener("DOMContentLoaded",() =>{
                     loadQuestion();
                 });
+
             function loadQuestion(){
+                if(questions_number == questions.length){
+
+                    document.write("<h1>please wait we are checking your answers........<h1>")
+
+                    const request = new XMLHttpRequest();
+                    request.open('POST','/doneExam')
+                    request.onload = () => {
+
+                        window.location.href= "/"
+                    }
+                    const data = new FormData();
+                    data.append('a','p');
+                    request.send(data);
+                    return false
+                }
+
                 if(questions[questions_number].Images == "T"){
                     let div = document.querySelector("#img");
                     div.style.display = "block";
-                    div.innerHTML = "<img src='data:;base64,{{ image }}' style='width:400px;height:300px;'>"
-
+                    {%for a, b in data%}
+                        if("{{a}}" == questions[questions_number].question){
+                            div.innerHTML = "<img src='data:;base64,{{ b }}' style='width:500px;height:350px;'>"
+                        }
+                    {%endfor%}
                     }
                 document.querySelector(".q").innerHTML = questions[questions_number].question;
                 document.querySelector("#Qno").innerHTML = questions_number+1 +"/"+questions.length;
-                document.querySelector("#Time").innerHTML=questions[questions_number].Time;
+                document.querySelector("#Time").innerHTML = questions[questions_number].Time;
                 const options = document.querySelector(".options");
                 options.innerHTML = "";
 
@@ -145,15 +169,21 @@
                     options.innerHTML += `<button class="option">${option}</button>`;
                 }
                 document.querySelectorAll(".option").forEach((option) =>{
+
                     option.onclick = () => {
-                        if(option.textContent == questions[questions_number].answer){
-                            correct = correct + 1;
-                            console.log(correct);
-                        }
+                        let opt = option.textContent;
+                        answers.push({
+                        [opt] : questions[questions_number].question
+                        });
+
+
                         questions_number +=1;
                         let div = document.querySelector("#img");
                         div.style.display = "none";
-                        loadQuestion(questions_number);
+                        loadQuestion();
+
+
+
                     }
                 });
             }
@@ -174,6 +204,9 @@
         <div class="options" style="position: relative;">
         </div>
         <footer class="small"> <span style="color:white;">Please select an option</span></footer>
+    </div>
+    <div id="pW" style="display=none">
+        <h1>Please wait.........</h1>
     </div>
     </body>
 </html>

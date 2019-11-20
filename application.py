@@ -93,14 +93,12 @@ def uploader(Email):
         f.save(os.path.join('UploadFiles',f.filename))
         Branch = request.form.get("Branch")
         Sem = request.form.get("Sem")
-        #Subject = (request.form.get("Subject").replace(" ",""))
         subject = request.form.get("Subject")
         FileName = (f.filename)
         t=Exam.query.filter_by(Email=Email).first()
         if(t==None):
             t = Registration.query.filter_by(Email=Email).first()
             t.add_Exam(branch=Branch,sem=Sem,subject=subject)
-
         elif(t.subject == subject ):
             error="Question Paper with this subject name already exist"
             return render_template("question.html",Email=Email,error=error)
@@ -117,6 +115,7 @@ def uploader(Email):
         return redirect(url_for('Email',Email=Email))
     else:
         return render_template("index.html")
+
 @app.route("/<string:r>/delete",methods=["POST","GET"])
 def delete(r):
     if('Email' in session):
@@ -130,6 +129,8 @@ def delete(r):
         return redirect(url_for('Email',Email=Email))
     else:
         return render_template("index.html")
+
+
 @app.route("/<string:Email>/<string:r>/Deploy",methods=["POST","GET"])
 def Deploy(Email,r):
     examStatus=Exam.query.filter_by(subject=r).first()
@@ -148,16 +149,18 @@ def StudentZone():
         errorStudent="Check your Roll and subject"
         return render_template("index.html",errorStudent=errorStudent)
     questionPaper=Quest.query.filter_by(subject=Subject).order_by(func.random()).all()
-    t = Quest.query.filter_by(imageTOrF="T").first()
-    image = base64.b64encode(t.image).decode('ascii')
-
-    return render_template("Paper.html",questionPaper=questionPaper,Roll=Roll,image=image)
+    t = Quest.query.filter_by(imageTOrF="T").all()
+    images={}
+    for i in t:
+        image = base64.b64encode(i.image).decode('ascii')
+        images[i.Question]=image
+    #images.items() return a key and value of dict
+    return render_template("Paper.html",questionPaper=questionPaper,Roll=Roll,data = images.items())
 
 @app.route("/editQuestion/<string:subject>",methods=["POST","GET"])
 def editQuestion(subject):
     Subject=subject
     questionPaper=Quest.query.filter_by(subject=Subject,imageTOrF = None ).all()
-
     return render_template("editPaper.html",questionPaper=questionPaper)
 
 @app.route("/addImage/<string:question>",methods=["POST"])
@@ -172,7 +175,8 @@ def addImage(question):
     db.session.commit()
     return redirect(url_for('Email',Email=Email))
 
-@app.route("/Images/<string:i>",methods=["POST","GET"])
-def Images(i):
-    print(i)
-    return render_template("paperImage.html")
+@app.route("/doneExam",methods=["POST","GET"])
+def Images():
+    D=request.form.get("data")
+    print(D['a'])
+    return("ok")
