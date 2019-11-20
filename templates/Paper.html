@@ -97,35 +97,44 @@
             .question{
                 position: relative;
                 display:table;
+                background-color:#F2F4F7;
                 text-align: center;
 
             }.question>div{
-                margin-top:4% ;
+                position:relative;
+                margin-top:0% ;
                 margin-left: -2%;
             }
             .question>div>span{
-                margin-top: 1%;
+                position:relative;
+                margin-top: -5%;
                 font-family:sans-serif;
-                font-size: 28px;
+                font-size: 22px;
             }
         </style>
         <script>
                 let questions_number = 0;
-                let correct = 0
-                document.addEventListener("DOMContentLoaded",() =>{
-                    loadQuestion();
-                });
-            function loadQuestion(){
-
+                let correct = 0;
                 let questions = [];
                 {% for r in questionPaper %}
                     questions.push({
                         question:'{{ r.Question }}',
                         options:["{{ r.option1 }}","{{ r.option2 }}","{{ r.option3 }}","{{ r.option4 }}"],
                         answer: "{{ r.answer }}",
-                        Time:"{{ r.Time }}"
+                        Time:"{{ r.Time }}",
+                        Images:"{{ r.imageTOrF }}"
                     });
                 {% endfor %}
+                 document.addEventListener("DOMContentLoaded",() =>{
+                    loadQuestion();
+                });
+            function loadQuestion(){
+                if(questions[questions_number].Images == "T"){
+                    let div = document.querySelector("#img");
+                    div.style.display = "block";
+                    div.innerHTML = "<img src='data:;base64,{{ image }}' style='width:400px;height:300px;'>"
+
+                    }
                 document.querySelector(".q").innerHTML = questions[questions_number].question;
                 document.querySelector("#Qno").innerHTML = questions_number+1 +"/"+questions.length;
                 document.querySelector("#Time").innerHTML=questions[questions_number].Time;
@@ -137,14 +146,13 @@
                 }
                 document.querySelectorAll(".option").forEach((option) =>{
                     option.onclick = () => {
-
-
                         if(option.textContent == questions[questions_number].answer){
-
-                            correct = correct+1;
+                            correct = correct + 1;
                             console.log(correct);
                         }
                         questions_number +=1;
+                        let div = document.querySelector("#img");
+                        div.style.display = "none";
                         loadQuestion(questions_number);
                     }
                 });
@@ -152,19 +160,20 @@
         </script>
     </head>
     <body>
+    <div>
         <header>
             <span class="roll">{{Roll}}</span>
             <span class="timer" id="Time"></span>
             <span class="roll" id="Qno" style="position: relative; float: right;margin-right:4%;">{{s}}/{{l}}</span>
         </header>
          <div class="question">
-            <div><span class="q">
-
-                </span></div>
+            <div><span class="q"></span></div>
+            <div style="padding-top:1%;" id="img" >
+            </div>
             </div>
         <div class="options" style="position: relative;">
-
         </div>
         <footer class="small"> <span style="color:white;">Please select an option</span></footer>
+    </div>
     </body>
 </html>
