@@ -67,13 +67,12 @@
             }
             button{
                 position: relative;
-
                 margin-left:40px;
                 text-align:left;
                 background-color:white;
                 font-size:18px;
                 border:0px;
-                margin-top:2%;
+                margin-top:1%;
                 width:600px;
                 height:80px;
                 border-radius:15px;
@@ -165,7 +164,7 @@
                         if(questions_number == (questions.length)-1){
                             const subject = questions[questions_number].subject
                             console.log(subject)
-                            document.write("uploading your marks")
+                            document.write("plese wait while we check your answers");
                             fetch('/doneExam/'+subject,{
                                 method:"POST",
                                 credentials:'include',

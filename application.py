@@ -115,15 +115,17 @@ def uploader(Email):
         return redirect(url_for('Email',Email=Email))
     else:
         return render_template("index.html")
-
 @app.route("/<string:r>/delete",methods=["POST","GET"])
 def delete(r):
     if('Email' in session):
         Email = session['Email']
         delE=Exam.query.filter_by(subject=r).first()
         delet = Quest.query.filter_by(subject=r).all()
+        dResult = Result.query.filter_by(subjectName=r).all()
         for i in delet:
             db.session.delete(i)
+        for j in dResult:
+            db.session.delete(j)
         db.session.delete(delE)
         db.session.commit()
         return redirect(url_for('Email',Email=Email))
@@ -195,5 +197,27 @@ def doneExam(subject):
     addMarks = Result(roll=roll,correctAnswers=count,subjectName=subject)
     db.session.add(addMarks)
     db.session.commit()
+    return render_template('index.html')
 
-    return("ok")
+
+@app.route("/<string:Email>/<string:Subject>/SeeResult",methods=["POST","GET"])
+def SeeResult(Email,Subject):
+    if('Email' in session):
+        SubjectResult=f'{Subject}'+'Result'
+        r=Result.query.filter_by(subjectName=Subject).all()
+        fields = ['Roll','Total right answer']
+        rows = []
+        for i in r:
+            rows.append([i.roll,i.correctAnswers])
+        filename = f"Results/{Subject}.csv"
+        with open(filename,'w', newline='') as csvfile:
+            csvwriter = csv.writer(csvfile)
+            csvwriter.writerow(fields)
+            csvwriter.writerows(rows)
+        path = f"{filename}"
+        return send_file(path, as_attachment=True)
+    else:
+        return render_template('index.html')
+
+
+
