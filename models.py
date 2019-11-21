@@ -41,7 +41,6 @@ class Quest(db.Model):
     subject = db.Column(db.String,nullable=False)
     image = db.Column(db.LargeBinary, nullable=True)
     imageTOrF = db.Column(db.String, nullable=True)
-    #flight_id = db.Column(db.Integer, db.ForeignKey("flights.id"), nullable=False)
 
 class upload(db.Model):
     __tablename__ = "upload"

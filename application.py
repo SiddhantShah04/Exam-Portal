@@ -111,7 +111,6 @@ def uploader(Email):
             csvreader = csv.reader(csvfile)
             for Question,option1,option2,option3,option4,answer,Time in csvreader:
                 t.add_Question(Question=Question,option1=option1,option2=option2,option3=option3,option4=option4,answer=answer,Time=Time,subject=subject)
-
         return redirect(url_for('Email',Email=Email))
     else:
         return render_template("index.html")
