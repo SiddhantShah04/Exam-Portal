@@ -134,21 +134,6 @@
                 });
 
             function loadQuestion(){
-                if(questions_number == questions.length){
-
-                    document.write("<h1>please wait we are checking your answers........<h1>")
-
-                    const request = new XMLHttpRequest();
-                    request.open('POST','/doneExam')
-                    request.onload = () => {
-
-                        window.location.href= "/"
-                    }
-                    const data = new FormData();
-                    data.append('a','p');
-                    request.send(data);
-                    return false
-                }
 
                 if(questions[questions_number].Images == "T"){
                     let div = document.querySelector("#img");
@@ -173,17 +158,29 @@
                     option.onclick = () => {
                         let opt = option.textContent;
                         answers.push({
-                        [opt] : questions[questions_number].question
+                         [questions[questions_number].question] : opt
                         });
 
+                        if(questions_number == (questions.length)-1){
 
-                        questions_number +=1;
+                            document.write("uploading your marks")
+                            fetch('/doneExam',{
+                                method:"POST",
+                                credentials:'include',
+                                body:JSON.stringify(answers),
+                                cache: 'no-cache',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                            });
+                                window.location.href="/"
+                            }
+                            else{
+                         questions_number +=1;
                         let div = document.querySelector("#img");
                         div.style.display = "none";
                         loadQuestion();
-
-
-
+                            }
                     }
                 });
             }
