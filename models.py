@@ -47,3 +47,12 @@ class upload(db.Model):
     __tablename__ = "upload"
     id = db.Column(db.Integer, primary_key=True,autoincrement=True)
     image = db.Column(db.LargeBinary, nullable=True)
+
+class Result(db.Model):
+    __tableanme__="Result"
+    id = db.Column(db.Integer,primary_key=True)
+    roll = db.Column(db.Integer,nullable=False)
+    correctAnswers = db.Column(db.Integer,nullable=False)
+    subjectName = db.Column(db.String,nullable=False)
+
+

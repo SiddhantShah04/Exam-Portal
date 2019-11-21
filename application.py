@@ -142,9 +142,11 @@ def Deploy(Email,r):
 @app.route("/StudentZone",methods=["POST","GET"])
 def StudentZone():
     errorStudent=None
+
     Roll = request.form.get("Roll")
     Subject = request.form.get("Subject")
     SubjectResult=f'{Subject}'+'Result'
+    session['Roll']=Roll
     if(Roll== "" or Subject==""):
         errorStudent="Check your Roll and subject"
         return render_template("index.html",errorStudent=errorStudent)
@@ -175,8 +177,23 @@ def addImage(question):
     db.session.commit()
     return redirect(url_for('Email',Email=Email))
 
-@app.route("/doneExam",methods=["POST","GET"])
-def doneExam():
+@app.route("/doneExam/<string:subject>",methods=["POST","GET"])
+def doneExam(subject):
+    roll = session['Roll']
     res = request.get_json()
-    print(res)
+    allColumns=Quest.query.all()
+    count=0
+    for ans in res:
+        for rows in allColumns:
+            try:
+                #print(ans[f'{rows.Question}'])
+                if(ans[f'{rows.Question}'] == rows.answer):
+                    count=count+1
+            except:
+                pass
+    #print(count)
+    addMarks = Result(roll=roll,correctAnswers=count,subjectName=subject)
+    db.session.add(addMarks)
+    db.session.commit()
+
     return("ok")

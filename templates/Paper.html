@@ -126,7 +126,8 @@
                         options:["{{ r.option1 }}","{{ r.option2 }}","{{ r.option3 }}","{{ r.option4 }}"],
                         answer: "{{ r.answer }}",
                         Time:"{{ r.Time }}",
-                        Images:"{{ r.imageTOrF }}"
+                        Images:"{{ r.imageTOrF }}",
+                        subject :"{{ r.subject }}"
                     });
                 {% endfor %}
                  document.addEventListener("DOMContentLoaded",() =>{
@@ -162,9 +163,10 @@
                         });
 
                         if(questions_number == (questions.length)-1){
-
+                            const subject = questions[questions_number].subject
+                            console.log(subject)
                             document.write("uploading your marks")
-                            fetch('/doneExam',{
+                            fetch('/doneExam/'+subject,{
                                 method:"POST",
                                 credentials:'include',
                                 body:JSON.stringify(answers),
