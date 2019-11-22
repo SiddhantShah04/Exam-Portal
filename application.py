@@ -71,6 +71,7 @@ def ProfessorZone():
     else:
         return render_template("Professors.html")
 
+
 @app.route('/Email/<string:Email>',methods=["POST","GET"])
 def Email(Email):
     if('Email' in session):
@@ -79,12 +80,14 @@ def Email(Email):
     else:
         return render_template("index.html")
 
+
 @app.route("/<string:Email>/Create_Question",methods=["POST","GET"])
 def Create_Question(Email):
     if('Email' in session):
         return render_template("question.html",Email=Email)
     else:
         return render_template("index.html")
+
 
 @app.route("/<string:Email>/uploader",methods=["POST","GET"])
 def uploader(Email):
@@ -105,7 +108,6 @@ def uploader(Email):
         else:
             t = Registration.query.filter_by(Email=Email).first()
             t.add_Exam(branch=Branch,sem=Sem,subject=subject)
-
         with open(f"UploadFiles/{FileName}", 'r') as csvfile:
             # creating a csv reader object
             csvreader = csv.reader(csvfile)
@@ -114,6 +116,8 @@ def uploader(Email):
         return redirect(url_for('Email',Email=Email))
     else:
         return render_template("index.html")
+
+
 @app.route("/<string:r>/delete",methods=["POST","GET"])
 def delete(r):
     if('Email' in session):
@@ -132,18 +136,18 @@ def delete(r):
         return render_template("index.html")
 
 
+
 @app.route("/<string:Email>/<string:r>/Deploy",methods=["POST","GET"])
 def Deploy(Email,r):
     examStatus=Exam.query.filter_by(subject=r).first()
     examStatus.status = "active"
     db.session.commit()
-    #return("<h1 style='text-align:center;'>Already activated!</h1>")
     return redirect(url_for('Email',Email=Email))
+
 
 @app.route("/StudentZone",methods=["POST","GET"])
 def StudentZone():
     errorStudent=None
-
     Roll = request.form.get("Roll")
     Subject = request.form.get("Subject")
     SubjectResult=f'{Subject}'+'Result'
@@ -160,11 +164,13 @@ def StudentZone():
     #images.items() return a key and value of dict
     return render_template("Paper.html",questionPaper=questionPaper,Roll=Roll,data = images.items())
 
+
 @app.route("/editQuestion/<string:subject>",methods=["POST","GET"])
 def editQuestion(subject):
     Subject=subject
     questionPaper=Quest.query.filter_by(subject=Subject,imageTOrF = None ).all()
     return render_template("editPaper.html",questionPaper=questionPaper)
+
 
 @app.route("/addImage/<string:question>",methods=["POST"])
 def addImage(question):
@@ -177,6 +183,7 @@ def addImage(question):
     i.imageTOrF="T"
     db.session.commit()
     return redirect(url_for('Email',Email=Email))
+
 
 @app.route("/doneExam/<string:subject>",methods=["POST","GET"])
 def doneExam(subject):
@@ -192,7 +199,6 @@ def doneExam(subject):
                     count=count+1
             except:
                 pass
-    #print(count)
     addMarks = Result(roll=roll,correctAnswers=count,subjectName=subject)
     db.session.add(addMarks)
     db.session.commit()
@@ -217,6 +223,4 @@ def SeeResult(Email,Subject):
         return send_file(path, as_attachment=True)
     else:
         return render_template('index.html')
-
-
 
