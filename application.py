@@ -217,7 +217,7 @@ def doneExam(subject):
 def SeeResult(Email,Subject):
     if('Email' in session):
         SubjectResult=f'{Subject}'+'Result'
-        r=Result.query.filter_by(subjectName=Subject).all()
+        r=Result.query.filter_by(subjectName=Subject).order_by(Result.roll).all()
         fields = ['Roll','Total right answer']
         rows = []
         for i in r:
