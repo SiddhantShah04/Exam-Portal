@@ -151,6 +151,10 @@ def StudentZone():
     Roll = request.form.get("Roll")
     Subject = request.form.get("Subject")
 
+    if(Roll== "" or Subject==""):
+        errorStudent="Check your Roll and subject"
+        return render_template("index.html",errorStudent=errorStudent)
+
     rollChecking = Result.query.filter_by(subjectName=Subject,roll=Roll).first()
     if(rollChecking != None):
         activeSubject = Exam.query.filter_by(status="active").all()
@@ -158,9 +162,7 @@ def StudentZone():
         return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
 
     session['Roll']=Roll
-    if(Roll== "" or Subject==""):
-        errorStudent="Check your Roll and subject"
-        return render_template("index.html",errorStudent=errorStudent)
+
     questionPaper=Quest.query.filter_by(subject=Subject).order_by(func.random()).all()
     t = Quest.query.filter_by(imageTOrF="T").all()
     images={}
