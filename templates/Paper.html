@@ -116,24 +116,31 @@
         </style>
         <script src ="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" ></script>
         <script>
+                let questions_number;
+                let questions = [];
+                let answers = [];
 
                 if(localStorage.getItem('questions_number') != null){
-                    let questions_number = localStorage.getItem('questions_number');
+                     questions_number = parseInt(localStorage.getItem('questions_number'));
+                     questions = JSON.parse(localStorage.getItem('questions'));
+                     answers = JSON.parse(localStorage.getItem('answers'));
                     console.log(questions_number)
                 }
-                let questions_number = 0;
-                let correct = 0;
-                let questions = [];
-                let answers = []
-                {% for r in questionPaper %}
-                    questions.push({
-                        question:'{{ r.Question }}',
-                        options:_.shuffle(["{{ r.option1 }}","{{ r.option2 }}","{{ r.option3 }}","{{ r.option4 }}"]),
-                        Time:"{{ r.Time }}",
-                        Images:"{{ r.imageTOrF }}",
-                        subject :"{{ r.subject }}"
-                    });
-                {% endfor %}
+                else{
+                    questions_number = 0;
+
+
+
+                    {% for r in questionPaper %}
+                        questions.push({
+                            question:'{{ r.Question }}',
+                            options:_.shuffle(["{{ r.option1 }}","{{ r.option2 }}","{{ r.option3 }}","{{ r.option4 }}"]),
+                            Time:"{{ r.Time }}",
+                            Images:"{{ r.imageTOrF }}",
+                            subject :"{{ r.subject }}"
+                        });
+                    {% endfor %}
+                }
                  document.addEventListener("DOMContentLoaded",() =>{
                     loadQuestion();
                 });
@@ -142,6 +149,8 @@
                             const subject = questions[questions_number-1].subject
                             console.log(subject)
                             localStorage.removeItem('questions_number');
+                            localStorage.removeItem('questions',questions);
+                            localStorage.removeItem('answers',answers);
                             document.write("please wait while we check your answers");
                             fetch('/doneExam/'+subject,{
                                 method:"POST",
@@ -174,6 +183,7 @@
                 document.querySelectorAll(".option").forEach((option) =>{
 
                     option.onclick = () => {
+
                         let opt = option.textContent;
                         answers.push({
                          [questions[questions_number].question] : opt
@@ -181,6 +191,8 @@
 
                          questions_number +=1;
                         localStorage.setItem('questions_number',questions_number);
+                      localStorage.setItem('questions', JSON.stringify(questions));
+                      localStorage.setItem('answers', JSON.stringify(answers));
                         let div = document.querySelector("#img");
                         div.style.display = "none";
                         loadQuestion();
