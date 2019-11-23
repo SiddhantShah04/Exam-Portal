@@ -126,6 +126,7 @@
                      answers = JSON.parse(localStorage.getItem('answers'));
                     console.log(questions_number)
                 }
+
                 else{
                     questions_number = 0;
 
@@ -141,6 +142,20 @@
                         });
                     {% endfor %}
                 }
+                let questions_number = 0;
+                let correct = 0;
+                let questions = [];
+                let answers = [];
+                {% for r in questionPaper %}
+                    questions.push({
+                        question:'{{ r.Question }}',
+                        options:_.shuffle(["{{ r.option1 }}","{{ r.option2 }}","{{ r.option3 }}","{{ r.option4 }}"]),
+                        Time:"{{ r.Time }}",
+                        Images:"{{ r.imageTOrF }}",
+                        subject :"{{ r.subject }}"
+                    });
+                {% endfor %}
+
                  document.addEventListener("DOMContentLoaded",() =>{
                     loadQuestion();
                 });
