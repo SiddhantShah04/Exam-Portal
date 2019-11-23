@@ -110,7 +110,9 @@ def uploader(Email):
             t.add_Exam(branch=Branch,sem=Sem,subject=subject)
         with open(f"UploadFiles/{FileName}", 'r') as csvfile:
             # creating a csv reader object
+
             csvreader = csv.reader(csvfile)
+            fields = csvreader.next()
             for Question,option1,option2,option3,option4,answer,Time in csvreader:
                 t.add_Question(Question=Question,option1=option1,option2=option2,option3=option3,option4=option4,answer=answer,Time=Time,subject=subject)
         return redirect(url_for('Email',Email=Email))
@@ -229,6 +231,18 @@ def SeeResult(Email,Subject):
             csvwriter.writerows(rows)
         path = f"{filename}"
         return send_file(path, as_attachment=True)
+    else:
+        return render_template('index.html')
+
+@app.route("/downloadCsv",methods=["POST","GET"])
+def downloadResult():
+    if('Email' in session):
+        fields = ['Question','Option1','Option2','Option3','Option4','Answer','Time in Second']
+        filename= "QuestionPaper.csv"
+        with open(filename,'w',newline='') as csvfile:
+            csvwriter = csv.writer(csvfile)
+            csvwriter.writerow(fields)
+        return send_file(filename,as_attachment=True)
     else:
         return render_template('index.html')
 

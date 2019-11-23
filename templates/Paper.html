@@ -114,8 +114,13 @@
                 font-size: 22px;
             }
         </style>
-        <script src =  "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" ></script>
+        <script src ="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" ></script>
         <script>
+
+                if(localStorage.getItem('questions_number') != null){
+                    let questions_number = localStorage.getItem('questions_number');
+                    console.log(questions_number)
+                }
                 let questions_number = 0;
                 let correct = 0;
                 let questions = [];
@@ -136,7 +141,8 @@
                      if(questions_number == (questions.length)){
                             const subject = questions[questions_number-1].subject
                             console.log(subject)
-                            document.write("plese wait while we check your answers");
+                            localStorage.removeItem('questions_number');
+                            document.write("please wait while we check your answers");
                             fetch('/doneExam/'+subject,{
                                 method:"POST",
                                 credentials:'include',
@@ -154,9 +160,9 @@
                     {%for a, b in data%}
                         if("{{a}}" == questions[questions_number].question){
                             div.innerHTML = "<img src='data:;base64,{{ b }}' style='width:500px;height:350px;'>"
-                    }
-                    {%endfor%}
-                    }
+                        }
+                            {%endfor%}
+                        }
                 document.querySelector(".q").innerHTML = questions[questions_number].question;
                 document.querySelector("#Qno").innerHTML = questions_number+1 +"/"+questions.length;
                 document.querySelector("#Time").innerHTML = questions[questions_number].Time;
@@ -173,13 +179,11 @@
                          [questions[questions_number].question] : opt
                         });
 
-
-
                          questions_number +=1;
+                        localStorage.setItem('questions_number',questions_number);
                         let div = document.querySelector("#img");
                         div.style.display = "none";
                         loadQuestion();
-
                     }
                 });
             }
