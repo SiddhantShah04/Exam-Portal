@@ -110,9 +110,8 @@ def uploader(Email):
             t.add_Exam(branch=Branch,sem=Sem,subject=subject)
         with open(f"UploadFiles/{FileName}", 'r') as csvfile:
             # creating a csv reader object
-
             csvreader = csv.reader(csvfile)
-            fields = csvreader.next()
+            fields = next(csvreader)
             for Question,option1,option2,option3,option4,answer,Time in csvreader:
                 t.add_Question(Question=Question,option1=option1,option2=option2,option3=option3,option4=option4,answer=answer,Time=Time,subject=subject)
         return redirect(url_for('Email',Email=Email))
@@ -123,6 +122,10 @@ def uploader(Email):
 @app.route("/<string:r>/delete",methods=["POST","GET"])
 def delete(r):
     if('Email' in session):
+        try:
+            os.remove(f'Results/{r}.csv')
+        except:
+            pass
         Email = session['Email']
         delE=Exam.query.filter_by(subject=r).first()
         delet = Quest.query.filter_by(subject=r).all()
@@ -246,3 +249,6 @@ def downloadResult():
     else:
         return render_template('index.html')
 
+@app.errorhandler(500)
+def error_500(exception):
+    return ("<h1>Something went wrong.....try refreshing the page or Go back to previous page</h1>")
