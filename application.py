@@ -166,9 +166,7 @@ def StudentZone():
         activeSubject = Exam.query.filter_by(status="active").all()
         errorStudent = "Given roll number is already taken by a user"
         return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
-
     session['Roll']=Roll
-
     questionPaper=Quest.query.filter_by(subject=Subject).order_by(func.random()).all()
     t = Quest.query.filter_by(imageTOrF="T").all()
     images={}
@@ -182,7 +180,7 @@ def StudentZone():
 @app.route("/editQuestion/<string:subject>",methods=["POST","GET"])
 def editQuestion(subject):
     Subject=subject
-    questionPaper=Quest.query.filter_by(subject=Subject,imageTOrF = None ).all()
+    questionPaper=Quest.query.filter_by(subject=Subject,imageTOrF = None).all()
     return render_template("editPaper.html",questionPaper=questionPaper)
 
 
@@ -193,10 +191,12 @@ def addImage(question):
     event = files.read()
     question=question+"?"
     i=Quest.query.filter_by(Question=question).first()
+
     i.image=event
     i.imageTOrF="T"
     db.session.commit()
-    return redirect(url_for('Email',Email=Email))
+    questionPaper=Quest.query.filter_by(subject=i.subject,imageTOrF = None ).all()
+    return render_template("editPaper.html",questionPaper=questionPaper)
 
 
 @app.route("/doneExam/<string:subject>",methods=["POST","GET"])
