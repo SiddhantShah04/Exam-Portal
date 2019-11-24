@@ -181,22 +181,28 @@ def StudentZone():
 def editQuestion(subject):
     Subject=subject
     questionPaper=Quest.query.filter_by(subject=Subject,imageTOrF = None).all()
-    return render_template("editPaper.html",questionPaper=questionPaper)
+    return render_template("editPaper.html",questionPaper=questionPaper,Subject=Subject)
 
 
-@app.route("/addImage/<string:question>",methods=["POST"])
-def addImage(question):
+@app.route("/addImage/<string:Subject>/<string:question>",methods=["POST"])
+def addImage(Subject,question):
     Email = session['Email']
+    Subject=Subject
     files = request.files.get('file')
     event = files.read()
-    question=question+"?"
-    i=Quest.query.filter_by(Question=question).first()
-
-    i.image=event
-    i.imageTOrF="T"
+    question=question
+    try:
+        i=Quest.query.filter_by(Question=question+"?").first()
+        i.image=event
+        i.imageTOrF="T"
+    except:
+        i=Quest.query.filter_by(Question=question).first()
+        i.image=event
+        i.imageTOrF="T"
     db.session.commit()
-    questionPaper=Quest.query.filter_by(subject=i.subject,imageTOrF = None ).all()
-    return render_template("editPaper.html",questionPaper=questionPaper)
+    questionPaper=Quest.query.filter_by(subject=Subject,imageTOrF = None ).all()
+    return redirect(url_for('editQuestion',subject=Subject))
+    #return render_template("editPaper.html",questionPaper=questionPaper)
 
 
 @app.route("/doneExam/<string:subject>",methods=["POST","GET"])

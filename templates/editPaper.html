@@ -10,13 +10,12 @@
 </script>
 <style>
     table {
-        position:relative;
-
+        position:absolute;
   font-family:sans-serif;
   border-collapse: collapse;
   width: 78%;
   float:center;
-  margin-left:22%;
+  margin-left:21.8%;
 }
 td, th {
     position:relative;
@@ -26,16 +25,17 @@ td, th {
 }
 </style>
 <table>
+    <caption><strong>{{Subject}}</strong></caption>
 <tr>
     <th>Question</th>
     <th>Add Image</th>
 </tr>
 {% for question in questionPaper %}
-    <form action = "/addImage/{{question.Question}}" method = "POST" enctype = "multipart/form-data">
+    <form action = "/addImage/{{Subject}}/{{question.Question}}" method = "POST" enctype = "multipart/form-data">
         <tr>
             <td>{{question.Question}}</td>
             <td><input type = "file" name = "file" >
-            <input type = "submit" style="position:absolute;margin-left:-22%;margin-top:1%;"></td>
+            <input type = "submit" style="margin-left:-10%;margin-top:1%;"></td>
         </tr>
     </form>
 
