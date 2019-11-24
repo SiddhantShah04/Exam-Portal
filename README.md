@@ -1,1 +1,1 @@
-# ExamPortalv2
+Just a simple python flask based application.
