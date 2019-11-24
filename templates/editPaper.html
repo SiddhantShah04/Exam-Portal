@@ -10,8 +10,8 @@
 </script>
 <style>
     table {
+        position:relative;
 
-margin-left:10%;
   font-family:sans-serif;
   border-collapse: collapse;
   width: 78%;
@@ -19,22 +19,10 @@ margin-left:10%;
   margin-left:22%;
 }
 td, th {
+    position:relative;
   border: 2px solid white;
 
-  padding: 8px;
-}
-.i{
-    position:relative;
-    left:50%;
-    margin-top:1%;
-    border-radius:12px;
-    text-align:center;
-    color:white;
-    font-size:25px;
-    border:0px;
-    background-color:blue;
-    width:150px;
-    height:45px;
+  padding: 10px;
 }
 </style>
 <table>
@@ -42,14 +30,12 @@ td, th {
     <th>Question</th>
     <th>Add Image</th>
 </tr>
-
 {% for question in questionPaper %}
-
     <form action = "/addImage/{{question.Question}}" method = "POST" enctype = "multipart/form-data">
         <tr>
             <td>{{question.Question}}</td>
-            <td><input type = "file" name = "file" />
-            <input type = "submit" /></td>
+            <td><input type = "file" name = "file" >
+            <input type = "submit" style="position:absolute;margin-left:-22%;margin-top:1%;"></td>
         </tr>
     </form>
 

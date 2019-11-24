@@ -125,7 +125,11 @@
                     <td>{{r.branch}}</td>
                     <td>{{r.sem}}</td>
                     <td>{{r.subject}}</td>
-                    <td><a  href="/{{Email}}/{{r.subject}}/Deploy"><button type="submit" class="button" style="background-color:red;" value="" id="Active">Activate</button></a></td>
+                    {% if r.status == 'active' %}
+                        <td><a  href="/{{Email}}/{{r.subject}}/Deploy"><button type="submit" class="button" style="background-color:green;" value="" id="Active">Activate</button></a></td>
+                    {% else %}
+                        <td><a  href="/{{Email}}/{{r.subject}}/Deploy"><button type="submit" class="button" style="background-color:red;" value="" id="Active">Deactivate</button></a></td>
+                    {% endif %}
                     <td><a href="/{{r.subject}}/delete"><button type="submit" class="button" style="background-color:red">Delete</button></a>
                     <a href="/editQuestion/{{r.subject}}"><button type="submit" class="button" style="background-color:red">Edit</button></a>
                     <a href="/{{Email}}/{{r.subject}}/SeeResult"><button type="submit" class="button" style="background-color:#0000CC;"><span>Result </span></button></a></td>

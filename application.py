@@ -47,7 +47,7 @@ def signUp():
     P = request.form.get("PASSWORD")
     try:
         Resgistrated = Registration(Email=E,Password=P)
-        db.session.add(Resgistrted)
+        db.session.add(Resgistrated)
         db.session.commit()
         return render_template("index.html")
     except:
@@ -98,20 +98,20 @@ def uploader(Email):
         Sem = request.form.get("Sem")
         subject = request.form.get("Subject")
         FileName = (f.filename)
-        t=Exam.query.filter_by(Email=Email).first()
-        if(t==None):
-            t = Registration.query.filter_by(Email=Email).first()
-            t.add_Exam(branch=Branch,sem=Sem,subject=subject)
-        elif(t.subject == subject ):
-            error="Question Paper with this subject name already exist"
-            return render_template("question.html",Email=Email,error=error)
-        else:
-            t = Registration.query.filter_by(Email=Email).first()
-            t.add_Exam(branch=Branch,sem=Sem,subject=subject)
-        with open(f"UploadFiles/{FileName}", 'r') as csvfile:
+        t=Exam.query.all()
+        for i in t:
+            if(i.subject==subject):
+                error="Question Paper with this subject name already exist"
+                return render_template("question.html",Email=Email,error=error)
+
+        t = Registration.query.filter_by(Email=Email).first()
+        t.add_Exam(branch=Branch,sem=Sem,subject=subject)
+        with open(f"UploadFiles/{FileName}",'r', encoding='ISO-8859-1') as csvfile:
             # creating a csv reader object
+
             csvreader = csv.reader(csvfile)
             fields = next(csvreader)
+
             for Question,option1,option2,option3,option4,answer,Time in csvreader:
                 t.add_Question(Question=Question,option1=option1,option2=option2,option3=option3,option4=option4,answer=answer,Time=Time,subject=subject)
         os.remove(f'UploadFiles/{FileName}')
@@ -206,10 +206,10 @@ def doneExam(subject):
     allColumns=Quest.query.all()
     count=0
     for ans in res:
-        for rows in allColumns:
+        for key,value in ans.items():
             try:
-                #print(ans[f'{rows.Question}'])
-                if(ans[f'{rows.Question}'] == rows.answer):
+                rows=Quest.query.filter_by(Question=key).first()
+                if(ans[key] == rows.answer):
                     count=count+1
             except:
                 pass

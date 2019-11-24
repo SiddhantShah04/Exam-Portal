@@ -6,9 +6,7 @@
                document.addEventListener('DOMContentLoaded', function () {
 
                 function DSeconds(){
-                     if(questions_number == questions.length){
 
-                     }
                     var i = document.getElementById("Time").innerHTML;
 
                     document.getElementById("Time").innerHTML=--i;
@@ -62,8 +60,9 @@
                 position: relative;
                 width: 99.5%;
                 height: 40%;
-                border:solid 1px grey;
-                margin-top: 10px;
+                padding:12px;
+                border-radius: 15px;
+                margin-top: 3px;
             }
             button{
                 position: relative;
@@ -104,7 +103,7 @@
 
             }.question>div{
                 position:relative;
-                margin-top:0% ;
+                margin-top:-1% ;
                 margin-left: -2%;
             }
             .question>div>span{
@@ -119,28 +118,32 @@
                 let questions_number;
                 let questions = [];
                 let answers = [];
+                let roll = '{{Roll}}'
 
+                if(roll != localStorage.getItem('Roll') && localStorage.getItem('Roll')!= null ){
+                    let R = localStorage.getItem('Roll');
+                    document.write(`<strong>Exam of roll number: ${roll}, is yet not completed!</strong>`)
+                    window.stop();
+                }else{
                 if(localStorage.getItem('questions_number') != null){
-                     questions_number = parseInt(localStorage.getItem('questions_number'));
-                     questions = JSON.parse(localStorage.getItem('questions'));
-                     answers = JSON.parse(localStorage.getItem('answers'));
+                    questions_number = parseInt(localStorage.getItem('questions_number'));
+                    questions = JSON.parse(localStorage.getItem('questions'));
+                    answers = JSON.parse(localStorage.getItem('answers'));
                     console.log(questions_number)
                 }
 
                 else{
                     questions_number = 0;
+                    {% for r in questionPaper %}
+                        questions.push({
+                            question:'{{ r.Question }}',
+                            options:_.shuffle(["{{ r.option1 }}","{{ r.option2 }}","{{ r.option3 }}","{{ r.option4 }}"]),
+                            Time:"{{ r.Time }}",
+                            Images:"{{ r.imageTOrF }}",
+                            subject :"{{ r.subject }}"
+                        });
+                    {% endfor %}
                 }
-
-                {% for r in questionPaper %}
-                    questions.push({
-                        question:'{{ r.Question }}',
-                        options:_.shuffle(["{{ r.option1 }}","{{ r.option2 }}","{{ r.option3 }}","{{ r.option4 }}"]),
-                        Time:"{{ r.Time }}",
-                        Images:"{{ r.imageTOrF }}",
-                        subject :"{{ r.subject }}"
-                    });
-                {% endfor %}
-
                  document.addEventListener("DOMContentLoaded",() =>{
                     loadQuestion();
                 });
@@ -151,6 +154,7 @@
                             localStorage.removeItem('questions_number');
                             localStorage.removeItem('questions',questions);
                             localStorage.removeItem('answers',answers);
+                            localStorage.removeItem('Roll')
                             document.write("please wait while we check your answers");
                             fetch('/doneExam/'+subject,{
                                 method:"POST",
@@ -188,17 +192,18 @@
                         answers.push({
                          [questions[questions_number].question] : opt
                         });
-
-                         questions_number +=1;
+                        questions_number +=1;
                         localStorage.setItem('questions_number',questions_number);
-                      localStorage.setItem('questions', JSON.stringify(questions));
-                      localStorage.setItem('answers', JSON.stringify(answers));
+                        localStorage.setItem('questions', JSON.stringify(questions));
+                        localStorage.setItem('answers', JSON.stringify(answers));
+                        localStorage.setItem('Roll','{{Roll}}')
                         let div = document.querySelector("#img");
                         div.style.display = "none";
                         loadQuestion();
                     }
                 });
             }
+                }
         </script>
     </head>
     <body>
