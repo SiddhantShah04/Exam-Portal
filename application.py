@@ -169,16 +169,19 @@ def StudentZone():
     #session.pop('Email',None)
     #session.pop('Email',None)
     #print(addMarks.correctAnswers)
-    try:
-        if(addMarks.correctAnswers != None):
 
-            if(f"{Roll}" in session):
-                errorStudent = "Given roll number is already taken by a user"
-                return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
-    except:
-        pass
+        #had given the exam
+    if(addMarks != None):
+        errorStudent = "Given roll number is already taken by a user"
+        return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
+
+
+    elif(f"{Subject}+{Roll}" in session):
+        errorStudent = "Given roll number is already taken by a user"
+        return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
+
     print(session)
-    session[f"{Roll}"]=Roll
+    session[f"{Subject}+{Roll}"]=Roll
     print(session)
 
     questionPaper=Quest.query.filter_by(subject=Subject).order_by(func.random()).all()

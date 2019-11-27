@@ -115,16 +115,13 @@
         </style>
         <script src ="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" ></script>
         <script>
+         window.onbeforeunload = function() { return "Your work will be lost."; };
                 let questions_number;
                 let questions = [];
                 let answers = [];
                 let roll = '{{Roll}}'
 
-                if(roll != localStorage.getItem('Roll') && localStorage.getItem('Roll')!= null ){
-                    let R = localStorage.getItem('Roll');
-                    document.write(`<strong>Exam of roll number: ${R}, is yet not completed!</strong>`)
-                    window.stop();
-                }else{
+
                 if(localStorage.getItem('questions_number') != null){
                     questions_number = parseInt(localStorage.getItem('questions_number'));
                     questions = JSON.parse(localStorage.getItem('questions'));
@@ -146,8 +143,10 @@
                     {% endfor %}
                 }
                  document.addEventListener("DOMContentLoaded",() =>{
+                      window.onbeforeunload = function() { return "Your work will be lost."; };
                     loadQuestion();
                 });
+                window.onbeforeunload = function() { return "Your work will be lost."; };
             function loadQuestion(){
                      if(questions_number == (questions.length)){
                             const subject = questions[questions_number-1].subject
@@ -204,7 +203,7 @@
                     }
                 });
             }
-                }
+
         </script>
     </head>
     <body>
