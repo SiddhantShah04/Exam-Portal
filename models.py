@@ -42,10 +42,10 @@ class Quest(db.Model):
     image = db.Column(db.LargeBinary, nullable=True)
     imageTOrF = db.Column(db.String, nullable=True)
 
-class upload(db.Model):
-    __tablename__ = "upload"
+class students(db.Model):
+    __tablename__ = "students"
     id = db.Column(db.Integer, primary_key=True,autoincrement=True)
-    image = db.Column(db.LargeBinary, nullable=True)
+    SubjectRoll = db.Column(db.String, nullable=False)
 
 class Result(db.Model):
     __tableanme__="Result"
