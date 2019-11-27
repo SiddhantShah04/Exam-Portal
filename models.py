@@ -46,6 +46,7 @@ class students(db.Model):
     __tablename__ = "students"
     id = db.Column(db.Integer, primary_key=True,autoincrement=True)
     SubjectRoll = db.Column(db.String, nullable=False)
+    ip = db.Column(db.String,nullable=False)
 
 class Result(db.Model):
     __tableanme__="Result"

@@ -163,6 +163,9 @@ def StudentZone():
     Subject = request.form.get("Subject")
     activeSubject = Exam.query.filter_by(status="active").all()
     addMarks = Result.query.filter_by(roll=Roll,subjectName=Subject).first()
+    SubjectRoll=f"{Subject}+{Roll}"
+    ip=request.environ['REMOTE_ADDR']
+
     if(Roll== "" or Subject==""):
         errorStudent="Check your Roll and subject"
 
@@ -170,20 +173,23 @@ def StudentZone():
     #session.pop('Email',None)
     #session.pop('Email',None)
     #print(addMarks.correctAnswers)
+    student =students.query.filter_by(SubjectRoll=SubjectRoll).first()
 
-        #had given the exam
-    if(addMarks != None):
-        errorStudent = "Given roll number is already taken by a user"
-        return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
+    #had given the exam
+    try:
+        if(addMarks != None):
+            errorStudent = "Given roll number is already taken by a user"
+            return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
+        if(student.ip != ip):
+            errorStudent = "Given roll number is already taken by a user"
+            return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
 
+    except:
+        pass
 
-    elif(f"{Subject}+{Roll}" in session):
-        errorStudent = "Check your roll,if its your's please close the browser and then try to login"
-        return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
-
-    print(session)
-    session[f"{Subject}+{Roll}"]=Roll
-    print(session)
+    add_S=students(SubjectRoll=SubjectRoll,ip=ip)
+    db.session.add(add_S)
+    db.session.commit()
 
     questionPaper=Quest.query.filter_by(subject=Subject).order_by(func.random()).all()
     t = Quest.query.filter_by(imageTOrF="T").all()
