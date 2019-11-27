@@ -130,6 +130,7 @@ def delete(r):
             os.remove(f'Results/{r}.csv')
         except:
             pass
+
         Email = session['Email']
         delE=Exam.query.filter_by(subject=r).first()
         delet = Quest.query.filter_by(subject=r).all()
@@ -153,28 +154,19 @@ def Deploy(Email,r):
     db.session.commit()
     return redirect(url_for('Email',Email=Email))
 
-
 @app.route("/StudentZone",methods=["POST","GET"])
 def StudentZone():
     errorStudent=None
     Roll = request.form.get("Roll")
-
-
     Subject = request.form.get("Subject")
     activeSubject = Exam.query.filter_by(status="active").all()
     addMarks = Result.query.filter_by(roll=Roll,subjectName=Subject).first()
     SubjectRoll=f"{Subject}+{Roll}"
     ip=request.environ['REMOTE_ADDR']
-
     if(Roll== "" or Subject==""):
         errorStudent="Check your Roll and subject"
-
         return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
-    #session.pop('Email',None)
-    #session.pop('Email',None)
-    #print(addMarks.correctAnswers)
     student =students.query.filter_by(SubjectRoll=SubjectRoll).first()
-
     #had given the exam
     try:
         if(addMarks != None):
@@ -183,18 +175,14 @@ def StudentZone():
         if(student.ip != ip):
             errorStudent = "Given roll number is already taken by a user"
             return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
-
     except:
         pass
-
     add_S=students(SubjectRoll=SubjectRoll,ip=ip)
     db.session.add(add_S)
     db.session.commit()
-
     questionPaper=Quest.query.filter_by(subject=Subject).order_by(func.random()).all()
     t = Quest.query.filter_by(imageTOrF="T").all()
     images={}
-
     for i in t:
         image = base64.b64encode(i.image).decode('ascii')
         images[i.Question]=image
@@ -230,7 +218,6 @@ def addImage(Subject,question):
     return redirect(url_for('editQuestion',subject=Subject))
     #return render_template("editPaper.html",questionPaper=questionPaper)
 
-
 @app.route("/<string:subject>/doneExam/<string:Roll>",methods=["POST","GET"])
 def doneExam(subject,Roll):
     roll = Roll
@@ -245,12 +232,13 @@ def doneExam(subject,Roll):
                     count=count+1
             except:
                 pass
+    SubjectRoll=f"{subject}+{Roll}"
+    student =students.query.filter_by(SubjectRoll=SubjectRoll).first()
+    db.session.delete(student)
+    db.session.commit()
     addMarks = Result(roll=roll,correctAnswers=count,subjectName=subject)
-
-
     db.session.add(addMarks)
     db.session.commit()
-
     return render_template('index.html')
 
 
@@ -284,8 +272,7 @@ def downloadResult():
         return send_file(filename,as_attachment=True)
     else:
         return render_template('index.html')
-"""
+
 @app.errorhandler(500)
 def error_500(exception):
     return ("<h1>Something went wrong.....try refreshing the page or Go back to previous page</h1>")
-"""
