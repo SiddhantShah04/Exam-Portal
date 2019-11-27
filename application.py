@@ -6,20 +6,22 @@ from base64 import b64encode
 import base64
 from sqlalchemy.sql import func
 from models import *
-
+#readme file
+#flask run --host=0.0.0.0
 
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgres://axynzjdefwmyeo:e87f02858c1fbc56ea43154a07967f3d68c6e4ad7766daeee3eccc352380caa1@ec2-174-129-253-62.compute-1.amazonaws.com:5432/dcmaleb1aubmap"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
-
-app.secret_key = "E"
+app.secret_key = "f*"
 
 
 app.jinja_env.auto_reload = True
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+
+
 
 
 @app.route("/")
@@ -155,19 +157,30 @@ def Deploy(Email,r):
 def StudentZone():
     errorStudent=None
     Roll = request.form.get("Roll")
-    Subject = request.form.get("Subject")
 
+
+    Subject = request.form.get("Subject")
+    activeSubject = Exam.query.filter_by(status="active").all()
+    addMarks = Result.query.filter_by(roll=Roll,subjectName=Subject).first()
     if(Roll== "" or Subject==""):
         errorStudent="Check your Roll and subject"
-        return render_template("index.html",errorStudent=errorStudent)
-    rollChecking = Result.query.filter_by(subjectName=Subject,roll=Roll).first()
 
-    if(rollChecking != None):
-        activeSubject = Exam.query.filter_by(status="active").all()
-        errorStudent = "Given roll number is already taken by a user"
         return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
+    #session.pop('Email',None)
+    #session.pop('Email',None)
+    #print(addMarks.correctAnswers)
+    try:
+        if(addMarks.correctAnswers != None):
 
-    session['Roll']=Roll
+            if(f"{Roll}" in session):
+                errorStudent = "Given roll number is already taken by a user"
+                return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
+    except:
+        pass
+    print(session)
+    session[f"{Roll}"]=Roll
+    print(session)
+
     questionPaper=Quest.query.filter_by(subject=Subject).order_by(func.random()).all()
     t = Quest.query.filter_by(imageTOrF="T").all()
     images={}
@@ -177,6 +190,7 @@ def StudentZone():
         images[i.Question]=image
     #images.items() return a key and value of dict
     return render_template("Paper.html",questionPaper=questionPaper,Roll=Roll,data = images.items())
+
 
 
 @app.route("/editQuestion/<string:subject>",methods=["POST","GET"])
@@ -207,9 +221,9 @@ def addImage(Subject,question):
     #return render_template("editPaper.html",questionPaper=questionPaper)
 
 
-@app.route("/doneExam/<string:subject>",methods=["POST","GET"])
-def doneExam(subject):
-    roll = session['Roll']
+@app.route("/<string:subject>/doneExam/<string:Roll>",methods=["POST","GET"])
+def doneExam(subject,Roll):
+    roll = Roll
     res = request.get_json()
     allColumns=Quest.query.all()
     count=0
@@ -222,8 +236,11 @@ def doneExam(subject):
             except:
                 pass
     addMarks = Result(roll=roll,correctAnswers=count,subjectName=subject)
+
+
     db.session.add(addMarks)
     db.session.commit()
+
     return render_template('index.html')
 
 
@@ -257,7 +274,8 @@ def downloadResult():
         return send_file(filename,as_attachment=True)
     else:
         return render_template('index.html')
-
+"""
 @app.errorhandler(500)
 def error_500(exception):
     return ("<h1>Something went wrong.....try refreshing the page or Go back to previous page</h1>")
+"""

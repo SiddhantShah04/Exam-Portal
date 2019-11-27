@@ -122,7 +122,7 @@
 
                 if(roll != localStorage.getItem('Roll') && localStorage.getItem('Roll')!= null ){
                     let R = localStorage.getItem('Roll');
-                    document.write(`<strong>Exam of roll number: ${roll}, is yet not completed!</strong>`)
+                    document.write(`<strong>Exam of roll number: ${R}, is yet not completed!</strong>`)
                     window.stop();
                 }else{
                 if(localStorage.getItem('questions_number') != null){
@@ -157,7 +157,7 @@
                             localStorage.removeItem('answers',answers);
                             localStorage.removeItem('Roll')
                             document.write("please wait while we check your answers");
-                            fetch('/doneExam/'+subject,{
+                            fetch(subject+'/doneExam/'+roll,{
                                 method:"POST",
                                 credentials:'include',
                                 body:JSON.stringify(answers),
