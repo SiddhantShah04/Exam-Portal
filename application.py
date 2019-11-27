@@ -177,7 +177,7 @@ def StudentZone():
 
 
     elif(f"{Subject}+{Roll}" in session):
-        errorStudent = "Given roll number is already taken by a user"
+        errorStudent = "Check your roll,if its your's please close the browser and then try to login"
         return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
 
     print(session)
