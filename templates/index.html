@@ -107,14 +107,14 @@
                     let l = localStorage.getItem('Roll');
                     let roll = document.querySelector("#roll").value
              if(l != null  && l != roll ){
-                    alert("not")
+                    document.querySelector("#error1").innerHTML = "Exam of Roll number "+l+" is still not completed"
                     return false
                     }
             else{
                 document.querySelector("#Students").action="/StudentZone/"+l
                 return true;
             }
-            }
+        }
 
         </script>
     </head>
