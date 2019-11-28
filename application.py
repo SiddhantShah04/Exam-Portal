@@ -21,13 +21,12 @@ app.jinja_env.auto_reload = True
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
-@app.route("/<string:error>")
 @app.route("/")
-def index(error=None):
+def index():
 
     activeSubject = Exam.query.filter_by(status="active").all()
 
-    return render_template("index.html",activeSubject=activeSubject,errorStudent=error)
+    return render_template("index.html",activeSubject=activeSubject)
 
 @app.route("/logout")
 def logout():
@@ -181,9 +180,10 @@ def StudentZone(r=None):
     if(addMarks != None or (student!= None and Roll != r)):
         errorStudent = "Given roll number is already taken by a user"
         return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
-    add_S=students(SubjectRoll=SubjectRoll)
-    db.session.add(add_S)
-    db.session.commit()
+    if(r!=Roll):
+        add_S=students(SubjectRoll=SubjectRoll)
+        db.session.add(add_S)
+        db.session.commit()
     questionPaper=Quest.query.filter_by(subject=Subject).order_by(func.random()).all()
     t = Quest.query.filter_by(imageTOrF="T").all()
     images={}
