@@ -121,10 +121,6 @@
                 let answers = [];
                 let roll = '{{Roll}}'
 
-
-
-
-
                 if(localStorage.getItem('questions_number') != null){
                     questions_number = parseInt(localStorage.getItem('questions_number'));
                     questions = JSON.parse(localStorage.getItem('questions'));
@@ -188,6 +184,14 @@
                 document.querySelector("#Time").innerHTML = questions[questions_number].Time;
                 const options = document.querySelector(".options");
                 options.innerHTML = "";
+
+
+                localStorage.setItem('questions_number',questions_number);
+                localStorage.setItem('questions', JSON.stringify(questions));
+                localStorage.setItem('answers', JSON.stringify(answers));
+                localStorage.setItem('Roll','{{Roll}}')
+
+
                 for (const option of questions[questions_number].options){
                     options.innerHTML += `<button class="option">${option}</button>`;
                 }
@@ -200,11 +204,7 @@
                          [questions[questions_number].question] : opt
                         });
                         questions_number +=1;
-                        localStorage.setItem('questions_number',questions_number);
-                        localStorage.setItem('questions', JSON.stringify(questions));
-                        localStorage.setItem('answers', JSON.stringify(answers));
-                        localStorage.setItem('Roll','{{Roll}}')
-                        let div = document.querySelector("#img");
+                                                let div = document.querySelector("#img");
                         div.style.display = "none";
                         loadQuestion();
                     }
