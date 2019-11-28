@@ -112,6 +112,19 @@
                 font-family:sans-serif;
                 font-size: 22px;
             }
+            .submitanswers{
+                position:absolute;
+                margin-top:1.5%;
+                margin-left:15%;
+                background-color:#461EEA;
+                color:white;
+                border:0px;
+
+
+            }
+            .submitanswers:hover{
+            text-decoration:underline;
+        }
         </style>
         <script src ="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" ></script>
         <script>
@@ -142,10 +155,6 @@
                     {% endfor %}
                 }
                  document.addEventListener("DOMContentLoaded",() =>{
-
-
-
-
                       window.onbeforeunload = function() { return "Your work will be lost."; };
                     loadQuestion();
                 });
@@ -210,17 +219,27 @@
                     }
                 });
             }
-
+            function submitAnswers(){
+                 let r=confirm("Are you really wants to submit your answers?");
+                if(r==true){
+                    questions_number = (questions.length)
+                    loadQuestion();
+                }else{
+                    return false
+                }
+            }
         </script>
     </head>
     <body>
     <div>
         <header>
             <span class="roll">{{Roll}}</span>
+            <input class="submitAnswers" value="Submit answers" type="submit" onclick="return submitAnswers()"/>
             <span class="timer" id="Time"></span>
             <span class="roll" id="Qno" style="position: relative; float: right;margin-right:4%;">{{s}}/{{l}}</span>
         </header>
          <div class="question">
+
             <div onmousedown='return false;' onselectstart='return false;'><span class="q"></span></div>
             <div style="padding-top:1%;" id="img" >
             </div>
