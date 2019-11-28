@@ -102,6 +102,21 @@
             margin-left:57%;
         }
         </style>
+        <script>
+        function f(){
+                    let l = localStorage.getItem('Roll');
+                    let roll = document.querySelector("#roll").value
+             if(l != null  && l != roll ){
+                    alert("not")
+                    return false
+                    }
+            else{
+                document.querySelector("#Students").action="/StudentZone/"+l
+                return true;
+            }
+            }
+
+        </script>
     </head>
     <body style="background-color: #f1f1f1;">
 
@@ -110,7 +125,7 @@
          <span style="position:relative;top:10px;left:10px"><b>ExamSoft</b><prep>&nbsp;&nbsp; Rizvi College</span>
         </header>
         <p id="error1">{% if errorStudent != None %} {{ errorStudent }} {% endif %}</p>
-        <form id="Students" action="/StudentZone" method="POST" name="Student">
+        <form id="Students" action="/StudentZone" method="POST" name="Student" onsubmit = "return f() ">
             <div style="margin-left:50%">
                 <span style="position:;">Students zone</span>
                <select name="Branch">
@@ -135,8 +150,8 @@
                           {% endfor %}
                 </datalist>
                 <input type="text" placeholder="Full Name" name="Name">
-                <input type="text" placeholder="Roll Number" name="Roll">
-                <button type="submit">Login</button>
+                <input type="text" placeholder="Roll Number" name="Roll" id="roll">
+                <button type="submit" class="options">Login</button>
             </div>
         </form>
         <p id="error">{% if error != None %} {{ Error }} {% endif %}</p>

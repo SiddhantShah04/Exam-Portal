@@ -21,14 +21,13 @@ app.jinja_env.auto_reload = True
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
-
-
-
+@app.route("/<string:error>")
 @app.route("/")
-def index():
-    print(request.environ['REMOTE_ADDR'])
+def index(error=None):
+
     activeSubject = Exam.query.filter_by(status="active").all()
-    return render_template("index.html",activeSubject=activeSubject)
+
+    return render_template("index.html",activeSubject=activeSubject,errorStudent=error)
 
 @app.route("/logout")
 def logout():
@@ -154,30 +153,38 @@ def Deploy(Email,r):
     db.session.commit()
     return redirect(url_for('Email',Email=Email))
 
+app.route("/error",methods=["GET"])
+def error():
+    errorStudent="Check your Roll and subject"
+    activeSubject = Exam.query.filter_by(status="active").all()
+    return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
+
+@app.route("/StudentZone/<string:r>",methods=["POST","GET"])
 @app.route("/StudentZone",methods=["POST","GET"])
-def StudentZone():
+def StudentZone(r=None):
     errorStudent=None
     Roll = request.form.get("Roll")
+    error = request.get_json()
     Subject = request.form.get("Subject")
     activeSubject = Exam.query.filter_by(status="active").all()
+
     addMarks = Result.query.filter_by(roll=Roll,subjectName=Subject).first()
     SubjectRoll=f"{Subject}+{Roll}"
-    ip=request.environ['REMOTE_ADDR']
+
     if(Roll== "" or Subject==""):
         errorStudent="Check your Roll and subject"
         return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
+
     student =students.query.filter_by(SubjectRoll=SubjectRoll).first()
     #had given the exam
-    try:
-        if(addMarks != None):
-            errorStudent = "Given roll number is already taken by a user"
-            return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
-        if(student.ip != ip):
-            errorStudent = "Given roll number is already taken by a user"
-            return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
-    except:
-        pass
-    add_S=students(SubjectRoll=SubjectRoll,ip=ip)
+
+    if(addMarks != None or (student!= None and Roll != r)):
+        errorStudent = "Given roll number is already taken by a user"
+        return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
+
+
+
+    add_S=students(SubjectRoll=SubjectRoll)
     db.session.add(add_S)
     db.session.commit()
     questionPaper=Quest.query.filter_by(subject=Subject).order_by(func.random()).all()
