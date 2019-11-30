@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,redirect,url_for,session,send_from_directory,send_file
+from flask import Flask,render_template,request,redirect,url_for,session,send_from_directory,send_file,jsonify
 import os,shutil
 import csv
 import json
@@ -104,12 +104,10 @@ def uploader(Email):
             if(i.subject==subject):
                 error="Question Paper with this subject name already exist"
                 return render_template("question.html",Email=Email,error=error)
-
         t = Registration.query.filter_by(Email=Email).first()
         t.add_Exam(branch=Branch,sem=Sem,subject=subject)
         with open(f"UploadFiles/{FileName}",'r', encoding='ISO-8859-1') as csvfile:
             # creating a csv reader object
-
             csvreader = csv.reader(csvfile)
             fields = next(csvreader)
 
@@ -128,7 +126,6 @@ def delete(r):
             os.remove(f'Results/{r}.csv')
         except:
             pass
-
         Email = session['Email']
         delE=Exam.query.filter_by(subject=r).first()
         delet = Quest.query.filter_by(subject=r).all()
@@ -144,7 +141,6 @@ def delete(r):
         return render_template("index.html")
 
 
-
 @app.route("/<string:Email>/<string:r>/Deploy",methods=["POST","GET"])
 def Deploy(Email,r):
     examStatus=Exam.query.filter_by(subject=r).first()
@@ -154,11 +150,20 @@ def Deploy(Email,r):
 
 @app.route("/<string:r>/activateUsers",methods=["POST","GET"])
 def activateUsers(r):
-    #student =students.query.filter_by(Subject=r).()
+    print(r)
+    student =students.query.filter_by(Subject=r).all()
     #make  a subject column then
     #to open adminier search roll
-    l=["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"]
-    return render_template("ActiveStudents.html",l=l,Subject=r)
+    for i in student:
+        print(i.roll)
+    return render_template("ActiveStudents.html",student=student,Subject=r)
+
+@app.route("/remove/<string:subject>/<string:roll>",methods=["POST","GET"])
+def remove(subject,roll):
+    student =students.query.filter_by(Subject=subject,roll=roll).first()
+    db.session.delete(student)
+    db.session.commit()
+    return redirect(url_for('activateUsers',r=subject))
 
 app.route("/error",methods=["GET"])
 def error():
@@ -167,9 +172,14 @@ def error():
     return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
 
 
-@app.route("/Activate/<string:roll>",methods=["POST","GET"])
-def Activate(roll):
-    return("R")
+@app.route("/Activate/<string:subjectroll>",methods=["POST","GET"])
+def Activate(subjectroll):
+    print(subjectroll)
+    student =students.query.filter_by(SubjectRoll=subjectroll).first()
+    if(student == None):
+        return  jsonify("true")
+    else:
+        return(jsonify("false"))
 
 @app.route("/StudentZone/<string:r>",methods=["POST","GET"])
 @app.route("/StudentZone",methods=["POST","GET"])
@@ -181,8 +191,7 @@ def StudentZone(r=None):
     activeSubject = Exam.query.filter_by(status="active").all()
 
     addMarks = Result.query.filter_by(roll=Roll,subjectName=Subject).first()
-    SubjectRoll=f"{Subject}+{Roll}"
-
+    SubjectRoll=f"{Subject}{Roll}"
     if(Roll== "" or Subject==""):
         errorStudent="Check your Roll and subject"
         return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
@@ -190,13 +199,19 @@ def StudentZone(r=None):
     student =students.query.filter_by(SubjectRoll=SubjectRoll).first()
     #had given the exam
 
-    if(addMarks != None or (student!= None and Roll != r)):
+    if(student!= None and Roll != r):
         errorStudent = "Given roll number is already taken by a user"
         return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
+
+    if(addMarks != None):
+        errorStudent = "Exam of given roll number is already been done"
+        return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
+
     if(r!=Roll):
-        add_S=students(SubjectRoll=SubjectRoll)
+        add_S=students(SubjectRoll=SubjectRoll,Subject=Subject,roll=Roll)
         db.session.add(add_S)
         db.session.commit()
+
     questionPaper=Quest.query.filter_by(subject=Subject).order_by(func.random()).all()
     t = Quest.query.filter_by(imageTOrF="T").all()
     images={}
@@ -205,8 +220,6 @@ def StudentZone(r=None):
         images[i.Question]=image
     #images.items() return a key and value of dict
     return render_template("Paper.html",questionPaper=questionPaper,Roll=Roll,data = images.items())
-
-
 
 @app.route("/editQuestion/<string:subject>",methods=["POST","GET"])
 def editQuestion(subject):
@@ -233,7 +246,6 @@ def addImage(Subject,question):
     db.session.commit()
     questionPaper=Quest.query.filter_by(subject=Subject,imageTOrF = None ).all()
     return redirect(url_for('editQuestion',subject=Subject))
-    #return render_template("editPaper.html",questionPaper=questionPaper)
 
 @app.route("/<string:subject>/doneExam/<string:Roll>",methods=["POST","GET"])
 def doneExam(subject,Roll):
@@ -249,7 +261,7 @@ def doneExam(subject,Roll):
                     count=count+1
             except:
                 pass
-    SubjectRoll=f"{subject}+{Roll}"
+    SubjectRoll=f"{subject}{Roll}"
     student =students.query.filter_by(SubjectRoll=SubjectRoll).first()
     db.session.delete(student)
     db.session.commit()

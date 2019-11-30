@@ -107,35 +107,38 @@
         <script>
         function f(){
                     let l = localStorage.getItem('Roll');
-                    let roll = document.querySelector("#roll").value
-                i   f(l != null  && l != roll ){
+                    let roll = document.querySelector("#roll").value;
+                    let subject = document.querySelector("#fuck").value;
 
-                        const r =  fetch('/Activate/'+roll,{
-                            method:"POST",
-                            credentials:'include',
-                            body:JSON.stringify(roll),
-                            cache: 'no-cache',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
+                if(l != null  && l != roll ){
+                        fetch('/Activate/'+subject+roll)
+                        .then(response => response.json())
+                        .then(response => {
+                            console.log(response)
+
+                        if(response == "false"){
+                                document.querySelector("#error1").innerHTML = "Exam of Roll number "+l+" is still not completed"
+                                return(false);
+
+                            }else{
+                                localStorage.removeItem('questions_number');
+                                localStorage.removeItem('questions');
+                                localStorage.removeItem('answers');
+                                localStorage.removeItem('Roll');
+                                document.querySelector("#Students")
+                                return(true);
+                            }
                         });
-
                             //get a fetch request
 
-                            document.write(r)
-
-                        document.querySelector("#error1").innerHTML = "Exam of Roll number "+l+" is still not completed"
-                        return false
                     }
             else{
-                document.querySelector("#Students").action="/StudentZone/"+l
                 return true;
             }
         }
-
         </script>
     </head>
-    <body style="background-color: #f1f1f1;">
+    <body style="background-flalsecolor: #f1f1f1;">
 
 
         <header class="top">
@@ -159,7 +162,7 @@
                     <option value="5">5</option>
                     <option value="6">6</option>
                 </select>
-                <input type="text" autocomplete="off" style="margin-left:27.3%;overflow: scroll;" list="Subject" name="Subject" placeholder="Subject"><br>
+                <input type="text" autocomplete="off" style="margin-left:27.3%;overflow: scroll;" list="Subject" name="Subject" placeholder="Subject" id="fuck"><br>
                 <datalist id="Subject"style="overflow: scroll;">
                     <option display:none value="" disabled selected hidden><p>Subject</p></option>
                           {% for i in activeSubject %}
