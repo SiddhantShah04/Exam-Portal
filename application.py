@@ -152,11 +152,24 @@ def Deploy(Email,r):
     db.session.commit()
     return redirect(url_for('Email',Email=Email))
 
+@app.route("/<string:r>/activateUsers",methods=["POST","GET"])
+def activateUsers(r):
+    #student =students.query.filter_by(Subject=r).()
+    #make  a subject column then
+    #to open adminier search roll
+    l=["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"]
+    return render_template("ActiveStudents.html",l=l,Subject=r)
+
 app.route("/error",methods=["GET"])
 def error():
     errorStudent="Check your Roll and subject"
     activeSubject = Exam.query.filter_by(status="active").all()
     return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
+
+
+@app.route("/Activate/<string:roll>",methods=["POST","GET"])
+def Activate(roll):
+    return("R")
 
 @app.route("/StudentZone/<string:r>",methods=["POST","GET"])
 @app.route("/StudentZone",methods=["POST","GET"])

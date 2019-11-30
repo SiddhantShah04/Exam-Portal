@@ -1,0 +1,52 @@
+{% extends "Professors.html" %}
+{% block p %}
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                   let div = document.getElementById("div");
+                    div.style.display = "none";
+                    let div2 = document.querySelector(".u")
+                div2.style.display="none";
+    });
+        </script>
+
+<style>
+    table {
+        position:absolute;
+  font-family:sans-serif;
+  border-collapse: collapse;
+  width: 75%;
+
+  margin-left:21.8%;
+}
+td, th {
+    position:relative;
+    border: 2px solid white;
+    text-align:center;
+    padding: 10px;
+}
+td>button{
+    text-align:center;
+    color:red;
+}
+</style>
+<table>
+
+    <tr>
+        <th>Roll</th>
+        <th>Remove</th>
+    </tr>
+    <caption><strong>{{Subject}} Logged in students</strong></caption>
+
+    {% for Roll in l %}
+    <form action = "/{{Subject}}/activateUsers" method = "POST">
+        <tr>
+            <td>{{Roll}}</td>
+            <td><button>Remove</button></td>
+        </tr>
+    </form>
+
+{% endfor %}
+</table>
+
+{% endblock %}

@@ -168,6 +168,7 @@
                             localStorage.removeItem('answers',answers);
                             localStorage.removeItem('Roll')
                             document.write("please wait while we check your answers");
+
                             fetch('/'+subject+'/doneExam/'+roll,{
                                 method:"POST",
                                 credentials:'include',

@@ -11,12 +11,12 @@
 <style>
     table {
         position:absolute;
-  font-family:sans-serif;
-  border-collapse: collapse;
-  width: 78%;
-  float:center;
-  margin-left:21.8%;
-}
+        font-family:sans-serif;
+        border-collapse: collapse;
+        width: 78%;
+        float:center;
+        margin-left:21.8%;
+    }
 td, th {
     position:relative;
   border: 2px solid white;
@@ -30,7 +30,7 @@ td, th {
     <th>Question</th>
     <th>Add Image</th>
 </tr>
-{% for question in questionPaper %}
+    {% for question in questionPaper %}
     <form action = "/addImage/{{Subject}}/{{question.Question}}" method = "POST" enctype = "multipart/form-data">
         <tr>
             <td>{{question.Question}}</td>

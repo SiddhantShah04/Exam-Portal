@@ -133,6 +133,7 @@
                     {% endif %}
                     <td><a href="/{{r.subject}}/delete"><button type="submit" class="button" style="background-color:red">Delete</button></a>
                     <a href="/editQuestion/{{r.subject}}"><button type="submit" class="button" style="background-color:red">Edit</button></a>
+                    <a href="/{{r.subject}}/activateUsers"><button type="submit" class="button" style="background-color:#0000CC"><span>LoggedIn</span></button></a>
                     <a href="/{{Email}}/{{r.subject}}/SeeResult"><button type="submit" class="button" style="background-color:#0000CC;"><span>Result </span></button></a></td>
                 </tr>
                 {% endfor %}

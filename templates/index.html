@@ -71,17 +71,19 @@
         form>div>a:hover{
             text-decoration:underline;
         }
-        .small{
-            position:absolute;
-            margin-left:-0.6%;
-            font-size:10px;
-            width:100%;
+        .bottom{
+            position:fixed;
+            bottom:0%;
+            width:98%;
             height:45px;
             background-color:navy;
+            text-align: center;
+        }
+        .bottom>.small{
+            margin-left:-0.6%;
+            font-size:10px;
             color:white;
-            margin-top:42%;
             padding-top:0.3%;
-            text-align:center;
             font-family: sans-serif;
         }
         #error{
@@ -106,9 +108,24 @@
         function f(){
                     let l = localStorage.getItem('Roll');
                     let roll = document.querySelector("#roll").value
-             if(l != null  && l != roll ){
-                    document.querySelector("#error1").innerHTML = "Exam of Roll number "+l+" is still not completed"
-                    return false
+                i   f(l != null  && l != roll ){
+
+                        const r =  fetch('/Activate/'+roll,{
+                            method:"POST",
+                            credentials:'include',
+                            body:JSON.stringify(roll),
+                            cache: 'no-cache',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                        });
+
+                            //get a fetch request
+
+                            document.write(r)
+
+                        document.querySelector("#error1").innerHTML = "Exam of Roll number "+l+" is still not completed"
+                        return false
                     }
             else{
                 document.querySelector("#Students").action="/StudentZone/"+l
@@ -164,7 +181,8 @@
                 <a href="/CreateAccount"><small>Sign up here</small></a>
             </div>
         </form>
-        <small class="small"> <span>a Siddhant shah productions<br>ExamSoft</span>
-        <a href="https://github.com/sidd044/ExamPortalv2"><small class="e" style="position:absolute;color:white;font-family: sans-serif;margin-left:42%;">See how its works</small></a>
+        <div class="bottom">
+            <small class="small"> <span>a Siddhant shah productions<br>ExamSoft</span>
+        </div>
     </body>
 </html>
