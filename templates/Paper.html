@@ -115,12 +115,11 @@
             .submitanswers{
                 position:absolute;
                 margin-top:1.5%;
-                margin-left:15%;
-                background-color:#461EEA;
+                right:15%;
+                font-size:15px;
+                background-color:blue;
                 color:white;
                 border:0px;
-
-
             }
             .submitanswers:hover{
             text-decoration:underline;
@@ -221,7 +220,7 @@
                 });
             }
             function submitAnswers(){
-                 let r=confirm("Are you really wants to submit your answers?");
+                 let r=confirm("Are you really wants to submit your answers and finish your exam?");
                 if(r==true){
                     questions_number = (questions.length)
                     loadQuestion();
@@ -235,12 +234,12 @@
     <div>
         <header>
             <span class="roll">{{Roll}}</span>
-            <input class="submitAnswers" value="Submit answers" type="submit" onclick="return submitAnswers()"/>
+
             <span class="timer" id="Time"></span>
+            <input class="submitAnswers" value="Submit answers" type="submit" onclick="return submitAnswers()"/>
             <span class="roll" id="Qno" style="position: relative; float: right;margin-right:4%;">{{s}}/{{l}}</span>
         </header>
          <div class="question">
-
             <div onmousedown='return false;' onselectstart='return false;'><span class="q"></span></div>
             <div style="padding-top:1%;" id="img" >
             </div>

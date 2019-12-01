@@ -72,6 +72,13 @@ def ProfessorZone():
     else:
         return render_template("Professors.html")
 
+@app.route("/Email",methods=["POST","GET"])
+def Professor():
+    if('Email' in session):
+        E=session['Email']
+        return redirect(url_for('Email',Email=E))
+    else:
+        return render_template("index.html")
 
 @app.route('/Email/<string:Email>',methods=["POST","GET"])
 def Email(Email):
@@ -94,10 +101,14 @@ def Create_Question(Email):
 def uploader(Email):
     if('Email' in session):
         f = request.files['file']
-        f.save(os.path.join('UploadFiles',f.filename))
+        subject = request.form.get("Subject")
+        try:
+            os.mkdir(subject)
+        except:
+            pass
+        f.save(os.path.join(f'{subject}',f.filename))
         Branch = request.form.get("Branch")
         Sem = request.form.get("Sem")
-        subject = request.form.get("Subject")
         FileName = (f.filename)
         t=Exam.query.all()
         for i in t:
@@ -106,14 +117,14 @@ def uploader(Email):
                 return render_template("question.html",Email=Email,error=error)
         t = Registration.query.filter_by(Email=Email).first()
         t.add_Exam(branch=Branch,sem=Sem,subject=subject)
-        with open(f"UploadFiles/{FileName}",'r', encoding='ISO-8859-1') as csvfile:
+        with open(f"{subject}/{FileName}",'r', encoding='ISO-8859-1') as csvfile:
             # creating a csv reader object
             csvreader = csv.reader(csvfile)
             fields = next(csvreader)
 
             for Question,option1,option2,option3,option4,answer,Time in csvreader:
                 t.add_Question(Question=Question,option1=option1,option2=option2,option3=option3,option4=option4,answer=answer,Time=Time,subject=subject)
-        os.remove(f'UploadFiles/{FileName}')
+
         return redirect(url_for('Email',Email=Email))
     else:
         return render_template("index.html")
@@ -123,6 +134,7 @@ def uploader(Email):
 def delete(r):
     if('Email' in session):
         try:
+            shutil.rmtree(f'{r}')
             os.remove(f'Results/{r}.csv')
         except:
             pass
@@ -139,7 +151,6 @@ def delete(r):
         return redirect(url_for('Email',Email=Email))
     else:
         return render_template("index.html")
-
 
 @app.route("/<string:Email>/<string:r>/Deploy",methods=["POST","GET"])
 def Deploy(Email,r):
@@ -246,6 +257,7 @@ def addImage(Subject,question):
     db.session.commit()
     questionPaper=Quest.query.filter_by(subject=Subject,imageTOrF = None ).all()
     return redirect(url_for('editQuestion',subject=Subject))
+
 
 @app.route("/<string:subject>/doneExam/<string:Roll>",methods=["POST","GET"])
 def doneExam(subject,Roll):
