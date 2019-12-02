@@ -111,14 +111,12 @@
                     let subject = document.querySelector("#fuck").value;
 
                 if(l != null  && l != roll ){
-                    console.log("ok1")
-                        fetch('/Activate/'+subject+l)
+                        fetch('/Activate/'+subject+roll)
                         .then(response => response.json())
                         .then(response => {
                             console.log(response)
 
                         if(response == "false"){
-                            console.log("false")
                                 document.querySelector("#error1").innerHTML = "Exam of Roll number "+l+" is still not completed"
                                 return(false);
 
@@ -134,9 +132,7 @@
                             //get a fetch request
                     }
             else{
-                console.log("ok")
-                document.querySelector("#Students").action ="/StudentZone/"+roll;
-                return(true);
+                return true;
             }
         }
         </script>
