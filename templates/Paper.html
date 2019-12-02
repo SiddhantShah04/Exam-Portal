@@ -66,12 +66,12 @@
             }
             button{
                 position: relative;
-                margin-left:40px;
+                margin-left:30px;
                 text-align:left;
                 background-color:white;
-                font-size:18px;
+                font-size:16px;
                 border:0px;
-                margin-top:1%;
+                margin-top:0.5%;
                 width:600px;
                 height:80px;
                 border-radius:15px;
@@ -114,15 +114,17 @@
             }
             .submitanswers{
                 position:absolute;
-                margin-top:1.5%;
-                right:15%;
+                top:33%;
+                right:2%;
+                font-family: sans-serif;
+                border-radius:15px;
                 font-size:15px;
                 background-color:blue;
                 color:white;
                 border:0px;
             }
             .submitanswers:hover{
-            text-decoration:underline;
+                background-color:red;
         }
         </style>
         <script src ="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" ></script>
@@ -236,12 +238,14 @@
             <span class="roll">{{Roll}}</span>
 
             <span class="timer" id="Time"></span>
-            <input class="submitAnswers" value="Submit answers" type="submit" onclick="return submitAnswers()"/>
+
             <span class="roll" id="Qno" style="position: relative; float: right;margin-right:4%;">{{s}}/{{l}}</span>
         </header>
          <div class="question">
             <div onmousedown='return false;' onselectstart='return false;'><span class="q"></span></div>
+            <input class="submitAnswers" value="Submit answers" type="submit" onclick="return submitAnswers()"/>
             <div style="padding-top:1%;" id="img" >
+
             </div>
             </div>
         <div class="options" style="position: relative;">

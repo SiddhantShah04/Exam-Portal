@@ -141,11 +141,14 @@ def delete(r):
         Email = session['Email']
         delE=Exam.query.filter_by(subject=r).first()
         delet = Quest.query.filter_by(subject=r).all()
+        student =students.query.filter_by(Subject=r).all()
         dResult = Result.query.filter_by(subjectName=r).all()
         for i in delet:
             db.session.delete(i)
         for j in dResult:
             db.session.delete(j)
+        for k in student:
+            db.session.delete(k)
         db.session.delete(delE)
         db.session.commit()
         return redirect(url_for('Email',Email=Email))
@@ -187,9 +190,11 @@ def error():
 def Activate(subjectroll):
     print(subjectroll)
     student =students.query.filter_by(SubjectRoll=subjectroll).first()
+    print(student)
     if(student == None):
         return  jsonify("true")
     else:
+        print("False")
         return(jsonify("false"))
 
 @app.route("/StudentZone/<string:r>",methods=["POST","GET"])
@@ -246,6 +251,8 @@ def addImage(Subject,question):
     files = request.files.get('file')
     event = files.read()
     question=question
+    print(question+"?")
+
     try:
         i=Quest.query.filter_by(Question=question+"?").first()
         i.image=event
@@ -254,6 +261,7 @@ def addImage(Subject,question):
         i=Quest.query.filter_by(Question=question).first()
         i.image=event
         i.imageTOrF="T"
+
     db.session.commit()
     questionPaper=Quest.query.filter_by(subject=Subject,imageTOrF = None ).all()
     return redirect(url_for('editQuestion',subject=Subject))
