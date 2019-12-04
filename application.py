@@ -290,7 +290,6 @@ def doneExam(subject,Roll):
     db.session.commit()
     return render_template('index.html')
 
-
 @app.route("/<string:Email>/<string:Subject>/SeeResult",methods=["POST","GET"])
 def SeeResult(Email,Subject):
     if('Email' in session):
