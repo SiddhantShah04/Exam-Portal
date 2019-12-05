@@ -107,6 +107,7 @@
         <script>
         function f(){
                     let l = localStorage.getItem('Roll');
+                    console.log(l)
                     let roll = document.querySelector("#roll").value;
                     let subject = document.querySelector("#fuck").value;
 
@@ -132,6 +133,7 @@
                             //get a fetch request
                     }
             else{
+                console.log("ok")
                 return true;
             }
         }
