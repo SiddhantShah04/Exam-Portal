@@ -22,6 +22,7 @@
                                 document.querySelector("#error1").innerHTML = "Exam of Roll number "+l+" is still not completed"
                                 return(false);
                             }else{
+                                console.log("ok2")
                                 localStorage.removeItem('questions_number');
                                 localStorage.removeItem('questions');
                                 localStorage.removeItem('answers');
