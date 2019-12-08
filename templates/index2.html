@@ -10,10 +10,8 @@
     <script>
          function f(){
                     let l = localStorage.getItem('Roll');
-                    console.log(l)
                     let roll = document.querySelector("#roll").value;
                     let subject = document.querySelector("#fuck").value;
-
                 if(l != null  && l != roll ){
                         fetch('/Activate/'+subject+roll)
                         .then(response => response.json())
@@ -23,7 +21,6 @@
                         if(response == "false"){
                                 document.querySelector("#error1").innerHTML = "Exam of Roll number "+l+" is still not completed"
                                 return(false);
-
                             }else{
                                 localStorage.removeItem('questions_number');
                                 localStorage.removeItem('questions');
@@ -55,21 +52,17 @@
                 <br>
                 <a class="nav-link mr-sm-2" href="#" style="color:white" data-toggle="modal" data-target="#myModal">or Sign up</a>
             </form>
-
         </ul>
             <!-- Links -->
     </nav>
-
     <div class="modal fade" id="myModal">
         <div class="modal-dialog">
           <div class="modal-content">
-
             <!-- Modal Header -->
             <div class="modal-header">
               <h5 class="modal-title">Enter your details</h5>
               <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-
             <!-- Modal body -->
             <div class="modal-body">
                 <form class="form navbar-nav mr-auto" method="POST" action="/signUp">
@@ -102,7 +95,7 @@
                     <div class="col-md-6">
                             <strong id="error1" style="color:red;">{% if errorStudent != None %} {{ errorStudent }} {% endif %}</strong>
                             <br>
-                            <form class="form-group"  action="/StudentZone" method="POST" name="Student" onsubmit = "return f() ">
+            <form class="form-group"  action="/StudentZone" id="Students" method="POST" name="Student" onsubmit = "return f() ">
                                 <label for="sel1">Subject (select one):</label>
                                 <select class="form-control"  name="Subject"  id="fuck">
                                     {% for i in activeSubject %}
@@ -111,7 +104,7 @@
                                 </select>
                                 <br>
                                 <label for="sel1">Your roll number :</label>
-                                <input class="form-control" type="text" id="fuck" pattern="[0-9][0-9]" name="Roll">
+                                <input class="form-control" type="text" id="roll" pattern="[0-9][0-9]" name="Roll">
                                 <br>
                                 <button type="submit" class="btn btn-primary" class="options">Submit</button>
                             </form>
