@@ -26,13 +26,13 @@ def index():
 
     activeSubject = Exam.query.filter_by(status="active").all()
 
-    return render_template("index.html",activeSubject=activeSubject)
+    return render_template("index2.html",activeSubject=activeSubject)
 
 @app.route("/logout")
 def logout():
     if('Email' in session):
         session.pop('Email',None)
-        return redirect(url_for("index"))
+        return redirect(url_for("index2"))
     else:
         return("<h4>You already logout</h4>")
 
@@ -50,10 +50,10 @@ def signUp():
         Resgistrated = Registration(Email=E,Password=P)
         db.session.add(Resgistrated)
         db.session.commit()
-        return render_template("index.html")
+        return render_template("index2.html")
     except:
         Error = "Already have an account with this Email ID."
-        return render_template("CreateAccount.html",Error=Error)
+        return render_template("index2.html",Error=Error)
 
 
 @app.route("/ProfessorZone",methods=["POST"])
@@ -68,7 +68,7 @@ def ProfessorZone():
             return redirect(url_for('Email',Email=E))
         else:
             Error =  "Invalid email or password"
-            return render_template("index.html",Error=Error)
+            return render_template("index2.html",Error=Error)
     else:
         return render_template("Professors.html")
 
@@ -78,7 +78,7 @@ def Professor():
         E=session['Email']
         return redirect(url_for('Email',Email=E))
     else:
-        return render_template("index.html")
+        return render_template("index2.html")
 
 @app.route('/Email/<string:Email>',methods=["POST","GET"])
 def Email(Email):
@@ -210,18 +210,18 @@ def StudentZone(r=None):
     SubjectRoll=f"{Subject}{Roll}"
     if(Roll== "" or Subject==""):
         errorStudent="Check your Roll and subject"
-        return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
+        return render_template("index2.html",errorStudent=errorStudent,activeSubject=activeSubject)
 
     student =students.query.filter_by(SubjectRoll=SubjectRoll).first()
     #had given the exam
 
     if(student!= None and Roll != r):
         errorStudent = "Given roll number is already taken by a user"
-        return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
+        return render_template("index2.html",errorStudent=errorStudent,activeSubject=activeSubject)
 
     if(addMarks != None):
         errorStudent = "Exam of given roll number is already been done"
-        return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
+        return render_template("index2.html",errorStudent=errorStudent,activeSubject=activeSubject)
 
     if(r!=Roll):
         add_S=students(SubjectRoll=SubjectRoll,Subject=Subject,roll=Roll)
