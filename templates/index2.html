@@ -86,16 +86,17 @@
         <h4>to online exam portal of Michael High School</h4>
     </div>
     <div class="container justify-content-center" >
-        <strong style="color:red;margin-left:22%;">Note:Please do not sign up or log in if you are a student,just fill the form below.</strong>
+        <strong style="color:#FFCC00;margin-left:22%">Note:Please do not sign up or log in if you are a student,just fill the form below.</strong>
         <div class="row">
             <div class="col-md-6">
                 <h1 class="display-3">Good day,genius</h1><br>
                 <h4>fill out this form to get your internal started.</h4>
             </div>
                 <div class="col-md-6">
-                    <strong id="error1" style="color:red;">{% if errorStudent != None %} {{ errorStudent }} {% endif %}</strong>
-            <form class="form-group"  action="/StudentZone" id="Students" method="POST" name="Student" onsubmit = "return f() ">
+                               <form class="form-group"  action="/StudentZone" id="Students" method="POST" name="Student" onsubmit = "return f() ">
                 <fieldset class="border p-4" style="color:black;">
+                    <strong id="error1" style="color:red;margin-left:15%;text-align:center;">{% if errorStudent != None %} {{ errorStudent }} {% endif %}</strong>
+                    <br>
                     <legend class="w-auto text-center" style="color:blue">Students Zone</legend>
                     <label for="sel1">Subject (select one):</label>
                     <select class="form-control"  name="Subject"  id="fuck">

@@ -288,7 +288,7 @@ def doneExam(subject,Roll):
     addMarks = Result(roll=roll,correctAnswers=count,subjectName=subject)
     db.session.add(addMarks)
     db.session.commit()
-    return render_template('index.html')
+    return render_template('sucess.html')
 
 @app.route("/<string:Email>/<string:Subject>/SeeResult",methods=["POST","GET"])
 def SeeResult(Email,Subject):
@@ -321,6 +321,10 @@ def downloadResult():
     else:
         return render_template('index.html')
 
+@app.route("/sucess",methods=["GET"])
+def sucess():
+    return render_template("sucess.html")
 @app.errorhandler(500)
 def error_500(exception):
     return ("<h1>Something went wrong.....try refreshing the page or Go back to previous page</h1>")
+
