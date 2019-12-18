@@ -93,7 +93,7 @@
                 <h4>fill out this form to get your internal started.</h4>
             </div>
                 <div class="col-md-6">
-                               <form class="form-group"  action="/StudentZone" id="Students" method="POST" name="Student" onsubmit = "return f() ">
+                <form class="form-group"  action="/StudentZone" id="Students" method="POST" name="Student" onsubmit = "return f() ">
                 <fieldset class="border p-4" style="color:black;">
                     <strong id="error1" style="color:red;margin-left:15%;text-align:center;">{% if errorStudent != None %} {{ errorStudent }} {% endif %}</strong>
                     <br>
@@ -111,7 +111,6 @@
             <button type="submit" class="btn btn-primary" class="options">Submit</button>
                                 </fieldset>
                             </form>
-
                         </div>
                       </fieldset>
             </div>
@@ -119,7 +118,6 @@
         <br>
         <div class="jumbotron text-center">
             <h4>Online Examination Portal</h4>
-
             <p>Online exam portal for internal examination is a web based application for technical evaluation. Online exam portal will not only replace paper work but also release the work load of faculty . It will full fill the requirement of  our institute to conduct the exam online . Thus the purpose of our site is to provide a system that save the effort and time of faculty.
             This website has been developed using  flask,a Python based  web framework and PostgreSql as database.
             The system carries out the examination and auto grading for multiple choice questions, which is feed into the system.

@@ -307,7 +307,7 @@ def SeeResult(Email,Subject):
         path = f"{filename}"
         return send_file(path, as_attachment=True)
     else:
-        return render_template('index.html')
+        return render_template('index2.html')
 
 @app.route("/downloadCsv",methods=["POST","GET"])
 def downloadResult():
@@ -319,7 +319,7 @@ def downloadResult():
             csvwriter.writerow(fields)
         return send_file(filename,as_attachment=True)
     else:
-        return render_template('index.html')
+        return render_template('index2.html')
 
 @app.route("/sucess",methods=["GET"])
 def sucess():
