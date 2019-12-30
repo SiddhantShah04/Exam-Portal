@@ -275,7 +275,7 @@ def doneExam(subject,Roll):
     count=0
     addMarks = Result.query.filter_by(roll=Roll,subjectName=subject).first()
     if(addMarks != None):
-        return redirect(url_for(StudentZone/roll))
+        return redirect("<h1>Your exam has already been done!</h1>")
     for ans in res:
         for key,value in ans.items():
             try:
