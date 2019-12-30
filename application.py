@@ -274,6 +274,7 @@ def doneExam(subject,Roll):
     allColumns=Quest.query.all()
     count=0
     addMarks = Result.query.filter_by(roll=Roll,subjectName=subject).first()
+    print(addMarks)
     if(addMarks != None):
         return redirect("<h1>Your exam has already been done!</h1>")
     for ans in res:
