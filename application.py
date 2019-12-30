@@ -200,6 +200,9 @@ def Activate(subjectroll):
 @app.route("/StudentZone/<string:r>",methods=["POST","GET"])
 @app.route("/StudentZone",methods=["POST","GET"])
 def StudentZone(r=None):
+    if(request.method == "GET"):
+         redirect(url_for('index2'))
+
     errorStudent=None
     Roll = request.form.get("Roll")
     error = request.get_json()
@@ -327,6 +330,7 @@ def downloadResult():
 @app.route("/sucess",methods=["GET"])
 def sucess():
     return render_template("sucess.html")
+
 @app.errorhandler(500)
 def error_500(exception):
     return ("<h1>Something went wrong.....try refreshing the page or Go back to previous page</h1>")
