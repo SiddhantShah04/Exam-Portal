@@ -275,7 +275,7 @@ def doneExam(subject,Roll):
     count=0
     addMarks = Result.query.filter_by(roll=Roll,subjectName=subject).first()
     if(addMarks != None):
-        return redirect(utrl_for(StudentZone,roll))
+        return redirect(url_for(StudentZone,roll))
     for ans in res:
         for key,value in ans.items():
             try:
