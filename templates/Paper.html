@@ -163,7 +163,6 @@
                             localStorage.removeItem('questions',questions);
                             localStorage.removeItem('answers',answers);
                             localStorage.removeItem('Roll')
-                            document.write("please wait while we check your answers");
 
                             fetch('/'+subject+'/doneExam/'+roll,{
                                 method:"POST",
@@ -174,7 +173,8 @@
                                     'Content-Type': 'application/json'
                                 },
                             });
-                                window.location.href="/sucess"
+                            document.write("<h1 style='text-align:center;'>Your exam has been completed and result has been submitted</h1>");
+
                             }
                 if(questions[questions_number].Images == "T"){
                     let div = document.querySelector("#img");
