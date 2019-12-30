@@ -200,9 +200,6 @@ def Activate(subjectroll):
 @app.route("/StudentZone/<string:r>",methods=["POST","GET"])
 @app.route("/StudentZone",methods=["POST","GET"])
 def StudentZone(r=None):
-    if(request.method == "GET"):
-         redirect(url_for('index2'))
-
     errorStudent=None
     Roll = request.form.get("Roll")
     error = request.get_json()
@@ -276,6 +273,9 @@ def doneExam(subject,Roll):
     res = request.get_json()
     allColumns=Quest.query.all()
     count=0
+    addMarks = Result.query.filter_by(roll=Roll,subjectName=subject).first()
+    if(addMarks != None):
+        return redirect(utrl_for(StudentZone,roll))
     for ans in res:
         for key,value in ans.items():
             try:
