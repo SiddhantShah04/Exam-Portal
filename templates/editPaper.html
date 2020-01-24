@@ -18,9 +18,8 @@
         margin-left:21.8%;
     }
 td, th {
-    position:relative;
+  position:relative;
   border: 2px solid white;
-
   padding: 10px;
 }
 </style>
@@ -33,14 +32,12 @@ td, th {
     {% for question in questionPaper %}
     <form action = "/addImage/{{Subject}}/{{question.Question}}" method = "POST" enctype = "multipart/form-data">
         <tr>
-            <td>{{question.Question}}</td>
+            <td >{{question.Question}}</td>
+            <input type="hidden" name="question" value="{{question.Question}}"/>
             <td><input type = "file" name = "file" >
             <input type = "submit" style="position:absolute;right:5%;margin-top:1%;"></td>
         </tr>
     </form>
-
 {% endfor %}
 </table>
-
-
 {% endblock %}

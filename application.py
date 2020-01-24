@@ -11,7 +11,7 @@ from models import *
 
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgres://axynzjdefwmyeo:e87f02858c1fbc56ea43154a07967f3d68c6e4ad7766daeee3eccc352380caa1@ec2-174-129-253-62.compute-1.amazonaws.com:5432/dcmaleb1aubmap"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgres://lxwhjuhnkqxjzl:4b56351c072ef8f11a3b0ecde34fccf51b7e48d70986d4ecbdbf77ddc243cf7b@ec2-174-129-33-97.compute-1.amazonaws.com:5432/dik6pjhuaf1ne"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 app.secret_key = "f*"
@@ -112,7 +112,7 @@ def uploader(Email):
         FileName = (f.filename)
         t=Exam.query.all()
         for i in t:
-            if(i.subject==subject):
+            if(i.subject == subject):
                 error="Question Paper with this subject name already exist"
                 return render_template("question.html",Email=Email,error=error)
         t = Registration.query.filter_by(Email=Email).first()
@@ -158,7 +158,10 @@ def delete(r):
 @app.route("/<string:Email>/<string:r>/Deploy",methods=["POST","GET"])
 def Deploy(Email,r):
     examStatus=Exam.query.filter_by(subject=r).first()
-    examStatus.status = "active"
+    if(examStatus.status != "active"):
+        examStatus.status = "active"
+    else:
+        examStatus.status = "deactive"
     db.session.commit()
     return redirect(url_for('Email',Email=Email))
 
@@ -184,7 +187,6 @@ def error():
     errorStudent="Check your Roll and subject"
     activeSubject = Exam.query.filter_by(status="active").all()
     return render_template("index.html",errorStudent=errorStudent,activeSubject=activeSubject)
-
 
 @app.route("/Activate/<string:subjectroll>",methods=["POST","GET"])
 def Activate(subjectroll):
@@ -234,7 +236,7 @@ def StudentZone(r=None):
     for i in t:
         image = base64.b64encode(i.image).decode('ascii')
         images[i.Question]=image
-    #images.items() return a key and value of dict
+        #images.items() return a key and value of dict
     return render_template("Paper.html",questionPaper=questionPaper,Roll=Roll,data = images.items())
 
 @app.route("/editQuestion/<string:subject>",methods=["POST","GET"])
@@ -242,30 +244,23 @@ def editQuestion(subject):
     Subject=subject
     questionPaper=Quest.query.filter_by(subject=Subject,imageTOrF = None).all()
     return render_template("editPaper.html",questionPaper=questionPaper,Subject=Subject)
-
-
+#copy from here
 @app.route("/addImage/<string:Subject>/<string:question>",methods=["POST"])
 def addImage(Subject,question):
     Email = session['Email']
     Subject=Subject
+    q=request.form.get("question")
+    print(q)
     files = request.files.get('file')
     event = files.read()
-    question=question
-    print(question+"?")
-
-    try:
-        i=Quest.query.filter_by(Question=question+"?").first()
-        i.image=event
-        i.imageTOrF="T"
-    except:
-        i=Quest.query.filter_by(Question=question).first()
-        i.image=event
-        i.imageTOrF="T"
+    i=Quest.query.filter_by(Question=q).first()
+    i.image=event
+    i.imageTOrF="T"
 
     db.session.commit()
     questionPaper=Quest.query.filter_by(subject=Subject,imageTOrF = None ).all()
     return redirect(url_for('editQuestion',subject=Subject))
-
+#to here
 
 @app.route("/<string:subject>/doneExam/<string:Roll>",methods=["POST","GET"])
 def doneExam(subject,Roll):
@@ -273,7 +268,6 @@ def doneExam(subject,Roll):
     res = request.get_json()
     allColumns=Quest.query.all()
     count=0
-
     for ans in res:
         for key,value in ans.items():
             try:

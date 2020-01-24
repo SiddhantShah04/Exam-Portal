@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>Exam starts</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <script>
                document.addEventListener('DOMContentLoaded', function () {
                 function DSeconds(){
@@ -62,13 +63,13 @@
             }
             button{
                 position: relative;
-                margin-left:30px;
+                margin-left:5px;
                 text-align:left;
                 background-color:white;
                 font-size:16px;
                 border:0px;
                 margin-top:0.5%;
-                width:600px;
+                width:45%;
                 height:80px;
                 border-radius:15px;
                 border:solid 1px grey;
@@ -113,7 +114,18 @@
                 top:33%;
                 right:2%;
                 font-family: sans-serif;
-                border-radius:15px;
+                border-radius:5px;
+                font-size:15px;
+                background-color:blue;
+                color:white;
+                border:0px;
+            }
+            .skip{
+                position:absolute;
+                top:40%;
+                left:2%;
+                font-family: sans-serif;
+                border-radius:5px;
                 font-size:15px;
                 background-color:blue;
                 color:white;
@@ -173,7 +185,7 @@
                                     'Content-Type': 'application/json'
                                 },
                             });
-                            document.write("<h1 style='text-align:center;'>Your exam has been completed and result has been submitted</h1>");
+                            document.write("<h1 style='text-align:center;'>Your exam has been completed and result has been submitted,<br>to the server of our college.</h1>");
 
                             }
                 if(questions[questions_number].Images == "T"){
@@ -185,6 +197,10 @@
                         }
                             {%endfor%}
                         }
+                else{
+                     let div = document.querySelector("#img");
+                    div.style.display = "none";
+                }
                 document.querySelector(".q").innerHTML = questions[questions_number].question;
                 document.querySelector("#Qno").innerHTML = questions_number+1 +"/"+questions.length;
                 document.querySelector("#Time").innerHTML = questions[questions_number].Time;
@@ -225,6 +241,10 @@
                     return false
                 }
             }
+            function skip(){
+                questions_number = questions_number + 1;
+                loadQuestion();
+            }
         </script>
     </head>
     <body  onmousedown='return false;' onselectstart='return false;'>
@@ -238,12 +258,15 @@
         </header>
          <div class="question">
             <div onmousedown='return false;' onselectstart='return false;'><span class="q"></span></div>
-            <input class="submitAnswers" value="Submit answers" type="submit" onclick="return submitAnswers()"/>
+
             <div style="padding-top:1%;" id="img" >
 
             </div>
+        <input class="submitAnswers" value="End Exam" type="submit" onclick="return submitAnswers()"/>
+
+            <input class="skip" value="Skip" type="submit" onclick="skip()"/>
             </div>
-        <div class="options" style="position: relative;">
+        <div class="options" style="position: relative;text-align:center;">
         </div>
         <footer class="small"> <span style="color:white;">Please select an option</span></footer>
     </div>
