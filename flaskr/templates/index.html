@@ -2,24 +2,27 @@
 <html>
     <head>
         <title>Home page</title>
+        
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
         <meta name='viewport' content='width=device-width, initial-scale=1'>
         <script src='https://kit.fontawesome.com/a076d05399.js'></script>
-        <script  src="{{ url_for('static', filename='myscript.js') }}"></script>
+        <script type=text/javascript  src="{{ url_for('static', filename='myscript.js') }}"></script>
     </head>
-    <body>
-        
+    <body>        
         <!--The fucking modal-->
+
         <div id="myModal" class="modal" style="align-content: center;">
             <div class="modal_content">
                 <label class="close">X</label>
                 <h3 style="margin: 4%;">Enter your details (Faculty only) </h3>
                 <hr>
-                <form method="POST" action="{{url_for('auth.register')}}">
-                    <input type="text" name="username" placeholder="Email" /> <br>
-                    <input  type="password" name="password" placeholder="Password" /> 
-                    <button style="margin-left: 4%;width: 88%;">Sign up </button>  
-                </form>
+                    <input type="text" id="username" placeholder="Email or Username"  autocomplete="off" required/> <br>
+                    <input  type="password" id="password" placeholder="Password"  required /> 
+                    <button style="margin-left: 4%;width: 88%;" onclick="restrationForm()">Sign up </button>  
+                
+                <div style="position: relative;text-align: center;">
+                    <label style="color: red;" id="error">{{Error}}</label>
+                </div>
             </div>
         </div>
         <!-- End of modal-->      
@@ -30,12 +33,20 @@
                 <a id="signup"  style="color: white;float: right;margin-top: 1%;margin-left: 0.5%;"> Or Sign up</a> 
                 <form method="POST" action="{{url_for('auth.login')}}">
                     <button style="float: right;margin-left: 0.5%;margin-top: -2.7%;">Log in</button> 
-                    <input  type="password" name="password" placeholder="Password" />  
-                    <input  type="text" name="username" placeholder="Email" /> 
+                    <input  type="password" name="password" placeholder="Password" required/>  
+                    <input  type="text" name="username" placeholder="Email or Username" required/> 
                 </form>
             </header>
+            <!--Flash error-->
+            <div style="position: relative;text-align: center;">
+            {% for message in get_flashed_messages(category_filter=["login"]) %}
+                    <label style="color: red;" class="flash">{{ message }}</label>
+                {% endfor %}
+            </div>
+            <!-- End Flash error-->
             <!--End of header-->
             <div class="intro">
+                
                 <h1>Welcome</h1><br>
                 <h2>to online exam portal of RIZVI COLLEGE.</h2>                
             </div>
@@ -84,7 +95,6 @@
             <small>A Siddhant Shah Production</small>  
             <a style="float: left;" href="https://github.com/sidd044/ExamPortalv2"><i class='fab fa-github' style='font-size:36px;color:white'></i></a>                                          
         </footer>
-        </div>
-        
+        </div>        
     </body>
 </html>

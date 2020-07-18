@@ -15,6 +15,9 @@ def create_app(test_config=None):
     from . import db
     db.init_app(app)
 
+    from . import professor
+    app.register_blueprint(professor.bp)
+
     from . import auth
     app.register_blueprint(auth.bp)
     

@@ -11,12 +11,13 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 @bp.route("/register",methods=["POST","GET"])
 def register():
     if(request.method == "POST"):
-        
         sql = "SELECT id from public.professor WHERE username=(%s);"
         error = None
-        username = request.form["username"]
-        password = request.form["password"]
-       
+        res = request.get_json()
+        username = res["username"]
+        password = res["password"]
+        res = request.get_json()
+        print(res["username"])
         db = get_db()
     
         data = (username,)
@@ -24,10 +25,9 @@ def register():
         cur.execute(sql,data)
 
         if(not username):
-            error = "Username is required"
+            error = "Email is required"
         elif(not password):
             error = "Password is required"
-        
         elif(cur.fetchone() is not None):
             error = "User {} is already registered".format(username)
 
@@ -36,10 +36,13 @@ def register():
             data = (username,generate_password_hash(password))
             cur.execute(sql,data)
             db.commit()
-            return(redirect(url_for("home.index")))
-        
+            return("Congrats,your account has been created.")
+        else:
+            return(error)
+        flash(error,'Registartion')
+    print("s")
     return render_template("index.html")
-
+    
 # Logins in the user
 @bp.route("/login", methods=["GET", "POST"])
 def login():
@@ -47,22 +50,24 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
         db = get_db()
-        cur = db.cursor(dictionary=True)
+        cur = db.cursor()
         error = None
         sql = "SELECT * FROM public.professor WHERE username=(%s)"
         data = (username,)
         cur.execute(sql,data)
         user = cur.fetchone()
-        print(user.password)
+        
         if user is None:
-            error = 'Incorrect username.'
+            error = 'Incorrect Email.'
         elif not check_password_hash(str(user[2]),str(password)):
             error = 'Incorrect password.'
-        print(error)
+        
         if error is None:
             session.clear()
             session['user_id'] = user[0]
-            return("ok")
-        flash(error)
+            return(redirect(url_for("professor.professor")))
+        flash(error,'login')
 
-    return render_template('ok')
+    return render_template("index.html")
+
+

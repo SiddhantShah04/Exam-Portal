@@ -21,6 +21,6 @@ button,.studentsInfo>fieldset>form>button{color: #fff;background-color: #007bff;
 .modal{position: fixed;width:100%;height: 100%;background-color: rgb(0, 0, 0);background-color: rgb(0, 0, 0,0.4);display: none;}
 .modal_content{background-color: white;animation: animatetop;animation-duration: 0.4s;border: 1px solid #888;margin: auto;position: relative;top:0;
 bottom: 0;left: 0;right: 0;margin-top: 5%;width: 32%;height: 44%;}
-.modal_content>form>input{margin: 4%;margin-top: 5%;}
+.modal_content>input{margin: 4%;margin-top: 5%;}
 .modal_content>label{right: 1%;position: absolute;font-size: x-large;margin: 1%;color: red;}
 .modal_content>label:hover{cursor: pointer;}
