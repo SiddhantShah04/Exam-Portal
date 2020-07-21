@@ -1,6 +1,5 @@
 import psycopg2
 import click
-
 # g is a special object that is unique for each request. 
 # It is used to store data that might be accessed by multiple functions during the request.
 from flask import current_app,g
@@ -10,7 +9,6 @@ def get_db():
     if('db' not in g):
         g.db = psycopg2.connect(database="examportal", user = "postgres", password = "admin", 
         host = "127.0.0.1", port = "5432")
-        print("Connected")
         return g.db
 
 # Add the sql commands to the db.py
@@ -33,7 +31,6 @@ def close_db(e=None):
     if(db is not None):
         db.close()
 
-#
 def init_app(app):
     #app.teardown_appcontext(close_db)
     # Add a command that can be called with flask command

@@ -1,0 +1,44 @@
+{% extends "Professors.html" %}
+{% block p %}
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                   let div = document.getElementById("div");
+                    div.style.display = "none";
+    });
+        </script>
+            </head>
+            <body>
+                <strong id="error">{% if error != None %} {{ error }} {% endif %}</strong>
+             <form id="QPaper"  action =""  method="POST"  enctype = "multipart/form-data" onsubmit="qPaperSubmit()">
+    <div>
+        <span>Branch</span><select name="Branch" class="branch" >
+            <option value="Cs">CS</option>
+        </select> <br>
+        <span>Semester</span><select style="margin-left:33.5%" 
+        name="Sem" class="sem" onchange="semSelect(this.value)" required>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+        <br>
+        <span>Subject Name</span><input type="text" autocomplete="off" style="margin-left:29%" list="Subject" name="Subject" class="subject" required><br>
+        <datalist id="Subject">
+          <option value="Discrete Mathematics"></option>
+          <option value="Computer Organization and Design"></option>
+          <option value="Programming with Python 1 "></option>
+          <option value="Free and Open Source Software"></option>
+          <option value="Database Systems"></option>
+          <option value="Descriptive Statistics and Introduction to Probability"></option>
+          <option value="Soft Skills Development"></option>
+    </datalist>
+        <div> 
+        <input type = "file" name = "file" class="file" style="margin-top:5%;margin-left:11cm;height:10%;width:27%"required/></div>
+        <button type="Submit">Create Exam</button>
+    </div>
+</form>
+</body>
+{% endblock %}

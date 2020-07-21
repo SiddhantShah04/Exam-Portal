@@ -17,7 +17,6 @@ def register():
         username = res["username"]
         password = res["password"]
         res = request.get_json()
-        print(res["username"])
         db = get_db()
     
         data = (username,)
@@ -39,10 +38,7 @@ def register():
             return("Congrats,your account has been created.")
         else:
             return(error)
-        flash(error,'Registartion')
-    print("s")
-    return render_template("index.html")
-    
+        
 # Logins in the user
 @bp.route("/login", methods=["GET", "POST"])
 def login():
@@ -70,4 +66,35 @@ def login():
 
     return render_template("index.html")
 
+# Log out the user
+@bp.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('home.index'))
+  
+
+# Registers a function that runs before the view function, no matter what URL is requested.
+@bp.before_app_request
+def load_logged_in_user():
+    user_id = session.get('user_id') 
+    if(user_id is None):
+        g.user = None
+    else:
+        db = get_db()
+        cur = db.cursor()
+        sql = "SELECT * FROM public.professor WHERE id=(%s)"
+        data = (user_id,) 
+        cur.execute(sql,data) 
+        g.user = cur.fetchone()
+
+
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for('auth.login'))
+
+        return view(**kwargs)
+
+    return wrapped_view
 

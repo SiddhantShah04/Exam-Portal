@@ -1,0 +1,52 @@
+sem 1:
+Computer Organization and Design
+Free and Open Source Software
+Programming with Python 1 
+Database Systems
+Discrete Mathematics
+Descriptive Statistics and Introduction to Probability
+Soft Skills Development
+
+sem 2:
+Green Technologies
+Statistical Methods and Testing of Hypothesis
+Data Structures
+Programming with C
+Programming with Python 2
+Calculus
+Linux
+
+sem 3:
+Operating Systems
+Web Programming
+Core Java
+Database Management Systems
+Combinatorics and Graph Theory
+
+Physical Computing and IoT Programming
+Theory of Computation
+
+sem 4:
+Software Engineering
+Advanced JAVA
+Computer Networks
+Android Developer Fundamentals
+Fundamentals of Algorithms  
+Dot Net Technologies  
+Linear Algebra using Python 
+
+sem5:
+Artificial Intelligence    
+ Linux System Administration 
+Architecting of IoT       
+Game Programming
+Information and Network Security
+
+sem6:
+Wireless Sensor Networks and Mobile Communication
+ Cloud Computing       
+Data Science
+Digital Image Processing
+Ethical Hacking
+
+          
