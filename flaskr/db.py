@@ -6,10 +6,10 @@ from flask import current_app,g
 from flask.cli import with_appcontext
 
 def get_db():
-    if('db' not in g):
-        g.db = psycopg2.connect(database="examportal", user = "postgres", password = "admin", 
-        host = "127.0.0.1", port = "5432")
-        return g.db
+    
+    g.db = psycopg2.connect(database="examportal", user = "postgres", password = "admin", 
+        host = "127.0.0.1",port="5001")
+    return g.db
 
 # Add the sql commands to the db.py
 def init_db():

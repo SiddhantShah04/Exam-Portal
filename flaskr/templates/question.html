@@ -9,8 +9,12 @@
         </script>
             </head>
             <body>
-                <strong id="error">{% if error != None %} {{ error }} {% endif %}</strong>
-             <form id="QPaper"  action =""  method="POST"  enctype = "multipart/form-data" onsubmit="qPaperSubmit()">
+                <strong id="error" style="text-align: center;">
+                    {%  for message in get_flashed_messages() %}
+                        <label style="color: red;text-align: center;" class="flash">{{ message }}</label>
+                    {% endfor %}
+                </strong>
+    <form id="QPaper"  action ="{{url_for('professor.uploadQuestion')}}"  method="POST"  enctype = "multipart/form-data">
     <div>
         <span>Branch</span><select name="Branch" class="branch" >
             <option value="Cs">CS</option>

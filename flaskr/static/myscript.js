@@ -51,12 +51,43 @@ const semSelect = (value) => {
         // Learning thing here is always put "" in value,fuck wasted 1 hour on this stupid bug..
         selectedSubject.innerHTML+=`<option value="${elt}"></option>`})
 }
-
-const qPaperSubmit = () =>{
+const qPaperSubmit = async() =>{
+    let error = document.querySelector("#error")
+    error.innerHTML = "Uploading your questions"
+    // Get the branch.
     let select = document.querySelector(".branch")
     const branch = select.options[select.selectedIndex].value
+    
+    // Select the semester.
     select  = document.querySelector(".sem")
     const sem = select.options[select.selectedIndex].value
+    
+    // Select the subject
     const subject  = document.querySelector(".subject").value
-    return false
+    
+    // Csv question containing file
+    const file = document.querySelector(".file").value
+
+    const response = await fetch("/uploadQuestion",{
+        method : 'POST',
+		cache: 'no-cache',
+		credentials:'include', 
+        body:file,
+    })
+    const result = await response.text()
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

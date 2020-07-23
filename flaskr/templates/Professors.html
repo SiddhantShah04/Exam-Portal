@@ -6,12 +6,11 @@
         <script type=text/javascript  src="{{ url_for('static', filename='myscript.js') }}"></script>
           <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
-  
     </style>
     </head>
     <body style= "background:lightblue;">
-        
-         <header class="logout" ><a href="{{url_for('auth.logout')}}"style="padding-top:0.7%;color:red">Logout</a></header>
+         <header class="logout" >
+             <a href="{{url_for('auth.logout')}}"style="padding-top:0.7%;color:red">Logout</a></header>
         <div class="Professors">
             <span style="position:relative;top:20px;left:14px;"><b><a href="/Email" style="text-decoration:none;color:white">Professors zone</a></b></span>
             <h6 class="upload"><a  href="{{url_for('professor.upload')}}" >Upload a file</a></h6>
