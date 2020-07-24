@@ -1,18 +1,15 @@
 <!doctype html>
 <html>
     <head>
-
         <title>Professors Page</title>
-        <script type=text/javascript  src="{{ url_for('static', filename='myscript.js') }}"></script>
+        <script type=text/javascript  src="{{ url_for('static', filename='professor.js') }}"></script>
           <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <style>
-    </style>
     </head>
     <body style= "background:lightblue;">
          <header class="logout" >
              <a href="{{url_for('auth.logout')}}"style="padding-top:0.7%;color:red">Logout</a></header>
         <div class="Professors">
-            <span style="position:relative;top:20px;left:14px;"><b><a href="/Email" style="text-decoration:none;color:white">Professors zone</a></b></span>
+            <span style="position:relative;top:20px;left:14px;"><b><a href="{{url_for('professor.professor')}}" style="text-decoration:none;color:white">Professors zone</a></b></span>
             <h6 class="upload"><a  href="{{url_for('professor.upload')}}" >Upload a file</a></h6>
                 <h6 style="margin-top: 65%;"><a  href="{{url_for('professor.downloadCsv')}}" style="cursor:pointer;">Download CSV format</a></h6>
         </div>
@@ -23,20 +20,22 @@
                     <th><span>Subject</span></th>
                     <th><span>Status</span></th>
                     <th><span>Options</span></th></span>
-                {% for r in E %}
-                <tr align="center" style="font-size: 25px;">
-                    <td>{{r.branch}}</td>
-                    <td>{{r.sem}}</td>
-                    <td>{{r.subject}}</td>
-                    {% if r.status == 'active' %}
-                        <td><a  href="/{{Email}}/{{r.subject}}/Deploy"><button type="submit" class="button" style="background-color:green;" value="" id="Active">Activate</button></a></td>
+                {% for r in Exam %}
+                <tr align="center" style="font-size: 25px;" id="del_{{r[0]}}">
+                    <td>{{r[1]}}</td>
+                    <td>{{r[2]}}</td>
+                    <td>{{r[3]}}</td>
+                    {% if r[5] == 'Active' %}
+				   
+                        <td ><a ><button type="submit" onclick="action({{r[0]}})"  style="width:85px;background-color:green;border: 1px solid;" value="" id="Active">Active</button></a></td>
                     {% else %}
-                        <td><a  href="/{{Email}}/{{r.subject}}/Deploy"><button type="submit" class="button" style="background-color:red;" value="" id="Active">Deactivate</button></a></td>
+                        <td ><a  ><button type="submit" onclick="action({{r[0]}})" data-status={{r[0]}}  style="width:85px;background-color:red;border: 1px solid;" value="" id="Active">Deactive</button></a></td>
                     {% endif %}
-                    <td><a href="/{{r.subject}}/delete"><button type="submit" class="button" style="background-color:red">Delete</button></a>
-                    <a href="/editQuestion/{{r.subject}}"><button type="submit" class="button" style="background-color:red">Edit</button></a>
-                    <a href="/{{r.subject}}/activateUsers"><button type="submit" class="button" style="background-color:#0000CC"><span>LoggedIn</span></button></a>
-                    <a href="/{{Email}}/{{r.subject}}/SeeResult"><button type="submit" class="button" style="background-color:#0000CC;"><span>Result </span></button></a></td>
+                    <td>
+					<a href="#"><button type="submit" onclick="del({{r[0]}},'{{r[3]}}')" class="button" style="background-color:red">Delete</button></a>
+                    <a href="#"><button type="submit" class="button" style="background-color:red">Edit</button></a>
+                    <a href="#"><button type="submit" class="button" style="background-color:#0000CC"><span>LoggedIn</span></button></a>
+                    <a href="#"><button type="submit" class="button" style="background-color:#0000CC;"><span>Result </span></button></a></td>
                 </tr>
                 {% endfor %}
             </table>
