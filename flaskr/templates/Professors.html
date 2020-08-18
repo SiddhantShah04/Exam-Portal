@@ -3,10 +3,10 @@
     <head>
         <title>Professors Page</title>
         <script type=text/javascript  src="{{ url_for('static', filename='professor.js') }}"></script>
-          <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     </head>
     <body style= "background:lightblue;">
-         <header class="logout" >
+        <header class="logout" >
              <a href="{{url_for('auth.logout')}}"style="padding-top:0.7%;color:red">Logout</a></header>
         <div class="Professors">
             <span style="position:relative;top:20px;left:14px;"><b><a href="{{url_for('professor.professor')}}" style="text-decoration:none;color:white">Professors zone</a></b></span>
@@ -18,24 +18,23 @@
                     <th><span>Branch</span></th>
                     <th><span>Semeter</span></th>
                     <th><span>Subject</span></th>
-                    <th><span>Status</span></th>
                     <th><span>Options</span></th></span>
+                    <th><span>Status</span></th>
                 {% for r in Exam %}
                 <tr align="center" style="font-size: 25px;" id="del_{{r[0]}}">
                     <td>{{r[1]}}</td>
                     <td>{{r[2]}}</td>
                     <td>{{r[3]}}</td>
                     {% if r[5] == 'Active' %}
-				   
-                        <td ><a ><button type="submit" onclick="action({{r[0]}})"  style="width:85px;background-color:green;border: 1px solid;" value="" id="Active">Active</button></a></td>
+                        <td ><a ><button type="submit" onclick="action({{r[0]}})"  style="width:85px;background-color:green;border: 1px solid;" value="" id="Active_{{r[0]}}">Active</button></a></td>
                     {% else %}
-                        <td ><a  ><button type="submit" onclick="action({{r[0]}})" data-status={{r[0]}}  style="width:85px;background-color:red;border: 1px solid;" value="" id="Active">Deactive</button></a></td>
+                        <td ><a  ><button type="submit" onclick="action({{r[0]}})" data-status={{r[0]}}  style="width:85px;background-color:red;border: 1px solid;" value="" id="Active_{{r[0]}}">Deactive</button></a></td>
                     {% endif %}
                     <td>
-					<a href="#"><button type="submit" onclick="del({{r[0]}},'{{r[3]}}')" class="button" style="background-color:red">Delete</button></a>
-                    <a href="#"><button type="submit" class="button" style="background-color:red">Edit</button></a>
-                    <a href="#"><button type="submit" class="button" style="background-color:#0000CC"><span>LoggedIn</span></button></a>
-                    <a href="#"><button type="submit" class="button" style="background-color:#0000CC;"><span>Result </span></button></a></td>
+					    <a><button type="submit" onclick="del({{r[0]}},'{{r[3]}}')" class="button" style="background-color:red">Delete</button></a>
+                        <a><button type="submit" onclick="editpaper({{r[0]}},'{{r[3]}}')" class="button" style="background-color:red">Edit</button></a>
+                        <a><button type="submit" class="button" style="background-color:#0000CC"><span>LoggedIn</span></button></a>        
+                        <a><button type="submit" class="button" style="background-color:#0000CC;"><span>Result </span></button></a></td>
                 </tr>
                 {% endfor %}
             </table>
@@ -43,5 +42,27 @@
         <div id="onlinePaper">
             {% block p %} {% endblock %}
         </div>
+         <!--The fucking modal-->
+        <div id="myModal" class="modal" style="top: 0%;">
+            <label  class="close"  style="margin-right: 15px; cursor: pointer;color:red;font-size: 35px;float: right;">X</label>
+            <div class="modal_content" style="width: 80%;height: 95%;margin-top: 1%;overflow: scroll;">
+                <table id="editQuestion">
+                    <caption id="subjectName" style="font-size: x-large;color: #007bff;">Subject</caption>
+                    <tr>
+                        <th>Question</th>
+                        <th>Add Image</th>
+                    </tr>
+                    
+                    <form  method = "POST" class="editForm"  enctype = "multipart/form-data">
+                        
+                    </form>
+                </table>
+                <div style="position: relative;text-align: center;">
+                    <label style="color: red;" id="error">{{Error}}</label>
+                </div>
+            </div>
+        </div>
+        <!-- End of modal--> 
+
     </body>
 </html>

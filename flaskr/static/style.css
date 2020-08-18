@@ -51,3 +51,14 @@ form>div>span{position: relative;font-family: Verdana, Geneva, Tahoma, sans-seri
 form>div>select{position: relative;margin-left: 36%;margin-top:0.5cm;width:150px;height:40px;border-radius:4px;border:solid 1px grey;}
 
 #error{ margin-left:34%;color:red;font-family: Verdana, Geneva, Tahoma, sans-serif;}
+
+#myModal>.modal_content>table {font-family: arial, sans-serif;border-collapse: collapse;width: 100%;margin-top: 1%;position:absolute;}
+#myModal>.modal_content> td, th {border: 1px solid #dddddd;position:relative;padding: 10px;}
+ 
+tr:nth-child(even) {
+    background-color: #f2f2f2;;
+  }
+
+
+
+  

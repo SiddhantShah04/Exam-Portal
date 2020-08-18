@@ -2,7 +2,8 @@ import functools
 from flask import (Blueprint,g,Flask,redirect,render_template,session,request,url_for,send_file,flash)
 from werkzeug.exceptions import abort
 import os,shutil
-import pandas as pd
+import json
+
 import csv
 from flaskr.auth import login_required
 from flaskr.db import get_db
@@ -39,6 +40,7 @@ def status():
     cur.execute(sql,data)
     db.commit()
     return(result)
+
 @bp.route("/delete",methods=["GET","POST"])
 @login_required
 def delete():
@@ -49,11 +51,9 @@ def delete():
     sql2 = "DELETE  from public.QuestionData WHERE subject= (%s) and userId = (%s)"
     data = (res["subject"],session.get('user_id'))
     cur.execute(sql2,data)
-    
     sql = "DELETE  from public.Exam WHERE id= (%s) and userID=(%s)"
     data = (res["examId"],session.get('user_id'))
     cur.execute(sql,data)
-    
     db.commit()
     return("Deleted")
 
@@ -72,6 +72,34 @@ def downloadCsv():
 def upload():
     return render_template("question.html")
 
+@bp.route("/editPaper",methods=["POST","GET"])
+@login_required
+def editpaper():
+    db = get_db()
+    cur = db.cursor()
+    user_id = session.get('user_id')
+    res = request.get_json()
+    sql = "SELECT * FROM public.QuestionData WHERE userID = (%s) and subject = (%s) and Image is Null "
+    data = (session.get("user_id"),res["subject"],)
+    cur.execute(sql,data)
+    result = cur.fetchall()
+    result=json.dumps(result)
+    return(result)
+
+@bp.route("/uploadImage",methods=["POST","GET"])
+@login_required
+def uploadImage():
+    qId = request.args.get('id'))
+    files = request.files['photo']
+    files.save(os.path.join('/flaskr/templates/images'),qId+files.filename)
+    db = get_db()
+    cur = db.cursor()
+    sql = "UPADATE public.QuestionData SET Image=(%s) WHERE id=(%s) and userId = (%s)"
+    data = (qId+files.filename,qId,session.get("user_id"))
+    cur.execute(sql,data)
+    db.commit()
+    return("Save")
+
 @bp.route("/uploadQuestion",methods=["GET","POST"])
 @login_required
 def uploadQuestion():
@@ -85,12 +113,11 @@ def uploadQuestion():
         os.mkdir(subject)
     except:
         pass
-    
     sql = "SELECT * FROM public.EXAM WHERE userID = (%s) and subject = (%s)"
     data = (session.get("user_id"),subject)
     cur.execute(sql,data)
     result = cur.fetchall()
-    print(len(result))
+    
     if(len(result) != 0):
             error = f"Questions of this {subject} is already uploaded."        
             flash(error)
