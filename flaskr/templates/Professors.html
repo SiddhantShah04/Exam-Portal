@@ -21,7 +21,7 @@
                     <th><span>Options</span></th></span>
                     <th><span>Status</span></th>
                 {% for r in Exam %}
-                <tr align="center" style="font-size: 25px;" id="del_{{r[0]}}">
+                <tr align="center" style="font-size: 22px;" id="del_{{r[0]}}">
                     <td>{{r[1]}}</td>
                     <td>{{r[2]}}</td>
                     <td>{{r[3]}}</td>
@@ -33,7 +33,7 @@
                     <td>
 					    <a><button type="submit" onclick="del({{r[0]}},'{{r[3]}}')" class="button" style="background-color:red">Delete</button></a>
                         <a><button type="submit" onclick="editpaper({{r[0]}},'{{r[3]}}')" class="button" style="background-color:red">Edit</button></a>
-                        <a><button type="submit" class="button" style="background-color:#0000CC"><span>LoggedIn</span></button></a>        
+                        <a><button type="submit" class="button" style="background-color:#0000CC"><span>Logged</span></button></a>        
                         <a><button type="submit" class="button" style="background-color:#0000CC;"><span>Result </span></button></a></td>
                 </tr>
                 {% endfor %}

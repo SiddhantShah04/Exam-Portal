@@ -58,8 +58,13 @@ const del = async(examId,subject) => {
 
 const editpaper = async(examId,subject)=>{
     let modal = document.querySelector("#myModal")
+
     modal.style.display='block'
+    let editTable =  document.querySelector("#editQuestion")
     document.querySelector(".close").onclick = ()=>{modal.style.display = 'none'}
+    console.log(editTable.rows.length)
+    if(editTable.rows.length==1){
+
     const subjectName=document.querySelector("#subjectName").innerHTML = subject
     const response = await fetch("/editPaper",{
         method : 'POST',
@@ -69,25 +74,30 @@ const editpaper = async(examId,subject)=>{
         body:JSON.stringify({examId,subject})
     })
 	const result = await response.json()
-    console.log(result)
-    let editTable =  document.querySelector("#editQuestion")
+    
     result.map((elt)=>{
     var row = editTable.insertRow();
     row.style.border = '1px solid #dddddd';
-    row.
+    row.id = `del_${elt[0]}`
     var cell1 = row.insertCell(0);
     var cell2 = row.insertCell(1);
     cell1.style.padding = '8px';
     
     cell1.innerHTML = `<td >${elt[3]} </td> `
     cell2.innerHTML = `<input type = "file" name = "file" class="file" style=" margin-left: 12px;box-shadow: 0 0 0px; height:10%;width:60%;" required/>
-    <button onclick = 'uploadImage(${elt[0]})' style="width:24%;margin-left: 1%;margin-top: 5px;margin-bottom: 5px;right: 1%;margin-right: 0%;">Submit</button>`;
+    <button onclick = 'uploadImage(${elt[0]})' class="button" style="cursor: pointer;focus:box-shadow: 0 0 10px;">Submit</button>`;
    })
+    }
 }
 
 const uploadImage = async(id)=>{
     console.log(id)
     let photo = document.querySelector(".file").files[0];
+    
+    if(photo == null){
+        alert("Choose a proper image")
+         return(false)
+        }   
     let formData = new FormData();
     formData.append("photo", photo);
     
@@ -98,6 +108,7 @@ const uploadImage = async(id)=>{
         processData: false,
         body:formData
     })
-    const result = await response.text()
-    document.write(result)
+    const result = await response.json()
+    console.log(result)
+    if(result=="Saved"){document.querySelector(`#del_${id}`).remove()}
 }

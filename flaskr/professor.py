@@ -3,7 +3,6 @@ from flask import (Blueprint,g,Flask,redirect,render_template,session,request,ur
 from werkzeug.exceptions import abort
 import os,shutil
 import json
-
 import csv
 from flaskr.auth import login_required
 from flaskr.db import get_db
@@ -47,9 +46,16 @@ def delete():
     db = get_db()
     cur = db.cursor()
     res = request.get_json()
-    print(res)
-    sql2 = "DELETE  from public.QuestionData WHERE subject= (%s) and userId = (%s)"
     data = (res["subject"],session.get('user_id'))
+    # deleting all images of this exam question from folder
+    sql3 = "SELECT Image FROM public.QuestionData WHERE subject= (%s) and userId = (%s) and Image is not null"
+    cur.execute(sql3,data)
+    imagesNames= cur.fetchall()
+    for elt in imagesNames:
+        print(elt[0])
+        if(elt[0] is not None):
+            os.remove(f"flaskr/templates/images/{elt[0]}")
+    sql2 = "DELETE  from public.QuestionData WHERE subject= (%s) and userId = (%s)"
     cur.execute(sql2,data)
     sql = "DELETE  from public.Exam WHERE id= (%s) and userID=(%s)"
     data = (res["examId"],session.get('user_id'))
@@ -83,22 +89,25 @@ def editpaper():
     data = (session.get("user_id"),res["subject"],)
     cur.execute(sql,data)
     result = cur.fetchall()
+    
     result=json.dumps(result)
     return(result)
 
 @bp.route("/uploadImage",methods=["POST","GET"])
 @login_required
 def uploadImage():
-    qId = request.args.get('id'))
+    qId = request.args.get('id')
     files = request.files['photo']
-    files.save(os.path.join('/flaskr/templates/images'),qId+files.filename)
+    files.save(os.path.join('flaskr/templates/images',qId+files.filename))
     db = get_db()
     cur = db.cursor()
-    sql = "UPADATE public.QuestionData SET Image=(%s) WHERE id=(%s) and userId = (%s)"
+    sql = "UPDATE public.QuestionData SET Image=(%s) WHERE id=(%s) and userId = (%s)"
     data = (qId+files.filename,qId,session.get("user_id"))
     cur.execute(sql,data)
     db.commit()
-    return("Save")
+    result=json.dumps("Saved")
+    
+    return(result)
 
 @bp.route("/uploadQuestion",methods=["GET","POST"])
 @login_required
@@ -109,8 +118,9 @@ def uploadQuestion():
     Branch = request.form["Branch"]
     Sem = request.form["Sem"]
     f = request.files['file']
+    id = session.get("user_id")
     try:
-        os.mkdir(subject)
+        os.mkdir(f'userId{id}')
     except:
         pass
     sql = "SELECT * FROM public.EXAM WHERE userID = (%s) and subject = (%s)"
@@ -122,13 +132,13 @@ def uploadQuestion():
             error = f"Questions of this {subject} is already uploaded."        
             flash(error)
             return render_template("question.html")
-    f.save(os.path.join(f'{subject}',f.filename))
+    f.save(os.path.join(f'userId{id}',f.filename))
     i = 1
     sql = "INSERT INTO public.QuestionData(userId,Subject,Question,Options,Answer,Time) VALUES(%s,%s,%s,%s,%s,%s)"
     sql2 = "INSERT INTO public.EXAM(branch,Semester,Subject,userID,status) VAlUES(%s,%s,%s,%s,%s)"
     
     try:
-        with open(f"{subject}/{f.filename}",'r', encoding='ISO-8859-1') as csvfile:
+        with open(f"userId{id}/{f.filename}",'r', encoding='ISO-8859-1') as csvfile:
             # creating a csv reader object
             csvreader = csv.reader(csvfile)
             fields = next(csvreader)
@@ -145,9 +155,12 @@ def uploadQuestion():
         error = "Only .Csv file are allowed to upload.Please check your file format"
         flash(error)
         return render_template("question.html")
-    shutil.rmtree(f'{subject}')
+    shutil.rmtree(f'userId{id}')
     data = (Branch,Sem,subject,session.get('user_id'),"Deactive")
     cur.execute(sql2,data)
     db.commit()
     return redirect(url_for("professor.professor"))        
     
+@bp.errorhandler(500)
+def error_500(exception):
+    return ("<h1>Something went wrong.....try refreshing the page or Go back to previous page</h1>")
