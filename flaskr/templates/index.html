@@ -44,7 +44,6 @@
             <!-- End Flash error-->
             <!--End of header-->
             <div class="intro">
-                
                 <h1>Welcome</h1><br>
                 <h2>to online exam portal of RIZVI COLLEGE.</h2>                
             </div>
@@ -66,13 +65,15 @@
                        <div class="studentsInfo">
                         <fieldset>
                             <legend align='center' style="color: rgb(0, 0, 255);font-size:x-large;">Student Form</legend>
-                            <form style="margin-right: 4%;margin-left: 4%;margin-top: 8%;margin-bottom: 5%;"  >
+                            <div style="position: absolute; background-color: whitesmoke;margin-left: 4%;margin-top: 1%;">
+                                <label style="position: relative; color: red;font-weight: bolder;" id="errorStudent"></label>
+                            </div>
+                            <form action="{{url_for('student.home')}}" id="studentPaper" onsubmit="return studentLogin()" method="POST"  style="margin:4%;margin-top: 10%;"  >
                                 <label style="font-size: 1rem;" for="subject">Subject:</label><br>
-                                <select name="subject" >  
-                                    <option>Python</option>
+                                <select name="subject" id="addActiveSubject">  
                                 </select><br><br>
                                 <label style="font-size: 1rem;" for="Roll">Your Roll number:</label><br>
-                                <input  autocomplete="off" placeholder="Roll" name="Roll"><br><br>
+                                <input type="number"  autocomplete="off" id="roll" placeholder=" Roll" name="Roll" required><br><br>
                                 <button class="button">Submit</button>
                             </form>
                             </fieldset>

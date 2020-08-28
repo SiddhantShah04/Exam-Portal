@@ -70,7 +70,6 @@ def logout():
     session.clear()
     return redirect(url_for('home.index'))
   
-
 # Registers a function that runs before the view function, no matter what URL is requested.
 @bp.before_app_request
 def load_logged_in_user():
@@ -85,14 +84,11 @@ def load_logged_in_user():
         cur.execute(sql,data) 
         g.user = cur.fetchone()
 
-
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:
             return redirect(url_for('auth.login'))
-
         return view(**kwargs)
-
     return wrapped_view
 

@@ -56,9 +56,8 @@ form>div>select{position: relative;margin-left: 36%;margin-top:0.5cm;width:150px
 #myModal>.modal_content> td, th {border: 1px solid #dddddd;position:relative;padding: 10px;}
  
 tr:nth-child(even) {
-    background-color: #f2f2f2;;
+    background-color: #f2f2f2;
+    
   }
 
-
-
-  
+  .loggedTd{text-align: center;}

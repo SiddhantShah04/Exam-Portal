@@ -106,7 +106,6 @@ def uploadImage():
     cur.execute(sql,data)
     db.commit()
     result=json.dumps("Saved")
-    
     return(result)
 
 @bp.route("/uploadQuestion",methods=["GET","POST"])
@@ -158,9 +157,35 @@ def uploadQuestion():
     shutil.rmtree(f'userId{id}')
     data = (Branch,Sem,subject,session.get('user_id'),"Deactive")
     cur.execute(sql2,data)
+    
     db.commit()
     return redirect(url_for("professor.professor"))        
-    
+
+@bp.route("/logged",methods=["GET","POST"])
+def logged():
+    db = get_db()
+    cur = db.cursor()
+    res = request.get_json()
+    sql = "SELECT * FROM public.activeStudents WHERE examId=(%s)"
+    data = (res["examId"],)
+    cur.execute(sql,data)
+    result = cur.fetchall()
+    print(result)
+    result=json.dumps(result)
+    return(result)
+
+@bp.route("/removeStudent",methods=["GET","POST"])
+def removeStudent():
+    res = request.get_json()
+    db = get_db()
+    cur = db.cursor()
+    print(res)
+    sql = "DELETE FROM public.activeStudents WHERE id=(%s)"
+    data = (res["id"],)
+    cur.execute(sql,data)
+    db.commit()
+    return("Done")
+
 @bp.errorhandler(500)
 def error_500(exception):
     return ("<h1>Something went wrong.....try refreshing the page or Go back to previous page</h1>")

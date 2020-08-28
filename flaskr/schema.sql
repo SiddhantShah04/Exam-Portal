@@ -19,6 +19,13 @@ Create TABLE EXAM(
     status VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE activeStudents(
+    id SERIAL NOT NULL PRIMARY KEY,
+    examId int REFERENCES EXAM(id),
+    roll INT NOT NULL,
+    Subject VARCHAR(255) NOT NULL
+);
+
 Create TABLE QuestionData(
     id SERIAL NOT NULL PRIMARY KEY,
     userId int REFERENCES professor(id),

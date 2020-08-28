@@ -33,7 +33,7 @@
                     <td>
 					    <a><button type="submit" onclick="del({{r[0]}},'{{r[3]}}')" class="button" style="background-color:red">Delete</button></a>
                         <a><button type="submit" onclick="editpaper({{r[0]}},'{{r[3]}}')" class="button" style="background-color:red">Edit</button></a>
-                        <a><button type="submit" class="button" style="background-color:#0000CC"><span>Logged</span></button></a>        
+                        <a><button type="submit" onclick="logged({{r[0]}},'{{r[3]}}')" class="button" style="background-color:#0000CC"><span>Logged</span></button></a>        
                         <a><button type="submit" class="button" style="background-color:#0000CC;"><span>Result </span></button></a></td>
                 </tr>
                 {% endfor %}
@@ -56,6 +56,24 @@
                     <form  method = "POST" class="editForm"  enctype = "multipart/form-data">
                         
                     </form>
+                </table>
+                <div style="position: relative;text-align: center;">
+                    <label style="color: red;" id="error">{{Error}}</label>
+                </div>
+            </div>
+        </div>
+        <!-- End of modal--> 
+         <!--The fucking  modal for logged-->
+         <div id="myLoggedModal" class="modal" style="top: 0px !important;">
+            <label  class="iclose"  style=" margin-right: 15px; cursor: pointer;color:red;font-size: 35px;float: right;">X</label>
+            <div class="modal_content" style="top:-40px; width: 80%;height: 95%;overflow: scroll;">
+                <table id="loggedTable" style="border-collapse: collapse;width: 100%;">
+                    <caption id="isubjectName" style="font-size: x-large;color: #007bff;">Subject</caption>
+                    <tr>
+                        <th>Roll</th>
+                        <th>Action</th>
+                    </tr>
+                    
                 </table>
                 <div style="position: relative;text-align: center;">
                     <label style="color: red;" id="error">{{Error}}</label>

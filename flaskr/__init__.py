@@ -1,6 +1,6 @@
 from flask import Flask
 import os
-
+from waitress import serve
 # A application factory function,which create a Flask instance
 def create_app(test_config=None):
 
@@ -15,6 +15,9 @@ def create_app(test_config=None):
     from . import db
     db.init_app(app)
 
+    from . import student
+    app.register_blueprint(student.bp)
+
     from . import professor
     app.register_blueprint(professor.bp)
 
@@ -26,3 +29,4 @@ def create_app(test_config=None):
         return("Hello World!")
 
     return app
+
