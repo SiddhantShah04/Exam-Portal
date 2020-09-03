@@ -84,6 +84,7 @@ def load_logged_in_user():
         cur.execute(sql,data) 
         g.user = cur.fetchone()
 
+# **kwargs is used to pass thses kind of argument first ='Geeks'
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):

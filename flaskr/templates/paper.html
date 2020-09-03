@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <title>Student page</title>
+        <script type="text/javascript">
+           
+            let result = {{result|tojson}}
+            let Roll = {{Roll|tojson}}
+            
+            </script>
+            <script type=text/javascript src="{{ url_for('static', filename='studentAdt.js') }}">
+            </script>
+        <link rel="stylesheet" href="{{ url_for('static',filename='studentStyle.css') }}">
+        <script type=text/javascript  src="{{ url_for('static', filename='studentJs.js') }}"></script>
+
+    </head>
+    <body onmousedown='return false;' onselectstart='return false;'>
+        <div>
+            <header>
+                <span class="roll">{{Roll}}</span>
+    
+                <span class="timer" id="Time"></span>
+    
+                <span class="roll" id="Qno" style="position: relative; float: right;margin-right:4%;">s/l</span>
+            </header>
+        </div>
+        <div style="position: absolute; height: 80%;width: 98.5%;">
+        <div  class="question"  onmousedown='return false;' onselectstart='return false;'>
+            <span class="q">	
+                The Parliament of India cannot be regarded as a sovereign body because
+                vereign body because
+                The Parliament of India cannot be regarded as a sovereign body because
+                
+            </span>
+            <div style="min-height:65%;width: 100%; position: absolute;align-items: center;" id="img" >
+                <!-- <img src="{{ url_for('static', filename='image.jpg') }}" style='width:500px;height:270px;'>-->
+            </div>
+        <input class="submitAnswers" value="End Exam"  onclick="submitAnswers()"/>
+        <input class="skip" value="Skip" type="submit" onclick="skip()"/>
+        </div>
+
+        <div class="options" style="position: relative;text-align:center;">
+            
+        </div>
+    </div>
+          <!--The fucking  modal for logged-->
+          <div id="myLoggedModal" class="modal" style="top: 0px !important;">
+            <div class="modal_content" style="top:-40px; width: 80%;height: 95%;overflow: scroll;">
+                <div id="sucess" style="display: none;text-align: center;margin-top:10%;">
+                <label style="font-size: 25px;">Your exam has been completed and result has been submitted to the server of our college.</label>
+                   
+                   <br><br><label>Within <label class="countdown" style="font-size:100px;font-weight: bold;">20</label> seconds, you are redirect to home page</label>
+            </div>
+                <div id="failed"  style="display: none;text-align: center;margin-top:10%;">
+                <label style="font-size: 25px;">Something went wrong.....click on button below to resumit your answers</label>
+                <br><br><input type="Submit" onclick="submitAnswers()"/>
+                </div>
+            </div>
+        </div>
+        <!-- End of modal--> 
+    <footer class="small"> <span style="font-size: 10px;">A Siddhant Shah Productions </span></footer>
+    </body>
+</html>

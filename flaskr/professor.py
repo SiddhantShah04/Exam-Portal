@@ -54,7 +54,7 @@ def delete():
     for elt in imagesNames:
         print(elt[0])
         if(elt[0] is not None):
-            os.remove(f"flaskr/templates/images/{elt[0]}")
+            os.remove(f"flaskr/static/images/{elt[0]}")
     sql2 = "DELETE  from public.QuestionData WHERE subject= (%s) and userId = (%s)"
     cur.execute(sql2,data)
     sql = "DELETE  from public.Exam WHERE id= (%s) and userID=(%s)"
@@ -98,7 +98,7 @@ def editpaper():
 def uploadImage():
     qId = request.args.get('id')
     files = request.files['photo']
-    files.save(os.path.join('flaskr/templates/images',qId+files.filename))
+    files.save(os.path.join('flaskr/static/images',qId+files.filename))
     db = get_db()
     cur = db.cursor()
     sql = "UPDATE public.QuestionData SET Image=(%s) WHERE id=(%s) and userId = (%s)"
@@ -133,7 +133,7 @@ def uploadQuestion():
             return render_template("question.html")
     f.save(os.path.join(f'userId{id}',f.filename))
     i = 1
-    sql = "INSERT INTO public.QuestionData(userId,Subject,Question,Options,Answer,Time) VALUES(%s,%s,%s,%s,%s,%s)"
+    sql = "INSERT INTO public.QuestionData(userId,Subject,Question,Option1,Option2,Option3,Option4,Answer,Time) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)"
     sql2 = "INSERT INTO public.EXAM(branch,Semester,Subject,userID,status) VAlUES(%s,%s,%s,%s,%s)"
     
     try:
@@ -142,7 +142,7 @@ def uploadQuestion():
             csvreader = csv.reader(csvfile)
             fields = next(csvreader)
             for Question,option1,option2,option3,option4,answer,Time in csvreader:
-                data =(session.get('user_id'),subject,str(Question),[str(option1),str(option2),str(option3),str(option4)],str(answer),str(Time))
+                data =(session.get('user_id'),subject,str(Question),str(option1),str(option2),str(option3),str(option4),str(answer),str(Time))
                 try:
                     cur.execute(sql,data)
                     i=i+1
@@ -162,6 +162,7 @@ def uploadQuestion():
     return redirect(url_for("professor.professor"))        
 
 @bp.route("/logged",methods=["GET","POST"])
+@login_required
 def logged():
     db = get_db()
     cur = db.cursor()
@@ -175,6 +176,7 @@ def logged():
     return(result)
 
 @bp.route("/removeStudent",methods=["GET","POST"])
+@login_required
 def removeStudent():
     res = request.get_json()
     db = get_db()

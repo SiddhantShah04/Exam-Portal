@@ -26,14 +26,25 @@ CREATE TABLE activeStudents(
     Subject VARCHAR(255) NOT NULL
 );
 
-Create TABLE QuestionData(
+CREATE TABLE QuestionData(
     id SERIAL NOT NULL PRIMARY KEY,
     userId int REFERENCES professor(id),
     Subject TEXT NOT NULL,
     Question TEXT NOT NULL,
-    Options TEXT NOT NULL,
+    Option1 TEXT NOT NULL,
+    Option2 TEXT NOT NULL,
+    Option3 TEXT NOT NULL,
+    Option4 TEXT NOT NULL,
     Answer TEXT NOT NULL,
     Time INT NOT NULL,
     Image TEXT 
 );
+
+CREATE TABLE Result(
+    id SERIAL NOT NULL PRIMARY KEY,
+    examId INT NOT NULL REFERENCES EXAM(id),
+    roll INT NOT NULL,
+    Marks INT NOT NULL
+
+)
 

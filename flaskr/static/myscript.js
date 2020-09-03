@@ -66,12 +66,15 @@ const checkStudent = async() => {
     })
     
     const result = await response.text()
-    
+    let studentPaper = document.querySelector("#studentPaper")
     if(result != "ok"){
-        document.querySelector("#errorStudent").innerHTML = result; 
+        if(rollNumber==localStorage.getItem("roll")){
+            studentPaper.submit()
+        }else{
+            document.querySelector("#errorStudent").innerHTML = result; 
+        }
     }else{
-        
-        let studentPaper = document.querySelector("#studentPaper")
+        localStorage.clear();
         studentPaper.submit()
     }
 

@@ -129,7 +129,7 @@ const editpaper = async(examId,subject)=>{
         var cell2 = row.insertCell(1);
         cell1.style.padding = '8px';
     cell1.innerHTML = `<td >${elt[3]} </td> `
-    cell2.innerHTML = `<input type = "file" name = "file" class="file" style=" margin-left: 12px;box-shadow: 0 0 0px; height:10%;width:60%;" required/>
+    cell2.innerHTML = `<input type = "file" name = "file" class="file_${elt[0]}" style=" margin-left: 12px;box-shadow: 0 0 0px; height:10%;width:60%;" required/>
     <button onclick = 'uploadImage(${elt[0]})' class="button" style="cursor: pointer;focus:box-shadow: 0 0 10px;">Submit</button>`;
    })
     }
@@ -137,7 +137,7 @@ const editpaper = async(examId,subject)=>{
 
 const uploadImage = async(id)=>{
     console.log(id)
-    let photo = document.querySelector(".file").files[0];
+    let photo = document.querySelector(".file_"+id).files[0];
     
     if(photo == null){
         alert("Choose a proper image")
