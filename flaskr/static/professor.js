@@ -58,6 +58,9 @@ const del = async(examId,subject) => {
     }
 }
 
+
+
+
 const logged = async(examId,subject) => {
     let modal = document.querySelector("#myLoggedModal")
     modal.style.display='block'

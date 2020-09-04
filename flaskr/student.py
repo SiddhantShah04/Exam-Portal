@@ -53,9 +53,7 @@ def submitAnswer():
         if(answer.strip() == answerCheck.strip()):
             count = count+1
         
-        #data = (result[0],res['Roll'])
-        #cur.execute(sql2,data)
-    print(count)
+
     sql = "INSERT INTO public.Result(examId,roll,marks) VALUES(%s,%s,%s)"
     data = (examIds[0],res["Roll"],count)
     cur.execute(sql,data)

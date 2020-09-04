@@ -73,6 +73,23 @@ def downloadCsv():
         csvwriter.writerow(fields)
     return send_file(filename,as_attachment=True)
 
+@bp.route("/<int:id>/resultDownload",methods=["POST","GET"])
+def resultDownload(id):
+    db = get_db()
+    cur = db.cursor()
+    fields = ['Roll','Total right answers']
+    filename= "/result.csv"
+    sql = "SELECT roll,Marks FROM public.Result WHERE examId = (%s)"
+    data = (id,)
+    cur.execute(sql,data)
+    result = cur.fetchall()
+    with open(filename,'w',newline='') as csvfile:
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerow(fields)
+        csvwriter.writerows(result)
+    return send_file(filename,as_attachment=True)
+
+
 @bp.route("/upload",methods=["GET","POST"])
 @login_required
 def upload():

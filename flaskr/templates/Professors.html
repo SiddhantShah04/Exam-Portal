@@ -34,7 +34,7 @@
 					    <a><button type="submit" onclick="del({{r[0]}},'{{r[3]}}')" class="button" style="background-color:red">Delete</button></a>
                         <a><button type="submit" onclick="editpaper({{r[0]}},'{{r[3]}}')" class="button" style="background-color:red">Edit</button></a>
                         <a><button type="submit" onclick="logged({{r[0]}},'{{r[3]}}')" class="button" style="background-color:#0000CC"><span>Logged</span></button></a>        
-                        <a><button type="submit" class="button" style="background-color:#0000CC;"><span>Result </span></button></a></td>
+                        <a href="/{{r[0]}}/resultDownload"><button type="submit"  class="button" style="background-color:#0000CC;"><span>Result </span></button></a></td>
                 </tr>
                 {% endfor %}
             </table>
