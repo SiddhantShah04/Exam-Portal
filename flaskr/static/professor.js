@@ -67,6 +67,11 @@ const logged = async(examId,subject) => {
     document.querySelector(".iclose").onclick = ()=>{modal.style.display = 'none'}
     const subjectName=document.querySelector("#isubjectName").innerHTML = subject
     let loggedTable =  document.querySelector("#loggedTable")
+    let rowCount =  loggedTable.rows.length
+    for (var i = rowCount - 1; i > 0; i--) {
+        loggedTable.deleteRow(i);
+    }
+       
         const response = await fetch("/logged",{
             method : 'POST',
             cache: 'no-cache',
@@ -75,7 +80,7 @@ const logged = async(examId,subject) => {
             body:JSON.stringify({examId,subject})
         })
         const result = await response.json()
-        console.log(result)
+
         result.map((elt)=>{
             var row = loggedTable.insertRow();
             row.style.border = '1px solid #dddddd';

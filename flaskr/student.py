@@ -13,7 +13,6 @@ def home():
     
     sql = "SELECT * FROM public.activeStudents WHERE roll=(%s)"
     db = get_db()
-    print(Subject)
     data = (Roll,)
     cur = db.cursor()
     cur.execute(sql,data)
@@ -57,8 +56,12 @@ def submitAnswer():
     sql = "INSERT INTO public.Result(examId,roll,marks) VALUES(%s,%s,%s)"
     data = (examIds[0],res["Roll"],count)
     cur.execute(sql,data)
+    # code to remove logged student
+    sql = "DELETE FROM public.activeStudents WHERE examId=(%s)"
+    data = (examIds[0],)
+    cur.execute(sql,data)
+    
     db.commit()
     result=json.dumps("s")
     return(result)
 
-  

@@ -51,16 +51,19 @@ def delete():
     sql3 = "SELECT Image FROM public.QuestionData WHERE subject= (%s) and userId = (%s) and Image is not null"
     cur.execute(sql3,data)
     imagesNames= cur.fetchall()
-    for elt in imagesNames:
-        print(elt[0])
-        if(elt[0] is not None):
-            os.remove(f"flaskr/static/images/{elt[0]}")
+    
     sql2 = "DELETE  from public.QuestionData WHERE subject= (%s) and userId = (%s)"
     cur.execute(sql2,data)
     sql = "DELETE  from public.Exam WHERE id= (%s) and userID=(%s)"
     data = (res["examId"],session.get('user_id'))
     cur.execute(sql,data)
+    sql3 = "DELETE FROM public.result WHERE examId=(%s)"
+    data = (res["examId"],)
+    cur.execute(sql3,data)
     db.commit()
+    for elt in imagesNames:
+        if(elt[0] is not None):
+            os.remove(f"flaskr/static/images/{elt[0]}")
     return("Deleted")
 
 @bp.route("/downloadCsv",methods=["GET","POST"])

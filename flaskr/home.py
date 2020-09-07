@@ -39,12 +39,24 @@ def studentLogin():
     db = get_db()
     data = ('Active',res['Selectedsubject'])
     cur = db.cursor()
+    
     cur.execute(sql,data)
+    
     examResult = cur.fetchone()
     print(examResult)
     if(not examResult):
         Error = "Invalid subject"
         return(Error)
+    
+    sql = "SELECT * FROM public.Result WHERE examId=(%s) and roll=(%s)"
+    data = (examResult[0],res['rollNumber'])
+    cur.execute(sql,data)
+    resultTableRow = cur.fetchone()
+    
+    if(resultTableRow):
+        Error = "Exam of student with this roll number is already done."
+        return(Error)
+
     sql = "SELECT roll FROM public.activestudents WHERE examId=(%s) and roll=(%s)"
     data = (examResult[0],res['rollNumber'])
     cur.execute(sql,data)

@@ -42,7 +42,7 @@ CREATE TABLE QuestionData(
 
 CREATE TABLE Result(
     id SERIAL NOT NULL PRIMARY KEY,
-    examId INT NOT NULL REFERENCES EXAM(id),
+    examId INT NOT NULL,
     roll INT NOT NULL,
     Marks INT NOT NULL
 
