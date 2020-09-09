@@ -31,7 +31,6 @@ def home():
 @bp.route("/submitAnswer",methods=["POST"])
 def submitAnswer():
     res = request.get_json()
-    print(res)
 
     db = get_db()
     sql2 = "SELECT id FROM public.Exam WHERE subject=(%s)"
