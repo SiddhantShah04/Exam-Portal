@@ -7,11 +7,9 @@ The main objective of the portal  is to effectively evaluate the candidate thoro
 
 
 ## Table of Contents
-    1. [Technologies](#technologies)
-    2. [Installation](#installation)
-    3. [Deployment](#deployment)
-    4. [Looking Ahead](#looking Ahead)
-    5. [Author](#author)
+
+1. [Technologies](#technologies)
+2. [Features](#features)
   
 ## <a name="technologies"></a>Technologies
 
