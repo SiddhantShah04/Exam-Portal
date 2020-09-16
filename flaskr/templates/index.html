@@ -36,7 +36,7 @@
                 </form>
             </header>
             <!--Flash error-->
-            <div style="position: relative;text-align: center;">
+            <div style="text-align: center;">
             {% for message in get_flashed_messages(category_filter=["login"]) %}
                     <label style="color: red;" class="flash">{{ message }}</label>
                 {% endfor %}
