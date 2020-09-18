@@ -74,7 +74,7 @@ class Student {
     // Return the next question,take selected option and question id as argument
     getNextQuestion(){
         if(this.questionNo>=0 && (document.getElementById("Time").innerHTML > this.question[this.questionNo][8]-5)){
-        console.log(this.question[this.questionNo][8]-5)
+        console.log(this.question[this.questionNo][8]-2)
 
             return(false)
         }
