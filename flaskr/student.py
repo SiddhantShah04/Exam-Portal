@@ -26,7 +26,7 @@ def home():
     result = cur.fetchall()
     #result = json.dumps(result)
    
-    return render_template("paper.html",result=result,Roll=Roll)
+    return render_template("paper2.html",result=result,Roll=Roll)
 
 @bp.route("/submitAnswer",methods=["POST"])
 def submitAnswer():

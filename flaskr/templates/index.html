@@ -70,23 +70,23 @@
                 <h4>fill out this form to get your internal started.</h4>
             </div>
                 <div class="col-md-6">
-                <form class="form-group"  action="{{url_for('student.home')}}" id="studentPaper" onsubmit="return studentLogin()" method="POST" name="Student" >
-                <fieldset class="border p-4" style="color:black;">
-                    <strong id="error1" style="color:red;margin-left:15%;text-align:center;">{% if errorStudent != None %} {{ errorStudent }} {% endif %}</strong>
-                    <br>
-                    <legend class="w-auto text-center" style="color:blue">Students Zone</legend>
-                    <label for="sel1">Subject (select one):</label>
-                    <select class="form-control"  name="subject" id="addActiveSubject"></select><br><br>
-                       
-                <label for="sel1">Your roll number :</label>
-                <input class="form-control" type="text" id="roll" pattern="[0-9][0-9]"autocomplete="off" id="roll" name="Roll">
-            <br>
-            <button type="submit" class="btn btn-primary" class="options">Submit</button>
-                                </fieldset>
-                            </form>
-                        </div>
-                      </fieldset>
-            </div>
+                    <form class="form-group"  action="{{url_for('student.home')}}" id="studentPaper" onsubmit="return studentLogin()" method="POST" name="Student" >
+                        <fieldset class="border p-4" style="color:black;">
+                            <strong  id="errorStudent" style="color:red;margin-left:13%;text-align:center;"></strong>
+                            <br>
+                            <legend class="w-auto text-center" style="color:blue">Students Zone</legend>
+                            <label for="sel1">Subject (select one):</label>
+                            <select class="form-control"  name="subject" id="addActiveSubject"></select><br><br>
+                            
+                            <label for="sel1">Your roll number :</label>
+                            <input class="form-control" type="text" id="roll" pattern="[0-9][0-9]"autocomplete="off" id="roll" name="Roll">
+                            <br>
+                            <button type="submit" class="btn btn-primary" class="options">Submit</button>
+                        </fieldset>
+                    </form>
+                </div>
+            </fieldset>
+        </div>
         </div>
         <br>
         <div class="jumbotron text-center">

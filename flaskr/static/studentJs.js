@@ -6,20 +6,6 @@ document.addEventListener('DOMContentLoaded', function () {
     setInterval(DSeconds, 1000);
     });
 
-const skip = ()=>{
-    let r=confirm("Are you really wants to submit your answers and finish your exam?");
-    if(r==true){
-        setQuestion()
-    }
-}
-    
-
-const submitAnswers = ()=>{
-    let r=confirm("Are you really wants to submit your answers and finish your exam?");
-    if(r==true){
-        getQuestion.endExam(Roll)
-    }
-}
 
 const optionClicked = (value)=>{
     
@@ -43,7 +29,6 @@ const setQuestion = () => {
     else{
         document.querySelector("#img").innerHTML=null
     }
-    
     
     document.querySelector(".q").innerHTML = question[2]
     document.querySelector("#Qno").innerHTML = getQuestion.getQuestionNo()+1+"/"+getQuestion.totalQuestion()

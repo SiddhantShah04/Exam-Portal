@@ -40,7 +40,10 @@ class Student {
     async endExam(Roll){
         let answer = this.answer
         let subject = this.question[0][1]
-        
+        let modal = document.querySelector("#myLoggedModal");
+        modal.style.display = 'block'
+        document.querySelector("#sucess").style.display = 'block'
+        setInterval(this.timer, 1000);
         const response = await fetch("/student/submitAnswer",{
             method : 'POST',
             cache: 'no-cache',
@@ -50,15 +53,11 @@ class Student {
         })
         const result = await response.json()
         // Get a modal
-        let modal = document.querySelector("#myLoggedModal");
-        modal.style.display = 'block'
-        if(result == "s"){
+        
+        if(result != "s"){
             //document.write("Your exam has been completed and result has been submitted to the server of our college.")
-            document.querySelector("#sucess").style.display = 'block'
-            document.querySelector("#failed").style.display = 'none'
-            setInterval(this.timer, 1000);
-        }else{
-            document.querySelector("#failed").style.display = 'block'    
+            document.querySelector("#failed").style.display = 'block'
+            document.querySelector("#sucess").style.display = 'none'
         }
         return(result)
     }
@@ -73,8 +72,8 @@ class Student {
 
     // Return the next question,take selected option and question id as argument
     getNextQuestion(){
-        if(this.questionNo>=0 && (document.getElementById("Time").innerHTML > this.question[this.questionNo][8]-5)){
-        console.log(this.question[this.questionNo][8]-5)
+        if(this.questionNo>=0 && (document.getElementById("Time").innerHTML > this.question[this.questionNo][8]-2)){
+        console.log(this.question[this.questionNo][8]-2)
 
             return(false)
         }
