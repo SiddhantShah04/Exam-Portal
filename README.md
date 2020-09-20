@@ -47,11 +47,11 @@ The main objective of the portal  is to effectively evaluate the candidate thoro
 
 ## <a name="installation"></a>Features
 ## Installation
-Install [PostgreSQL](http://postgresapp.com) (Mac OSX).
+Install [PostgreSQL](http://postgresapp.com).
 
 Postgres needs to be running in order for the app to work. It is running when you see the elephant icon:
 
-### Set up Breadcrumbs:
+### Set up ExamPortal:
 
 Clone this repository:
 
@@ -73,4 +73,4 @@ Create database with the name `examportal`.
 
 ```$ flaskr init-db```
 
-Go to `localhost:5000` in your browser to start using Breadcrumbs!
+Go to `localhost:5000` in your browser to start using ExamPortal!
