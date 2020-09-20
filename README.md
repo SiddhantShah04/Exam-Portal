@@ -18,5 +18,5 @@ The main objective of the portal  is to effectively evaluate the candidate thoro
 **Back-end:** [Python](https://www.python.org/), [Flask](http://flask.pocoo.org/), [Jinja2](http://jinja.pocoo.org/docs/dev/), [PostgreSQL](http://www.postgresql.org/), [SQLAlchemy](http://www.sqlalchemy.org/)
 
 ## <a name="features"></a>Features
-<img align="center" src="C:\Users\siddh\OneDrive\Pictures\Screenshots\dashboard.png" width="500">
+https://user-images.githubusercontent.com/42845723/93713929-c0f4b300-fb7c-11ea-9b98-c81c5284e300.png
 
