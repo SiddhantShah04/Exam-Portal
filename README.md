@@ -38,3 +38,39 @@ The main objective of the portal  is to effectively evaluate the candidate thoro
 - Generate result in real time.
 ![result](https://user-images.githubusercontent.com/42845723/93714504-c0f6b200-fb80-11ea-9da5-e70250ce1d1e.png)
 
+## Student module
+- Test page include Timer, Roll number of student, current and total number of questions and Submit button.
+- The questions are selected at **random with shuffle options** from questions uploaded.
+
+![questionimage](https://user-images.githubusercontent.com/42845723/93714752-5a729380-fb82-11ea-8066-5521b1e68203.png)
+
+
+## <a name="installation"></a>Features
+## Installation
+Install [PostgreSQL](http://postgresapp.com) (Mac OSX).
+
+Postgres needs to be running in order for the app to work. It is running when you see the elephant icon:
+
+### Set up Breadcrumbs:
+
+Clone this repository:
+
+```$ git clone https://github.com/sidd044/Exam-Portal```
+
+
+
+Install the dependencies:
+
+```$ pip install -r requirements.txt```
+
+you need to tell your terminal the application to work with by setting the FLASK_APP environment variable.
+
+```$ set FLASK_APP=flaskr```
+
+Run PostgreSQL .
+
+Create database with the name `examportal`.
+
+```$ flaskr init-db```
+
+Go to `localhost:5000` in your browser to start using Breadcrumbs!
