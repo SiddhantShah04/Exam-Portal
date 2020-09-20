@@ -18,5 +18,14 @@ The main objective of the portal  is to effectively evaluate the candidate thoro
 **Back-end:** [Python](https://www.python.org/), [Flask](http://flask.pocoo.org/), [Jinja2](http://jinja.pocoo.org/docs/dev/), [PostgreSQL](http://www.postgresql.org/), [SQLAlchemy](http://www.sqlalchemy.org/)
 
 ## <a name="features"></a>Features
-https://user-images.githubusercontent.com/42845723/93713929-c0f4b300-fb7c-11ea-9b98-c81c5284e300.png
+## Professor module
+- After you Logged In ,Click on Download CSV format and inside of the file you can type questions , option , time and answers.
+- Add image to question if you want to, by clicking on edit option.
+- Generate result in real time.
+- At last click on Deactivate to activate the exam of the following subject.
+ - Give random questions to every student, and shuffle the options.
+
+
+
+![index](https://user-images.githubusercontent.com/42845723/93713929-c0f4b300-fb7c-11ea-9b98-c81c5284e300.png)
 
