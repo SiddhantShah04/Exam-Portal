@@ -10,10 +10,13 @@ The main objective of the portal  is to effectively evaluate the candidate thoro
 
 1. [Technologies](#technologies)
 2. [Features](#features)
+3. [Installation](#installation)
   
 ## <a name="technologies"></a>Technologies
 
-**Front-end:** [HTML5](http://www.w3schools.com/html/), [CSS](http://www.w3schools.com/css/), [Bootstrap](http://getbootstrap.com), [Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript), [jQuery](https://jquery.com/), [AJAX](http://api.jquery.com/jquery.ajax/)
+**Front-end:** [HTML5](http://www.w3schools.com/html/), [CSS](http://www.w3schools.com/css/),[Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript), [jQuery](https://jquery.com/), [AJAX](http://api.jquery.com/jquery.ajax/)
 **Back-end:** [Python](https://www.python.org/), [Flask](http://flask.pocoo.org/), [Jinja2](http://jinja.pocoo.org/docs/dev/), [PostgreSQL](http://www.postgresql.org/), [SQLAlchemy](http://www.sqlalchemy.org/)
 
 ## <a name="features"></a>Features
+<img align="center" src="C:\Users\siddh\OneDrive\Pictures\Screenshots\dashboard.png" width="500">
+
