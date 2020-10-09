@@ -7,8 +7,8 @@ from flask.cli import with_appcontext
 
 def get_db():
     
-    g.db = psycopg2.connect(database="dfbekpi3f12dh6", user = "lenxkbuwhsvcjx", password = "279151d81303f68c9c9b96c27f871c7a984c23b9e6068f2f1fc2c239db37b573", 
-        host = "ec2-107-20-167-241.compute-1.amazonaws.com",port="5432")
+    g.db = psycopg2.connect(database="examportal", user = "postgres", password = "admin", 
+        host = "127.0.0.1",port="5001")
     return g.db
 
 # Add the sql commands to the db.py

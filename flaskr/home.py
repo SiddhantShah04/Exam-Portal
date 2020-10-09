@@ -14,7 +14,7 @@ def index():
     cur.execute(sql,data)
     result = cur.fetchall()
     
-    return render_template('index.html',result=result)
+    return render_template('index2.html',result=result)
 
 @bp.route('/getSubject',methods=["GET","POST"])
 def getSubject():

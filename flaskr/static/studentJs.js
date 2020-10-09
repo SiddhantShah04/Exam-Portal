@@ -33,10 +33,10 @@ const setQuestion = () => {
     document.querySelector(".q").innerHTML = question[2]
     document.querySelector("#Qno").innerHTML = getQuestion.getQuestionNo()+1+"/"+getQuestion.totalQuestion()
     document.getElementById("Time").innerHTML = question[8];
-    document.querySelector(".options").innerHTML = '';
+    document.querySelector("#options").innerHTML = '';
     let options=[question[3],question[4],question[5],question[6]]
     options.map(elt => {
-        document.querySelector(".options").innerHTML += `<button value='${elt}' onclick='optionClicked(this.value)' class="option">${elt}</button>`
+        document.querySelector("#options").innerHTML += `<button value='${elt}' onclick='optionClicked(this.value)' class="option">${elt}</button>`
     })
     
 }

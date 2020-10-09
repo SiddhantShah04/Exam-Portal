@@ -4,11 +4,12 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
+    <script src = "https://code.jquery.com/jquery.js"></script>
+      <script src = "{{ url_for('static', filename='/js/bootstrap.min.js') }}"></script>
+      
+      <link href = "{{ url_for('static', filename='/css/bootstrap.min.css') }}" rel = "stylesheet">
     <script type=text/javascript  src="{{ url_for('static', filename='myscript.js') }}"></script>
     
 </head>
@@ -69,23 +70,23 @@
                 <h4>fill out this form to get your internal started.</h4>
             </div>
                 <div class="col-md-6">
-                <form class="form-group"  action="{{url_for('student.home')}}" id="studentPaper" onsubmit="return studentLogin()" method="POST" name="Student" >
-                <fieldset class="border p-4" style="color:black;">
-                    <strong id="error1" style="color:red;margin-left:15%;text-align:center;">{% if errorStudent != None %} {{ errorStudent }} {% endif %}</strong>
-                    <br>
-                    <legend class="w-auto text-center" style="color:blue">Students Zone</legend>
-                    <label for="sel1">Subject (select one):</label>
-                    <select class="form-control"  name="subject" id="addActiveSubject"></select><br><br>
-                       
-                <label for="sel1">Your roll number :</label>
-                <input class="form-control" type="text" id="roll" pattern="[0-9][0-9]"autocomplete="off" id="roll" name="Roll">
-            <br>
-            <button type="submit" class="btn btn-primary" class="options">Submit</button>
-                                </fieldset>
-                            </form>
-                        </div>
-                      </fieldset>
-            </div>
+                    <form class="form-group"  action="{{url_for('student.home')}}" id="studentPaper" onsubmit="return studentLogin()" method="POST" name="Student" >
+                        <fieldset class="border p-4" style="color:black;">
+                            <strong  id="errorStudent" style="color:red;margin-left:13%;text-align:center;"></strong>
+                            <br>
+                            <legend class="w-auto text-center" style="color:blue">Students Zone</legend>
+                            <label for="sel1">Subject (select one):</label>
+                            <select class="form-control"  name="subject" id="addActiveSubject"></select><br><br>
+                            
+                            <label for="sel1">Your roll number :</label>
+                            <input class="form-control" type="text" id="roll" pattern="[0-9][0-9]"autocomplete="off" id="roll" name="Roll">
+                            <br>
+                            <button type="submit" class="btn btn-primary" class="options">Submit</button>
+                        </fieldset>
+                    </form>
+                </div>
+            </fieldset>
+        </div>
         </div>
         <br>
         <div class="jumbotron text-center">
@@ -96,7 +97,9 @@
             </p>
         </div>
         <div class="card bg-dark text-center ">
-        <div class="card-footer dark-card" style="color: white;"><small>A Siddhant Shah Production <br >© 2019 Copyright</small></div>
-        </div>
+        <div class="card-footer dark-card" style="color: white;"><small>A Siddhant Shah Production <br >My goal was never really to make this portal cool. I am not a cool person. And I've never really tried to be cool.</small>
+        <a style="float: left;" href="https://github.com/sidd044/ExamPortalv2"><i class='fab fa-github' style='font-size:36px;color:white'></i></a> 
+    </div>
+    </div>
 </body>
 </html>
