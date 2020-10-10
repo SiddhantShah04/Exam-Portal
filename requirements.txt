@@ -18,3 +18,4 @@ toml==0.10.1
 waitress==1.4.4
 Werkzeug==1.0.1
 wrapt==1.12.1
+gunicorn
