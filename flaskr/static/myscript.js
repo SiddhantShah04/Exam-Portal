@@ -38,6 +38,9 @@ const activeSubject = async() => {
 }
 
 const checkStudent = async() => {
+    document.querySelector("#spinner").style.display = 'block'
+    document.querySelector("#hide").style.display = 'none'
+
     let x = document.querySelector("#addActiveSubject")
     let Selectedsubject = x.options[x.selectedIndex].text
     let rollNumber = document.querySelector("#roll").value
@@ -57,6 +60,9 @@ const checkStudent = async() => {
             studentPaper.submit()
         }else{
             document.querySelector("#errorStudent").innerHTML = result; 
+            document.querySelector("#spinner").style.display = 'None'
+            document.querySelector("#hide").style.display = 'block'
+            
         }
     }else{
         localStorage.clear();
@@ -68,7 +74,7 @@ const checkStudent = async() => {
 const studentLogin = () => {
     
     checkStudent()
-    
+  
     return(false)
 }
 

@@ -16,7 +16,7 @@ def register():
         res = request.get_json()
         username = res["username"]
         password = res["password"]
-        db = get_db()
+        db = g.db
         data = (username,)
         cur = db.cursor()   
         cur.execute(sql,data)

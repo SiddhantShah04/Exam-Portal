@@ -32,6 +32,6 @@ def close_db(e=None):
         db.close()
 
 def init_app(app):
-    #app.teardown_appcontext(close_db)
+    # app.teardown_appcontext(close_db)
     # Add a command that can be called with flask command
     app.cli.add_command(init_db_command)

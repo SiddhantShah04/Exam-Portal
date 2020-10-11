@@ -9,13 +9,14 @@ from flaskr.db import get_db
 
 bp = Blueprint('professor',__name__)
 
+
 @bp.route("/professor",methods=["GET","POST"])
 @login_required
 def professor():
-    db = get_db()
+     
     sql = "SELECT * FROM public.EXAM WHERE userID=(%s)"
     data = (session.get('user_id'),)
-    cur = db.cursor()
+    cur = g.db.cursor()
     cur.execute(sql,data)
     Exam = cur.fetchall() 
     return render_template("Professors.html",Exam=Exam)
@@ -23,8 +24,8 @@ def professor():
 @bp.route("/status",methods=["GET","POST"])
 @login_required
 def status():
-    db = get_db()
-    cur = db.cursor()
+   
+    cur = g.db.cursor()
     res = request.get_json()
     sql2 = "SELECT status from public.Exam where  id= (%s)"
     data = (res["examId"],)
@@ -37,14 +38,14 @@ def status():
         sql = "UPDATE public.Exam SET status='Active' where id = (%s); "
         result = "Active"
     cur.execute(sql,data)
-    db.commit()
+    g.db.commit()
     return(result)
 
 @bp.route("/delete",methods=["GET","POST"])
 @login_required
 def delete():
-    db = get_db()
-    cur = db.cursor()
+    
+    cur = g.db.cursor()
     res = request.get_json()
     data = (res["subject"],session.get('user_id'))
     # deleting all images of this exam question from folder
@@ -60,7 +61,7 @@ def delete():
     sql3 = "DELETE FROM public.result WHERE examId=(%s)"
     data = (res["examId"],)
     cur.execute(sql3,data)
-    db.commit()
+    g.db.commit()
     for elt in imagesNames:
         if(elt[0] is not None):
             os.remove(f"flaskr/static/images/{elt[0]}")
@@ -78,8 +79,8 @@ def downloadCsv():
 
 @bp.route("/<int:id>/resultDownload",methods=["POST","GET"])
 def resultDownload(id):
-    db = get_db()
-    cur = db.cursor()
+    
+    cur = g.db.cursor()
     fields = ['Roll','Total right answers']
     filename= "/result.csv"
     sql = "SELECT roll,Marks FROM public.Result WHERE examId = (%s)"
@@ -101,8 +102,8 @@ def upload():
 @bp.route("/editPaper",methods=["POST","GET"])
 @login_required
 def editpaper():
-    db = get_db()
-    cur = db.cursor()
+    
+    cur = g.db.cursor()
     user_id = session.get('user_id')
     res = request.get_json()
     sql = "SELECT * FROM public.QuestionData WHERE userID = (%s) and subject = (%s) and Image is Null "
@@ -119,20 +120,20 @@ def uploadImage():
     qId = request.args.get('id')
     files = request.files['photo']
     files.save(os.path.join('flaskr/static/images',qId+files.filename))
-    db = get_db()
-    cur = db.cursor()
+    
+    cur = g.db.cursor()
     sql = "UPDATE public.QuestionData SET Image=(%s) WHERE id=(%s) and userId = (%s)"
     data = (qId+files.filename,qId,session.get("user_id"))
     cur.execute(sql,data)
-    db.commit()
+    g.db.commit()
     result=json.dumps("Saved")
     return(result)
 
 @bp.route("/uploadQuestion",methods=["GET","POST"])
 @login_required
 def uploadQuestion():
-    db = get_db()
-    cur = db.cursor()   
+   
+    cur = g.db.cursor()   
     subject = request.form["Subject"]
     Branch = request.form["Branch"]
     Sem = request.form["Sem"]
@@ -178,14 +179,13 @@ def uploadQuestion():
     data = (Branch,Sem,subject,session.get('user_id'),"Deactive")
     cur.execute(sql2,data)
     
-    db.commit()
+    g.db.commit()
     return redirect(url_for("professor.professor"))        
 
 @bp.route("/logged",methods=["GET","POST"])
 @login_required
 def logged():
-    db = get_db()
-    cur = db.cursor()
+    cur = g.db.cursor()
     res = request.get_json()
     sql = "SELECT * FROM public.activeStudents WHERE examId=(%s)"
     data = (res["examId"],)
@@ -199,13 +199,12 @@ def logged():
 @login_required
 def removeStudent():
     res = request.get_json()
-    db = get_db()
-    cur = db.cursor()
+    cur = g.db.cursor()
     print(res)
     sql = "DELETE FROM public.activeStudents WHERE id=(%s)"
     data = (res["id"],)
     cur.execute(sql,data)
-    db.commit()
+    g.db.commit()
     return("Done")
 
 @bp.errorhandler(500)
