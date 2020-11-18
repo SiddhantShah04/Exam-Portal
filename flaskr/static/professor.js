@@ -137,8 +137,8 @@ const editpaper = async(examId,subject)=>{
         var cell2 = row.insertCell(1);
         cell1.style.padding = '8px';
     cell1.innerHTML = `<td >${elt[3]} </td> `
-    cell2.innerHTML = `<input type = "file" name = "file" class="file_${elt[0]}" style=" margin-left: 12px;box-shadow: 0 0 0px; height:10%;width:60%;" required/>
-    <button onclick = 'uploadImage(${elt[0]})' class="button" style="cursor: pointer;focus:box-shadow: 0 0 10px;">Submit</button>`;
+    cell2.innerHTML = `<input type = "file" name = "file" class="file_${elt[0]}" style="margin:2%" />
+    <button onclick = 'uploadImage(${elt[0]})' style="margin:2%;">Submit</button>`;
    })
     }
 }

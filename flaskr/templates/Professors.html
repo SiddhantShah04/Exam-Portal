@@ -2,8 +2,6 @@
 <html>
     <head>
         <title>Professors Page</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <script type=text/javascript  src="{{ url_for('static', filename='professor.js') }}"></script>
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     </head>
@@ -15,7 +13,7 @@
             <h6 class="upload"><a  href="{{url_for('professor.upload')}}" >Upload a file</a></h6>
                 <h6 style="margin-top: 65%;"><a  href="{{url_for('professor.downloadCsv')}}" style="cursor:pointer;">Download CSV format</a></h6>
         </div>
-            <div class="div" id="div">
+            <div class="div" id="div" >
             <table style="border-collapse: collapse;" id="table">
                     <th><span>Branch</span></th>
                     <th><span>Semeter</span></th>
@@ -23,14 +21,14 @@
                     <th><span>Options</span></th></span>
                     <th><span>Status</span></th>
                 {% for r in Exam %}
-                <tr align="center" style="font-size: 22px;" id="del_{{r[0]}}">
+                <tr align="center" style="font-size: 17px;" id="del_{{r[0]}}">
                     <td>{{r[1]}}</td>
                     <td>{{r[2]}}</td>
                     <td>{{r[3]}}</td>
                     {% if r[5] == 'Active' %}
-                        <td ><a ><button type="submit" onclick="action({{r[0]}})"  style="width:85px;background-color:green;border: 1px solid;" value="" id="Active_{{r[0]}}">Active</button></a></td>
+                        <td ><a ><button type="submit" onclick="action({{r[0]}})"class="button"  style="width:80px;height:40px;font-size:15px;color:white;background-color:green;border: 1px solid;" value="" id="Active_{{r[0]}}">Active</button></a></td>
                     {% else %}
-                        <td ><a  ><button type="submit" onclick="action({{r[0]}})" data-status={{r[0]}}  style="width:85px;background-color:red;border: 1px solid;" value="" id="Active_{{r[0]}}">Deactive</button></a></td>
+                        <td ><a  ><button type="submit" onclick="action({{r[0]}})" data-status={{r[0]}}  style="width:80px;height:40px;font-size:15px;color:white;background-color:red;border: 1px solid;" value="" id="Active_{{r[0]}}">Deactive</button></a></td>
                     {% endif %}
                     <td>
 					    <a><button type="submit" onclick="del({{r[0]}},'{{r[3]}}')" class="button" style="background-color:red">Delete</button></a>
@@ -83,6 +81,5 @@
             </div>
         </div>
         <!-- End of modal--> 
-
     </body>
 </html>

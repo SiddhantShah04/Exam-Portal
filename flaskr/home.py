@@ -7,6 +7,7 @@ bp = Blueprint('home',__name__)
 
 @bp.route('/')
 def index():
+    print(g.user)
     sql = "SELECT Subject FROM public.EXAM WHERE status =(%s)"
     db = get_db()
     data = ('Active',)
