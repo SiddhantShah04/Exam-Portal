@@ -6,12 +6,27 @@ document.addEventListener('DOMContentLoaded', function () {
     setInterval(DSeconds, 1000);
     });
 
-
+// when we click on option
 const optionClicked = (value)=>{
     
     getQuestion.setSelectedOption(value)
     setQuestion()
 } 
+// when we click on option button
+const skip = ()=>{
+    let r=confirm("Are you really wants to skip to next question?");
+    if(r==true){
+        setQuestion()
+    }
+}
+
+// when we click on submit answer
+const submitAnswers = ()=>{
+    let r=confirm("Are you really wants to submit your answers and finish your exam?");
+    if(r==true){
+        getQuestion.endExam(Roll)
+    }
+}
 
 const setQuestion = () => {
     if(getQuestion.totalQuestion()==getQuestion.getQuestionNo()+1 )

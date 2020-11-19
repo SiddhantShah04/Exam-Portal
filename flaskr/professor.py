@@ -70,7 +70,7 @@ def delete():
 @bp.route("/downloadCsv",methods=["GET","POST"])
 @login_required
 def downloadCsv():
-    fields = ['Question','Option1','Option2','Option3','Option4','Answer','Time in Second']
+    fields = ['Question','Option1','Option2','Option3','Option4','Answer','Time in Second','unit']
     filename= "QuestionPaper.csv"
     with open(filename,'w', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)

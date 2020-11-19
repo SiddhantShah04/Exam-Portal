@@ -44,7 +44,7 @@
             }
             .question{
                 position: relative;
-                width: 99.5%;
+                width: 98%;
                 height: 40%;
                 padding:12px;
                 border-radius: 15px;
@@ -63,7 +63,7 @@
                 border-radius:15px;
                 border:solid 1px grey;
             }
-            .options>button:hover{
+            #options>button:hover{
                 position: inherit;
                 background-color:red;
                 color:white;
@@ -156,7 +156,8 @@
 
             </div>
 
-            
+            <input class="submitAnswers" value="End Exam" type="submit"  onclick="submitAnswers()"/>
+        <input class="skip" value="Skip" type="submit" onclick="skip()"/>
             </div>
         <div id="options" class="container" style="position: relative;text-align:center;">
         </div>
