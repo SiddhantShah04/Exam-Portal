@@ -41,6 +41,27 @@ def status():
     g.db.commit()
     return(result)
 
+@bp.route("/getPaperData",methods=["GET","POST"])
+@login_required
+def getPaperData():
+    db = get_db()
+    cur = db.cursor()
+    res = request.get_json()
+    count = list()
+    sql = "SELECT COUNT(Unit) FROM QuestionData WHERE Subject = (%s) and unit = (%s); "
+    
+    for i in range(1,4):
+        data = (res["subject"], i)
+        cur.execute(sql, data)
+        count.append((i,cur.fetchone()[0]))
+
+    print(count)
+    result=json.dumps(count)
+
+    return(result)
+
+
+
 @bp.route("/delete",methods=["GET","POST"])
 @login_required
 def delete():
@@ -152,9 +173,10 @@ def uploadQuestion():
             error = f"Questions of this {subject} is already uploaded."        
             flash(error)
             return render_template("question.html")
+
     f.save(os.path.join(f'userId{id}',f.filename))
     i = 1
-    sql = "INSERT INTO public.QuestionData(userId,Subject,Question,Option1,Option2,Option3,Option4,Answer,Time) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    sql = "INSERT INTO public.QuestionData(userId,Subject,Question,Option1,Option2,Option3,Option4,Answer,Time,Unit) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
     sql2 = "INSERT INTO public.EXAM(branch,Semester,Subject,userID,status) VAlUES(%s,%s,%s,%s,%s)"
     
     try:
@@ -162,8 +184,8 @@ def uploadQuestion():
             # creating a csv reader object
             csvreader = csv.reader(csvfile)
             fields = next(csvreader)
-            for Question,option1,option2,option3,option4,answer,Time in csvreader:
-                data =(session.get('user_id'),subject,str(Question),str(option1),str(option2),str(option3),str(option4),str(answer),str(Time))
+            for Question,option1,option2,option3,option4,answer,Time,unit in csvreader:
+                data =(session.get('user_id'),subject,str(Question),str(option1),str(option2),str(option3),str(option4),str(answer),str(Time),str(unit))
                 try:
                     cur.execute(sql,data)
                     i=i+1
@@ -207,6 +229,7 @@ def removeStudent():
     cur.execute(sql,data)
     db.commit()
     return("Done")
+
 
 @bp.errorhandler(500)
 def error_500(exception):

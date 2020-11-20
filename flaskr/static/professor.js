@@ -18,8 +18,33 @@ selectedSubject.innerHTML = null
         selectedSubject.innerHTML+=`<option value="${elt}"></option>`})
 }
 
-const action = async(examId) =>{
-	
+const action = async(examId, subject) =>{
+	let modal = document.querySelector("#activeExam")
+    modal.style.display='block'
+    document.querySelector(".ic").onclick = ()=>{modal.style.display = 'none'}
+    const subjectName = document.querySelector("#asubjectName").innerHTML = subject
+    let activeExamTable =  document.querySelector("#activeExamTable")
+    const response = await fetch("/getPaperData",{
+        method : 'POST',
+		cache: 'no-cache',
+		credentials:'include', 
+        headers : {'Content-Type': 'application/json'},
+        body:JSON.stringify({subject})
+    })
+	const result = await response.json()
+    console.log(result)
+    
+    result.map((elt)=>{
+        var row = activeExamTable.insertRow();
+        row.style.border = '1px solid #dddddd';
+       
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        cell1.style.padding = '8px';
+        cell1.innerHTML = `<td >${elt[0]}</td> `
+        cell2.innerHTML = `<input type="text"  style="margin:2%;width:10%;line-height:25%;" />/${elt[1]}`;
+    })
+    /*
     let status = document.querySelector(`#Active_${examId}`)
 
     const response = await fetch("/status",{
@@ -38,7 +63,12 @@ const action = async(examId) =>{
 	}else{
 		status.innerHTML = "Deactive"
 		status.style.backgroundColor = "red"
-	}	
+    }
+    */	
+}
+
+const createPaper = ()=>{
+    alert("sidd")
 }
 
 const del = async(examId,subject) => {
@@ -58,14 +88,11 @@ const del = async(examId,subject) => {
     }
 }
 
-
-
-
 const logged = async(examId,subject) => {
     let modal = document.querySelector("#myLoggedModal")
-    modal.style.display='block'
+    modal.style.display = 'block'
     document.querySelector(".iclose").onclick = ()=>{modal.style.display = 'none'}
-    const subjectName=document.querySelector("#isubjectName").innerHTML = subject
+    const subjectName = document.querySelector("#isubjectName").innerHTML = subject
     let loggedTable =  document.querySelector("#loggedTable")
     let rowCount =  loggedTable.rows.length
     for (var i = rowCount - 1; i > 0; i--) {
@@ -119,27 +146,27 @@ const editpaper = async(examId,subject)=>{
     
     if(editTable.rows.length==1){
 
-    const subjectName=document.querySelector("#subjectName").innerHTML = subject
-    const response = await fetch("/editPaper",{
-        method : 'POST',
-		cache: 'no-cache',
-		credentials:'include', 
-        headers : {'Content-Type': 'application/json'},
-        body:JSON.stringify({examId,subject})
-    })
-	const result = await response.json()
+        const subjectName=document.querySelector("#subjectName").innerHTML = subject
+        const response = await fetch("/editPaper",{
+            method : 'POST',
+		    cache: 'no-cache',
+		    credentials:'include', 
+            headers : {'Content-Type': 'application/json'},
+            body:JSON.stringify({examId,subject})
+        })
+	    const result = await response.json()
     
-    result.map((elt)=>{
-        var row = editTable.insertRow();
-        row.style.border = '1px solid #dddddd';
-        row.id = `del_${elt[0]}`
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        cell1.style.padding = '8px';
-    cell1.innerHTML = `<td >${elt[3]} </td> `
-    cell2.innerHTML = `<input type = "file" name = "file" class="file_${elt[0]}" style="margin:2%" />
-    <button onclick = 'uploadImage(${elt[0]})' style="margin:2%;">Submit</button>`;
-   })
+        result.map((elt)=>{
+            var row = editTable.insertRow();
+            row.style.border = '1px solid #dddddd';
+            row.id = `del_${elt[0]}`
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            cell1.style.padding = '8px';
+            cell1.innerHTML = `<td >${elt[3]} </td> `
+            cell2.innerHTML = `<input type = "file" name = "file" class="file_${elt[0]}" style="margin:2%" />
+            <button onclick = 'uploadImage(${elt[0]})' style="margin:2%;">Submit</button>`;
+        })
     }
 }
 
@@ -165,4 +192,4 @@ const uploadImage = async(id)=>{
     console.log(result)
     if(result=="Saved"){document.querySelector(`#del_${id}`).remove()}
     
-}
+    }

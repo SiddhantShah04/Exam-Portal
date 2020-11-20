@@ -37,7 +37,8 @@ CREATE TABLE QuestionData(
     Option4 TEXT NOT NULL,
     Answer TEXT NOT NULL,
     Time INT NOT NULL,
-    Image TEXT 
+    Image TEXT,
+    Unit int NOT NULL
 );
 
 CREATE TABLE Result(
@@ -45,6 +46,11 @@ CREATE TABLE Result(
     examId INT NOT NULL,
     roll INT NOT NULL,
     Marks INT NOT NULL
+);  
 
-)
-
+CREATE TABLE ActiveQuestionSet(
+    Subject TEXT NOT NULL,
+    Unit1 INT NOT NULL,
+    Unit2 INT NOT NULL,
+    Unit3 INT NOT NULL
+);
