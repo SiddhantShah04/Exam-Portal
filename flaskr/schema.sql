@@ -49,7 +49,7 @@ CREATE TABLE Result(
 );  
 
 CREATE TABLE ActiveQuestionSet(
-    Subject TEXT NOT NULL,
+    Subject TEXT UNIQUE NOT NULL,
     Unit1 INT NOT NULL,
     Unit2 INT NOT NULL,
     Unit3 INT NOT NULL

@@ -19,9 +19,19 @@ def home():
     result = cur.fetchone()
     if(not result):
         return redirect(url_for('home.index'))
-    
-    sql = "SELECT id,Subject,Question,Option1,Option2,Option3,Option4,Image,Time FROM public.QuestionData WHERE subject=(%s) order by random()"
+    sql = "SELECT unit1,unit2,unit3 FROM ActiveQuestionSet WHERE subject = (%s)"
     data = (Subject,)
+    cur.execute(sql,data)
+    result = cur.fetchone()
+    print(result)
+    
+
+   
+    sql = "(SELECT id,Subject,Question,Option1,Option2,Option3,Option4,Image,Time  FROM public.QuestionData where questiondata.unit=(%s) and subject=(%s)  order by random() limit (%s)) union (SELECT id,Subject,Question,Option1,Option2,Option3,Option4,Image,Time  FROM public.QuestionData where questiondata.unit=(%s)  and subject=(%s)  order by random() limit (%s)) union (SELECT id,Subject,Question,Option1,Option2,Option3,Option4,Image,Time  FROM public.QuestionData where questiondata.unit=(%s)  and subject=(%s)  order by random() limit (%s))"
+   
+    print(sql)
+    #sql = "SELECT id,Subject,Question,Option1,Option2,Option3,Option4,Image,Time FROM public.QuestionData WHERE subject=(%s) and order by random()"
+    data = (1,Subject,result[0],2,Subject,result[1],3,Subject,result[2])
     cur.execute(sql,data)
     result = cur.fetchall()
     #result = json.dumps(result)

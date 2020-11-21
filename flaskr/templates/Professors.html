@@ -26,12 +26,12 @@
                     <td>{{r[2]}}</td>
                     <td>{{r[3]}}</td>
                     {% if r[5] == 'Active' %}
-                        <td ><a ><button type="submit" onclick="action({{r[0]}},'{{r[3]}}')"class="button"  style="width:80px;height:40px;font-size:15px;color:white;background-color:green;border: 1px solid;" value="" id="Active_{{r[0]}}">Active</button></a></td>
+                        <td ><a ><button type="submit" onclick="activateExam({{r[0]}},'{{r[3]}}')"class="button"  style="width:80px;height:40px;font-size:15px;color:white;background-color:green;border: 1px solid;" value="" id="Active_{{r[0]}}">Active</button></a></td>
                     {% else %}
-                        <td ><a  ><button type="submit" onclick="action({{r[0]}},'{{r[3]}}')" data-status={{r[0]}}  style="width:80px;height:40px;font-size:15px;color:white;background-color:red;border: 1px solid;" value="" id="Active_{{r[0]}}">Deactive</button></a></td>
+                        <td ><a  ><button type="submit" onclick="action({{r[0]}},'{{r[3]}}')" data-status={{r[0]}}  style="width:80px;height:40px;font-size:15px;color:white;background-color:red;border: 1px solid;" value="" id="Active_{{r[0]}}">Inactive</button></a></td>
                     {% endif %}
                     <td>
-					    <a><button type="submit" onclick="del({{r[0]}},'{{r[3]}}')" class="button" style="background-color:red">Delete</button></a>
+					    <a><button type="submit" onclick="del('{{r[5]}}',{{r[0]}},'{{r[3]}}')" class="button" style="background-color:red">Delete</button></a>
                         <a><button type="submit" onclick="editpaper({{r[0]}},'{{r[3]}}')" class="button" style="background-color:red">Edit</button></a>
                         <a><button type="submit" onclick="logged({{r[0]}},'{{r[3]}}')" class="button" style="background-color:#0000CC"><span>Logged</span></button></a>        
                         <a href="/{{r[0]}}/resultDownload"><button type="submit"  class="button" style="background-color:#0000CC;"><span>Result </span></button></a></td>
@@ -87,18 +87,18 @@
             <label  class="ic"  style=" margin-right: 15px; cursor: pointer;color:red;font-size: 35px;float: right;">X</label>
             <div class="modal_content" style="top:-40px; width: 40%;height: 45%;">
                 <table id="activeExamTable" style="border-collapse: collapse;width: 100%;text-align: center; ">
-                    <caption id="asubjectName" style="font-size: x-large;color: #007bff;">Subject</caption>
+                    <caption data-examId= "null" id="asubjectName" style="font-size: x-large;color: #007bff;">Subject</caption>
                     <tr>
                         <th>Unit</th>
                         <th>Questions</th>
                     </tr>
                     
                 </table>
-                <div style="position: relative;text-align: center;">
-                    <label style="color: red;" id="error">{{Error}}</label>
-                </div>
+                
                 <button style=" Top: 2%;margin:0 auto;display:block;height: 15%;width: 15%;font-size:small;" onclick="createPaper()">Submit</button>
-
+                <div style="position: relative;text-align: center;">
+                    <label style="color: red;" id="Examerror">{{Error}}</label>
+                </div>
             </div>
 
         </div>

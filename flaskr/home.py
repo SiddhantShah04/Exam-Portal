@@ -35,7 +35,6 @@ def getSubject():
 def studentLogin():
     res = request.get_json()
     Error = None
-    print(res)
     sql = "SELECT * FROM public.EXAM WHERE status=(%s) and subject=(%s)"
     db = get_db()
     data = ('Active',res['Selectedsubject'])
@@ -54,6 +53,7 @@ def studentLogin():
     cur.execute(sql,data)
     resultTableRow = cur.fetchone()
     
+    # check if result of student is already exists
     if(resultTableRow):
         Error = "Exam of student with this roll number is already done."
         return(Error)
@@ -62,6 +62,7 @@ def studentLogin():
     data = (examResult[0],res['rollNumber'])
     cur.execute(sql,data)
     result = cur.fetchone()
+
     if(not result):
         # not result means result is empty we can let the student proceed
         sql = "INSERT INTO public.activestudents(examId,roll,subject) VALUES(%s,%s,%s)"

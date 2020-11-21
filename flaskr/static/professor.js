@@ -22,8 +22,14 @@ const action = async(examId, subject) =>{
 	let modal = document.querySelector("#activeExam")
     modal.style.display='block'
     document.querySelector(".ic").onclick = ()=>{modal.style.display = 'none'}
-    const subjectName = document.querySelector("#asubjectName").innerHTML = subject
+    let asubjectName = document.querySelector("#asubjectName")
+    asubjectName.innerHTML = subject
+    asubjectName.setAttribute("data-examId",examId);
     let activeExamTable =  document.querySelector("#activeExamTable")
+    let rowCount =  activeExamTable.rows.length
+    for (var i = rowCount - 1; i > 0; i--) {
+        activeExamTable.deleteRow(i);
+    }
     const response = await fetch("/getPaperData",{
         method : 'POST',
 		cache: 'no-cache',
@@ -32,7 +38,6 @@ const action = async(examId, subject) =>{
         body:JSON.stringify({subject})
     })
 	const result = await response.json()
-    console.log(result)
     
     result.map((elt)=>{
         var row = activeExamTable.insertRow();
@@ -42,9 +47,15 @@ const action = async(examId, subject) =>{
         var cell2 = row.insertCell(1);
         cell1.style.padding = '8px';
         cell1.innerHTML = `<td >${elt[0]}</td> `
-        cell2.innerHTML = `<input type="text"  style="margin:2%;width:10%;line-height:25%;" />/${elt[1]}`;
+        cell2.innerHTML = `<input type="text" id="uId_${elt[0]}" style="margin:2%;width:10%;line-height:25%;" />/${elt[1]}`;
     })
     /*
+    
+    */	
+}
+
+const activateExam = async(examId,subject)=>{
+
     let status = document.querySelector(`#Active_${examId}`)
 
     const response = await fetch("/status",{
@@ -52,41 +63,73 @@ const action = async(examId, subject) =>{
 		cache: 'no-cache',
 		credentials:'include', 
         headers : {'Content-Type': 'application/json'},
-        body:JSON.stringify({examId})
+        body:JSON.stringify({examId,subject})
     })
 	const result = await response.text()
 	
 	if(result == "Active"){
 		status.innerHTML = "Active"
-		
+        //status.setAttribute("onclick",activateExam(examId,subject))
+        status.onclick = function() { activateExam(examId,subject) }
+
 		status.style.backgroundColor = "green"
 	}else{
-		status.innerHTML = "Deactive"
+        //status.setAttribute("onclick",action(examId,subject))
+        status.onclick =function() { action(examId,subject) } 
+		status.innerHTML = "Inactive"
 		status.style.backgroundColor = "red"
     }
-    */	
 }
+const createPaper = async()=>{
+    
 
-const createPaper = ()=>{
-    alert("sidd")
-}
+    document.querySelector("#Examerror").innerHTML ="Creating your Exam.......";
+    let unit1 = document.querySelector("#uId_1").value
+    let unit2 = document.querySelector("#uId_2").value
+    let unit3 = document.querySelector("#uId_3").value
+    let asubjectName = document.querySelector("#asubjectName")
+    let subject = asubjectName.innerHTML
+    
+    let examId = asubjectName.getAttribute("data-examId");
 
-const del = async(examId,subject) => {
-	
-	const response = await fetch("/delete",{
+    const response = await fetch("/setExam",{
         method : 'POST',
 		cache: 'no-cache',
 		credentials:'include', 
         headers : {'Content-Type': 'application/json'},
-        body:JSON.stringify({examId,subject})
+        body:JSON.stringify({subject,unit1,unit2,unit3})
     })
-	const result = await response.text()
-	if(result == "Deleted"){
-		document.querySelector(`#del_${examId}`).remove()
-	}else{
-        alert("This subject exam are still going on,please remove live students from logged")
+    const result = await response.text()
+    document.querySelector("#Examerror").innerHTML ="";
+    if(result=="ok"){
+        activateExam(examId,subject)
+
+        document.querySelector("#activeExam").style.display='none'
+    }else{
+        document.querySelector("#Examerror").innerHTML= result
     }
-}
+
+
+    }
+
+const del = async(status,examId,subject) => {
+    console.log(status)
+	
+        const response = await fetch("/delete",{
+            method : 'POST',
+            cache: 'no-cache',
+            credentials:'include', 
+            headers : {'Content-Type': 'application/json'},
+            body:JSON.stringify({examId,subject})
+        })
+        const result = await response.text()
+        if(result == "Deleted"){
+            document.querySelector(`#del_${examId}`).remove()
+        }else{
+            alert("This subject exam are still going on,please remove live students from logged")
+        }
+    }
+	
 
 const logged = async(examId,subject) => {
     let modal = document.querySelector("#myLoggedModal")

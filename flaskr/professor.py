@@ -13,7 +13,6 @@ bp = Blueprint('professor',__name__)
 @bp.route("/professor",methods=["GET","POST"])
 @login_required
 def professor():
-     
     sql = "SELECT * FROM public.EXAM WHERE userID=(%s)"
     data = (session.get('user_id'),)
     cur = g.db.cursor()
@@ -27,18 +26,23 @@ def status():
     db = get_db()
     cur = db.cursor()
     res = request.get_json()
+    print(res)
     sql2 = "SELECT status from public.Exam where  id= (%s)"
     data = (res["examId"],)
     cur.execute(sql2,data)
     status = cur.fetchone()
     if(status[0] == "Active"):
+        sql = "DELETE FROM ActiveQuestionSet where Subject= (%s)"
+        data2 = (res["subject"],)
+        cur.execute(sql,data2)
         sql = "UPDATE public.Exam SET status='Deactive' where id = (%s); "
         result = "Deactive"
+        # delete
     else:
         sql = "UPDATE public.Exam SET status='Active' where id = (%s); "
         result = "Active"
     cur.execute(sql,data)
-    g.db.commit()
+    db.commit()
     return(result)
 
 @bp.route("/getPaperData",methods=["GET","POST"])
@@ -60,6 +64,22 @@ def getPaperData():
 
     return(result)
 
+@bp.route("/setExam",methods=["POST"])
+@login_required
+def setExam():
+    db = get_db()
+    cur = db.cursor()
+    try:
+        res = request.get_json()
+        print(res)
+
+        sql = "INSERT INTO public.ActiveQuestionSet(Subject,Unit1,Unit2,Unit3) VALUES(%s,%s,%s,%s)"
+        data = (res['subject'],res['unit1'],res['unit2'],res['unit3'])
+        cur.execute(sql,data)
+        db.commit()
+    except:
+        return("Something went wrong check your input and try again")
+    return("ok")
 
 
 @bp.route("/delete",methods=["GET","POST"])
@@ -73,7 +93,9 @@ def delete():
     sql3 = "SELECT Image FROM public.QuestionData WHERE subject= (%s) and userId = (%s) and Image is not null"
     cur.execute(sql3,data)
     imagesNames= cur.fetchall()
-    
+    sql3 = "DELETE FROM ActiveQuestionSet where Subject= (%s)"
+    data2 = (res["subject"],)
+    cur.execute(sql3,data2)
     sql2 = "DELETE  from public.QuestionData WHERE subject= (%s) and userId = (%s)"
     cur.execute(sql2,data)
     sql = "DELETE  from public.Exam WHERE id= (%s) and userID=(%s)"
@@ -82,7 +104,7 @@ def delete():
     sql3 = "DELETE FROM public.result WHERE examId=(%s)"
     data = (res["examId"],)
     cur.execute(sql3,data)
-    g.db.commit()
+    db.commit()
     for elt in imagesNames:
         if(elt[0] is not None):
             os.remove(f"flaskr/static/images/{elt[0]}")
