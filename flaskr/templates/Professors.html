@@ -92,10 +92,11 @@
                         <th>Unit</th>
                         <th>Questions</th>
                     </tr>
-                    
                 </table>
-                
-                <button style=" Top: 2%;margin:0 auto;display:block;height: 15%;width: 15%;font-size:small;" onclick="createPaper()">Submit</button>
+                <div style="position: relative;text-align: center;margin-top: 25px;margin-bottom: 25px;">
+                    <label style="color: red;font-size: large;" id="wait">{{Error}}</label>
+                </div>
+                <button style=" margin-top: 5%;margin:0 auto;display:block;height: 15%;width: 15%;font-size:small;" onclick="createPaper()">Submit</button>
                 <div style="position: relative;text-align: center;">
                     <label style="color: red;" id="Examerror">{{Error}}</label>
                 </div>

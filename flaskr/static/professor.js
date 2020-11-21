@@ -19,7 +19,9 @@ selectedSubject.innerHTML = null
 }
 
 const action = async(examId, subject) =>{
-	let modal = document.querySelector("#activeExam")
+    document.querySelector("#wait").innerHTML ="Please wait.......";
+    
+    let modal = document.querySelector("#activeExam")
     modal.style.display='block'
     document.querySelector(".ic").onclick = ()=>{modal.style.display = 'none'}
     let asubjectName = document.querySelector("#asubjectName")
@@ -38,7 +40,8 @@ const action = async(examId, subject) =>{
         body:JSON.stringify({subject})
     })
 	const result = await response.json()
-    
+    document.querySelector("#wait").innerHTML ="";
+
     result.map((elt)=>{
         var row = activeExamTable.insertRow();
         row.style.border = '1px solid #dddddd';
@@ -47,7 +50,7 @@ const action = async(examId, subject) =>{
         var cell2 = row.insertCell(1);
         cell1.style.padding = '8px';
         cell1.innerHTML = `<td >${elt[0]}</td> `
-        cell2.innerHTML = `<input type="text" id="uId_${elt[0]}" style="margin:2%;width:10%;line-height:25%;" />/${elt[1]}`;
+        cell2.innerHTML = `<input type="number" max=${elt[1]} min=0  pattern="1[0-2]|[1-9]" id="uId_${elt[0]}" style="margin:2%;width:10%;line-height:25%;" />/${elt[1]}`;
     })
     /*
     
@@ -55,9 +58,8 @@ const action = async(examId, subject) =>{
 }
 
 const activateExam = async(examId,subject)=>{
-
     let status = document.querySelector(`#Active_${examId}`)
-
+    status.innerHTML = "Please wait..."
     const response = await fetch("/status",{
         method : 'POST',
 		cache: 'no-cache',
@@ -81,7 +83,6 @@ const activateExam = async(examId,subject)=>{
     }
 }
 const createPaper = async()=>{
-    
 
     document.querySelector("#Examerror").innerHTML ="Creating your Exam.......";
     let unit1 = document.querySelector("#uId_1").value
@@ -109,7 +110,6 @@ const createPaper = async()=>{
         document.querySelector("#Examerror").innerHTML= result
     }
 
-
     }
 
 const del = async(status,examId,subject) => {
@@ -130,7 +130,6 @@ const del = async(status,examId,subject) => {
         }
     }
 	
-
 const logged = async(examId,subject) => {
     let modal = document.querySelector("#myLoggedModal")
     modal.style.display = 'block'
