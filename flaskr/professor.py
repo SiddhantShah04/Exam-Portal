@@ -125,7 +125,7 @@ def resultDownload(id):
     db = get_db()
     cur = db.cursor()
     fields = ['Roll','Total right answers']
-    filename= "result.csv"
+    filename= "/result.csv"
     sql = "SELECT roll,Marks FROM public.Result WHERE examId = (%s)"
     data = (id,)
     cur.execute(sql,data)
