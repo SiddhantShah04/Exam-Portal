@@ -125,7 +125,7 @@ def resultDownload(id):
     db = get_db()
     cur = db.cursor()
     fields = ['Roll','Total right answers']
-    filename= "csv/result.csv"
+    filename= "flaskr/csv/result.csv"
     sql = "SELECT roll,Marks FROM public.Result WHERE examId = (%s)"
     data = (id,)
     cur.execute(sql,data)
@@ -134,7 +134,8 @@ def resultDownload(id):
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow(fields)
         csvwriter.writerows(result)
-    return send_file(filename,as_attachment=True)
+    path = "csv/result.csv"
+    return send_file(path,as_attachment=True)
 
 
 @bp.route("/upload",methods=["GET","POST"])
