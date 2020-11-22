@@ -114,7 +114,7 @@ const createPaper = async()=>{
 
 const del = async(status,examId,subject) => {
     console.log(status)
-	
+    document.querySelector("#deleteSub").innerHTML="Please wait..."
         const response = await fetch("/delete",{
             method : 'POST',
             cache: 'no-cache',
@@ -123,6 +123,8 @@ const del = async(status,examId,subject) => {
             body:JSON.stringify({examId,subject})
         })
         const result = await response.text()
+    document.querySelector("#deleteSub").innerHTML=""
+        
         if(result == "Deleted"){
             document.querySelector(`#del_${examId}`).remove()
         }else{
