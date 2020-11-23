@@ -114,10 +114,11 @@ def delete():
 @login_required
 def downloadCsv():
     fields = ['Question','Option1','Option2','Option3','Option4','Answer','Time in Second','unit']
-    filename= "/QuestionPaper.csv"
+    filename= "flaskr/csv/result.csv.csv"
     with open(filename,'w', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow(fields)
+    filename= "csv/result.csv.csv"    
     return send_file(filename,as_attachment=True)
 
 @bp.route("/<int:id>/resultDownload",methods=["POST","GET"])
